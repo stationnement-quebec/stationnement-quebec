@@ -1,0 +1,26 @@
+
+var data = {
+		'LUN': 0, 'MAR': 0, 'MER': 0, 'JEU': 0, 'VEN': 0, 'SAM': 0, 'DIM': 0, 	// 0 = not applied on this day, 1 = applied
+		'time_intervals': Array of TimeInterval,
+		'date_begin': '01-01', 'date_end': '31-12',				// DD-MM
+		'parking_allowed': false,  
+		'allocated_time': '0',							// allocated time in minutes (-1 means no limit)
+		'authorization_label': 'none'
+	};
+	
+	
+The field 'time_intervals' is an array of "TimeInterval" object.
+
+		function TimeInterval(startTime,endTime) {
+			this.startTime = startTime;
+			this.endTime = endTime;
+		}
+		
+
+To use this data:
+		
+		for(var i = 0; i < data['time_intervals'].length; i++) {
+
+				var temp1 = data['time_intervals'][i].startTime);
+				var temp2 = data['time_intervals'][i].endTime); 
+		}

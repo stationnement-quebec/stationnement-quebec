@@ -1,0 +1,12 @@
+{
+   "name": "Stationnement_Quebec",
+   "description": "App de stationnement, ville de Quebec",
+   "version": "0.0.1",
+   "dependencies": {
+      "express": "3.x",
+      "mkdirp": "*",
+      "togeojson": "*",
+      "geojson-utils": "1.0.*",
+      "jsdom": "*"
+   }
+}

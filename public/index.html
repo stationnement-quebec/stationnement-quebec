@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+	<title>Application</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="app.css" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+	<script type="text/javascript" src="googlemapadapter.js"></script>
+	<script type="text/javascript" src="client.js"></script>
+	<script type="text/javascript" src="fakeapidata.js"></script>
+	<script type="text/javascript" src="api.js"></script>
+	<script type="text/javascript" src="parkingmap.js"></script>
+	<script type="text/javascript" src="requesthandler.js"></script>
+	<script type="text/javascript" src="settings.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$.main.execute("#map-canvas");
+		});
+	</script>
+  </head>
+  <body>
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map-canvas"></div>
+  </body>
+</html>
