@@ -53,7 +53,6 @@ app.get('/elements', function(request, response) {
 
   response.json(json);
 });
-
 app.get('/vdq', function(req, res) {
   var options = {
     host: 'acc-api.ville.quebec.qc.ca',
@@ -76,16 +75,14 @@ app.get('/vdq', function(req, res) {
   });
 });
 
-app.get('/update', function(req, res){
+app.get('/update', function(req, res) {
   var download = require('./download.js');
   download.updateData();
 
   res.json({status: "ok"});
 });
 
-app.get(/^((?!(elements|vdq|update))(.+)$)/, function(req, res) {
-  res.sendfile('public/' + req.params[0]);
-});
+app.use(express.static(__dirname + '/public'));
 
 
 //var download = require('./download.js');
