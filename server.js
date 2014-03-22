@@ -54,19 +54,25 @@ app.get('/elements', function(request, response) {
   response.json(json);
 });
 
-app.get(/'vdq'/, function(req, res) {
+app.get('/vdq', function(req, res) {
   var options = {
     host: 'acc-api.ville.quebec.qc.ca',
     port: 80,
     path: '/stationnement/rest/vdqpark/availabilityservice?response=json'
   };
 
+  var response = "";
   http.get(options, function(resp){
     resp.on('data', function(chunk){
-      res.send(chunk);
+      response = response + chunk;
+    });
+    resp.on('end', function() {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(response);
     });
   }).on("error", function(e){
     console.log("Got error: " + e.message);
+    res.json({status:"Error"});
   });
 });
 
@@ -75,8 +81,8 @@ app.get(/^((?!(elements|vdq))(.+)$)/, function(req, res) {
 });
 
 
-//var download = require('./download.js');
-//download.updateData();
+var download = require('./download.js');
+download.updateData();
 //setInterval(function(){
  // download.updateData();
 //},86400000);
