@@ -81,8 +81,8 @@ app.get(/^((?!(elements|vdq))(.+)$)/, function(req, res) {
 });
 
 
-var download = require('./download.js');
-download.updateData();
+//var download = require('./download.js');
+//download.updateData();
 //setInterval(function(){
  // download.updateData();
 //},86400000);
