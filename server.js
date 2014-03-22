@@ -76,7 +76,14 @@ app.get('/vdq', function(req, res) {
   });
 });
 
-app.get(/^((?!(elements|vdq))(.+)$)/, function(req, res) {
+app.get('/update', function(req, res){
+  var download = require('./download.js');
+  download.updateData();
+
+  res.json({status: "ok"});
+});
+
+app.get(/^((?!(elements|vdq|update))(.+)$)/, function(req, res) {
   res.sendfile('public/' + req.params[0]);
 });
 
