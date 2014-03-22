@@ -7,6 +7,7 @@ $.main = {
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
 		$.parkingMap.addSearchBar();
 		$.parkingMap.addToggle();
+		$.parkingMap.addSettings();
 	},
 	
 	addMapInfo: function() {

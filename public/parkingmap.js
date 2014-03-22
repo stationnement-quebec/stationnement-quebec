@@ -119,7 +119,7 @@ $.parkingMap = {
 	},
 
 	setVisibility: function(tag, visible) {
-		this.setMarkerTagVisible(tag, visible);
+		this.setObjectTagVisible(tag, visible);
 		this.update();
 	},
 	
@@ -131,6 +131,11 @@ $.parkingMap = {
 		return this.map.getZoom();
 	},
 	
+	addSettings: function() {
+		var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
+		this.addButton(settingsButton[0]);
+	},
+
 	addToggle: function() {
 		var toggleButton = $("<div id=\"toggleParkingsButton\">Cacher stationnements payants</div>");
 		this.addButton(toggleButton[0]);

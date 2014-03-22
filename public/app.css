@@ -27,7 +27,8 @@ body {
     background-color: #fff;
     padding: 0 11px 0 13px;
     margin-left: 14px;
-    width: 400px;
+    width: 60%;
+    max-width: 400px;
     font-family: Roboto;
     font-size: 15px;
     font-weight: 300;
@@ -74,4 +75,70 @@ body {
 	font-weight: bold;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+#settings{
+    height:80%;
+    width:80%;
+    margin:0 auto;
+    background:white;
+    color:black;
+    padding:10px;
+    position:absolute;
+    top:5%;
+    left:10%;
+    z-index:1000;
+    display:none;
+    /* CSS 3 */
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    -o-border-radius:10px;
+    border-radius:10px;
+}
+
+#mask{
+    position:fixed;
+    top:0;
+    left:0;
+    background:rgba(0,0,0,0.6);
+    z-index:500;
+    width:100%;
+    height:100%;
+    display:none;
+}
+
+#settings:target, #settings:target + #mask{
+    display:block;
+    opacity:1;
+}
+.close{ /* close button */
+    display:block;
+    position:absolute;
+    top:-20px;
+    right:-20px;
+    background:red;
+    color:white;
+    height:40px;
+    width:40px;
+    line-height:40px;
+    font-size:35px;
+    text-decoration:none;
+    text-align:center;
+    font-weight:bold;
+    -webkit-border-radius:40px;
+    -moz-border-radius:40px;
+    -o-border-radius:40px;
+    border-radius:40px;
+}
+#open-settings{ /* open the overlay */
+    padding:5px 5px;
+    background:blue;
+    color:white;
+    text-decoration:none;
+    display:inline-block;
+    margin:5px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    -o-border-radius:10px;
+    border-radius:10px;
 }
