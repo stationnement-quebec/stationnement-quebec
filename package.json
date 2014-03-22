@@ -7,6 +7,5 @@
       "mkdirp": "*",
       "togeojson": "*",
       "geojson-utils": "1.0.*",
-      "jsdom": "*"
    }
 }

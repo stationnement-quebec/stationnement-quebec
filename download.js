@@ -3,7 +3,6 @@
 var http = require('http');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
-var jsdom = require('jsdom');
 var toGeoJSON = require('togeojson');
 var dataSource = require('./datasource.js');
 var sys = require('sys')
