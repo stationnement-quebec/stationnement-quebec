@@ -44,7 +44,10 @@ function responseExtension(value) {
 
   properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(new Date(), stationnementValue, 'none');
 
-  return value;
+  if (properties["parking_allowed"]){
+    return value;
+  }
+  return undefined;
 }
 
 module.exports.getURL = getURL;
