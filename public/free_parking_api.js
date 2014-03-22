@@ -6,17 +6,20 @@ $.client = {
 			setTimeout(function(){$.client.addTrafficSigns(callback, data.panneaux);}, 0);
 		});
 	},
-	
+
 	addTrafficSigns: function(callback, elements) {
 		$(elements).each(function() {
+
 			var trafficSign = {
 				id: "ts_"+this.properties.name,
 				type: "traffic_sign",
+				tag: "free_parking",
 				position: {
 					latitude: this.geometry.coordinates[1],
 					longitude: this.geometry.coordinates[0]
 				}
 			};
+
 			if (this.properties.description != undefined) {
 				trafficSign.description = this.properties.parsed_parking_value.description;
 			}

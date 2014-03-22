@@ -4,7 +4,6 @@ $.parkingMap = {
 	objects: {},
 	objectIds: [],
 	objectTags: {},
-	payingParkingsVisible: true,
 
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker"},
@@ -145,6 +144,7 @@ $.parkingMap = {
 		toggleButton.on("click", function() {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
 			$.parkingMap.setVisibility("paying_parking", $.parkingMap.payingParkingsVisible);
+			$.parkingMap.setVisibility("free_packing", !$.parkingMap.payingParkingsVisible);
 			var action = "Cacher";
 			if (!$.parkingMap.payingParkingsVisible) {
 				action = "Afficher";
