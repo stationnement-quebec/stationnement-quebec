@@ -171,34 +171,34 @@ function formatStringData(descriptionString) {
 	if (parkingAllowed[0] == true) {
 
 		if (parkingAllowed[1] != "-1")
-			formattedString = "Stationnement " + parkingAllowed[1] + " minutes\n";
+			formattedString = "Stationnement " + parkingAllowed[1] + " minutes<br>";
 		else
-			formattedString = "Stationnement permis\n"
+			formattedString = "Stationnement permis<br>"
 	}
 	else
-		formattedString = "Stationnement interdit \n";
+		formattedString = "Stationnement interdit<br>";
 
 	var time = getPanelHoursInEffectFromString(descriptionString);
 	if ((time != null) && (time[0].startTime != '00h00') && (time[0].endTime != '23h59')) 
 		for (var i = 0; i < time.length; i++) 
-			formattedString = formattedString.concat("De " + time[i].startTime + " à " + time[i].endTime +"\n");
+			formattedString = formattedString.concat("De " + time[i].startTime + " à " + time[i].endTime +"<br>");
 
 	var days = descriptionString.match(daysIntervalPattern);
 	if (days != null) 
-		formattedString = formattedString.concat(days[0] + "\n");
+		formattedString = formattedString.concat(days[0] + "<br>");
 	else {
 		days = descriptionString.match(specifiedDaysPattern);
 		if (days != null)
-			formattedString = formattedString.concat(days[0] + "\n");
+			formattedString = formattedString.concat(days[0] + "<br>");
 	}
 
 	var period = getPanelDateInEffectFromString(descriptionString);
 	if (period[0] == 'en période scolaire')
-		formattedString = formattedString.concat("Pendant la période scolaire\n");
+		formattedString = formattedString.concat("Pendant la période scolaire<br>");
 	else if ((period[0] == '01-01') && (period[1] == '31-12'))	
-		formattedString = formattedString.concat("Tout au long de l'année\n");
+		formattedString = formattedString.concat("Tout au long de l'année<br>");
 	else 
-		formattedString = formattedString.concat("Du " + period[0] + " au " + period[1] + " (JJ-MM)\n");
+		formattedString = formattedString.concat("Du " + period[0] + " au " + period[1] + " (JJ-MM)<br>");
 
 
 
