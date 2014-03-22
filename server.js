@@ -20,8 +20,7 @@ function validElementsFromCenter(pointsArray, polygon, extension) {
     var feature = pointsArray[i];
     var point = feature['geometry'];
 
-    if (gju.pointInPolygon(point, polygon)) {
-      extension(feature);
+    if (gju.pointInPolygon(point, polygon) && extension(feature)) {
       validData.push(feature);
     }
   }
@@ -76,8 +75,8 @@ app.get(/^((?!(elements|vdq))(.+)$)/, function(req, res) {
 });
 
 
-var download = require('./download.js');
-download.updateData();
-setInterval(function(){
-  download.updateData();
-},86400000);
+//var download = require('./download.js');
+//download.updateData();
+//setInterval(function(){
+ // download.updateData();
+//},86400000);

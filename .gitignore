@@ -2,3 +2,4 @@ node_modules/*
 StaticData/*
 data/*
 .project
+.idea
