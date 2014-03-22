@@ -6,7 +6,7 @@ $.main = {
 		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, this.center, this.zoom, function() {$.main.addMapInfo();});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
 		$.parkingMap.addSearchBar();
-		$.parkingMap.addToggle();
+		$.parkingMap.addToggleFreePaying();
 		$.parkingMap.addSettings();
 	},
 	

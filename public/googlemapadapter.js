@@ -27,9 +27,17 @@ $.googleMapAdapter = {
 	addTopLeftElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(element);
 	},
+
+	addTopRightElement: function(element) {
+		this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(element);
+	},
 	
 	addBottomLeftElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(element);
+	},
+
+	addBottomRightElement: function(element) {
+		this.map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(element);
 	},
 	
 	addSearch: function(searchBox) {

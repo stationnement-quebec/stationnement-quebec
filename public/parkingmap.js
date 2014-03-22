@@ -113,8 +113,12 @@ $.parkingMap = {
 		this.map.addSearch(input);
 	},
 
-	addButton: function(button) {
-		this.map.addBottomLeftElement(button);
+	addButtonBottomRight: function(button) {
+		this.map.addBottomRightElement(button);
+	},
+
+	addButtonTopRight: function(button) {
+		this.map.addTopRightElement(button);
 	},
 
 	setVisibility: function(tag, visible) {
@@ -132,12 +136,12 @@ $.parkingMap = {
 
 	addSettings: function() {
 		var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
-		this.addButton(settingsButton[0]);
+		this.addButtonBottomRight(settingsButton[0]);
 	},
 
-	addToggle: function() {
+	addToggleFreePaying: function() {
 		var toggleButton = $("<div id=\"toggleParkingsButton\">Cacher stationnements payants</div>");
-		this.addButton(toggleButton[0]);
+		this.addButtonTopRight(toggleButton[0]);
 		toggleButton.on("click", function() {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
 			$.parkingMap.setVisibility("paying_parking", $.parkingMap.payingParkingsVisible);
