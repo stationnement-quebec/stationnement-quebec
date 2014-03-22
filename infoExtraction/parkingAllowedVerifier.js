@@ -1,3 +1,5 @@
+var schoolPeriodVerifier = require('./schoolPeriodVerifier.js');
+
 var parsedTimePattern = new RegExp(/(\d+)h(\d*)/);
 var parsedDatePattern = new RegExp(/(\d{2})-(\d{2})/);
 var days = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
@@ -106,9 +108,9 @@ function doesTheTimeFitInThePanelInterval(panelData, timeInMinute) {
 	return false;
 }
 
-// TODO need to make a complete function
 function isItSchoolPeriod(date) {
-	return false;
+
+	return schoolPeriodVerifier.isTheDateInSchoolPeriod(date);
 }
 
 function getUsableMonth(date) {
