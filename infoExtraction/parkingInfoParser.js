@@ -196,7 +196,7 @@ function formatStringData(descriptionString) {
 	if (period[0] == 'en période scolaire')
 		formattedString = formattedString.concat("Pendant la période scolaire\n");
 	else if ((period[0] == '01-01') && (period[1] == '31-12'))	
-		formattedString = formattedString.concat("En tout temps\n");
+		formattedString = formattedString.concat("Tout au long de l'année\n");
 	else 
 		formattedString = formattedString.concat("Du " + period[0] + " au " + period[1] + " (JJ-MM)\n");
 
