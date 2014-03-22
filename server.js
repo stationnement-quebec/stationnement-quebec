@@ -1,4 +1,4 @@
-
+var http = require('http');
 var dataSource = require('./datasource.js');
 dataSource.parseAllData();
 
@@ -55,7 +55,23 @@ app.get('/elements', function(request, response) {
   response.json(json);
 });
 
-app.get(/^((?!(elements))(.+)$)/, function(req, res) {
+app.get(/'vdq'/, function(req, res) {
+  var options = {
+    host: 'acc-api.ville.quebec.qc.ca',
+    port: 80,
+    path: '/stationnement/rest/vdqpark/availabilityservice?response=json'
+  };
+
+  http.get(options, function(resp){
+    resp.on('data', function(chunk){
+      res.send(chunk);
+    });
+  }).on("error", function(e){
+    console.log("Got error: " + e.message);
+  });
+});
+
+app.get(/^((?!(elements|vdq))(.+)$)/, function(req, res) {
   res.sendfile('public/' + req.params[0]);
 });
 
