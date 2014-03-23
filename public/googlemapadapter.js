@@ -16,6 +16,7 @@ $.googleMapAdapter = {
 			renderer: new google.maps.DirectionsRenderer(),
 			service: new google.maps.DirectionsService()
 		};
+		this.directions.renderer.setMap(this.map);
 	},
 	
 	addOnLoadEvent: function(onLoad) {
@@ -171,7 +172,7 @@ $.googleMapAdapter = {
 		if (this.infoWindow !== undefined) {
 			this.infoWindow.close();
 		}
-		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-140, -134)});
+		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-133, -121)});
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
 		google.maps.event.addListener(this.infoWindow, 'domready', function() {
@@ -213,9 +214,37 @@ $.googleMapAdapter = {
     	this.searchBox.setBounds(bounds);
 	},
 	
-	getDirectionsTo: function(position) {
+	getDirectionsTo: function(location) {
 		if (navigator.geolocation) {
-			
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var from = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				var to = new google.maps.LatLng(location.latitude, location.longitude);
+				$.googleMapAdapter.makeDirectionRequest(from, to);
+			}, function() {
+				$.googleMapAdapter.getDirectionsToNoGeolocation(location);
+			});
 		}
+		else {
+			this.getDirectionsToNoGeolocation(location);
+		}
+	},
+	
+	getDirectionsToNoGeolocation: function(location) {
+		var from = this.map.getCenter();
+		var to = new google.maps.LatLng(location.latitude, location.longitude);
+		this.makeDirectionRequest(from, to);
+	},
+	
+	makeDirectionRequest: function(from, to) {
+		var request = {
+			origin: from,
+			destination: to,
+			travelMode: google.maps.TravelMode.DRIVING
+		};
+		this.directions.service.route(request, function(result, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+				$.googleMapAdapter.directions.renderer.setDirections(result);
+			}
+		});
 	}
 };
