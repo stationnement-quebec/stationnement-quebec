@@ -37,6 +37,7 @@ $.API = {
 			var occupancy = avl.OCC / avl.OPER;
 			mapObject.type = getVehiculeParcType(occupancy);
 		}
+		mapObject.available = (avl.OPER - avl.OCC);
 		mapObject.description = "<div>Lieu: "+description+"</div><div>Quantité Restante: "+(avl.OPER - avl.OCC)+"/"+avl.OPER+"</div>";
 		callback(mapObject);
 	}

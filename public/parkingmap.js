@@ -7,7 +7,9 @@ $.parkingMap = {
 
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker"},
-		point: {add: "addPoint", update: "updatePoint"}
+		point: {add: "addPoint", update: "updatePoint"},
+		line: {add: "addLine", update: "updateLine"},
+		marker_label: {add: "addMarkerWithLabel", update: "updateMarkerWithLabel"}
 	},
 
 	createMap: function(map, assets, selector, center, zoom, onLoad) {
@@ -82,20 +84,40 @@ $.parkingMap = {
 	},
 
 	addMarker: function(assets, object, visible) {
+	if (object.type == "traffic_sign")
 		return this.map.createMarker(object.position, visible, assets.icon, object.description);
+	else
+		return this.map.createLabeledMarker(object.position, visible, assets.icon, object.description, object.available);
 	},
 
 	updateMarker: function(object, visible) {
 		this.map.setMarkerVisible(object.instance, visible);
 		return object.instance;
 	},
+	
+	addMarkerWithLabel: function(assets, object, visible) {
+	
+	},
 
+	updateMarkerWithLabel: function(object, visible) {
+	
+	},
+	
 	addPoint: function(assets, object, visible) {
 		return this.map.createPoint(object.position, assets.size, assets.color, visible, object.description);
 	},
 
 	updatePoint: function(object, visible) {
 		this.map.setPointVisible(object.instance, visible);
+		return object.instance;
+	},
+	
+	addLine: function(assets, object, visible) {
+		return this.map.createLine(object.path, assets.color, visible);
+	},
+	
+	updateLine: function(object, visible) {
+		this.map.setLineVisible(object.instance, visible);
 		return object.instance;
 	},
 
