@@ -1,4 +1,32 @@
+/* Utilities */
+.no-padding{
+	padding: 0;
+}
+.ir{
+	text-indent: -9999px;
+}
+/* Common */
+body{
+	position: relative;
+}
 #map-canvas{
-	height: 300px;
+	max-height: 1000px;
+	height: 100%;
 	width: 100%;
 }
+.wrapper{
+	position: absolute;
+	display: block;
+	width: 100%;
+	top: 0;
+}
+
+/* Search box */
+
+/* toggle checkbox */
+.checkbox-payant{
+	position: absolute;
+	top: -99999px;
+}
+
+/* button settings */
