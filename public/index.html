@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="app.css" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>
+	<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>
 	<script type="text/javascript" src="googlemapadapter.js"></script>
 	<script type="text/javascript" src="free_parking_api.js"></script>
 	<script type="text/javascript" src="paid_parking_api.js"></script>
@@ -25,14 +25,8 @@
     	<a href="#" class="close">&times;</a>
     	<h2 style="font-size:35px;text-align:center">Settings</h2>
 	</div>
-	<div classs="header">
-		<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-		<button id="toggleParkingsButton">$</button>
-	</div>
 	<div id="mask" onclick="document.location='#';"></div>
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map-canvas"></div>
-    <div id="footer">
-    	<a href="#settings" id="open-settings">Settings</a>
-    </div>
   </body>
 </html>
