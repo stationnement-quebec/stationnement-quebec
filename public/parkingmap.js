@@ -7,7 +7,8 @@ $.parkingMap = {
 
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker"},
-		point: {add: "addPoint", update: "updatePoint"}
+		point: {add: "addPoint", update: "updatePoint"},
+		line: {add: "addLine", update: "updateLine"}
 	},
 
 	createMap: function(map, assets, selector, center, zoom, onLoad) {
@@ -96,6 +97,15 @@ $.parkingMap = {
 
 	updatePoint: function(object, visible) {
 		this.map.setPointVisible(object.instance, visible);
+		return object.instance;
+	},
+	
+	addLine: function(assets, object, visible) {
+		return this.map.createLine(object.path, assets.color, visible);
+	},
+	
+	updateLine: function(object, visible) {
+		this.map.setLineVisible(object.instance, visible);
 		return object.instance;
 	},
 
