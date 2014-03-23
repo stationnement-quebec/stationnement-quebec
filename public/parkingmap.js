@@ -1,6 +1,10 @@
 $.parkingMap = {
-	map: undefined,
 	assets: undefined,
+	clusters: {
+		paid: undefined,
+		free: undefined,
+	},
+	map: undefined,
 	objects: {},
 	objectIds: [],
 	objectTags: {},
@@ -16,6 +20,13 @@ $.parkingMap = {
 		map.createMap(selector, center, zoom);
 		map.addOnLoadEvent(onLoad);
 		map.addOnChangeEvent(function() {$.parkingMap.update();});
+		this.createClusters();
+	},
+
+	createClusters: function() {
+		for(var cluster in this.clusters){
+			this.clusters[cluster] = new MarkerClusterer(this.map.map, [], $.settings.assets['cluster_' + cluster]);
+		}
 	},
 
 	addUpdateEvent: function(update) {
@@ -31,7 +42,7 @@ $.parkingMap = {
 				this.objects[object.id] = {instance: instance, assets: objectAssets, object: object};
 				return;
 			}
-			var instance = this[this.objectFunctions[objectAssets.type].add](objectAssets, object, visible);
+			var instance = this[this.objectFunctions[objectAssets.type].add](objectAssets, object.type, object, visible);
 			if (object.id != undefined) {
 				this.objects[object.id] = {instance: instance, assets: objectAssets, object: object};
 				this.objectIds.push(object.id);
@@ -81,8 +92,15 @@ $.parkingMap = {
 		return (object.id != undefined && this.objects[object.id] != undefined);
 	},
 
-	addMarker: function(assets, object, visible) {
-		return this.map.createMarker(object.position, visible, assets.icon, object.description);
+	addMarker: function(assets, objectType, object, visible) {
+		console.log(objectType);
+		var marker = this.map.createMarker(object.position, visible, assets.icon, object.description);
+		if (objectType == 'traffic_sign') {
+			this.clusters.free.addMarker(marker);
+		} else {
+			this.clusters.paid.addMarker(marker);
+		}
+		return marker;
 	},
 
 	updateMarker: function(object, visible) {
