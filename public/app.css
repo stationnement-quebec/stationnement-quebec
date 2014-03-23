@@ -59,9 +59,31 @@ body {
     font-weight: 300;
 }
 
+.infoBox {
+    height: 100px;
+    width: 300px;
+    font-size: 14px;
+    border-bottom: 15px solid #108b49;
+}
 .infoWindow {
-	width: 325px;
-	height: 150px;
+    background: #fff;
+    padding: 5px 15px 1px 15px;
+}
+
+.markerLabels {
+    overflow: initial !important;
+    text-align: center !important;
+    width: 25px !important;
+}
+.available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-left: -19px !important;
+    font-size: 16px;
+}
+.available_parking, .unavailable_parking {
+    margin-top: -4px !important;
+}
+.vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-top: -23px !important;
 }
 
 #toggleParkingsButton {
