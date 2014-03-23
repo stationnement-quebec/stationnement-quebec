@@ -84,7 +84,7 @@ $.parkingMap = {
 	},
 
 	addMarker: function(assets, object, visible) {
-		return this.map.createMarker(object.position, visible, assets.icon, object.description, object.label);
+		return this.map.createMarker(object.position, visible, assets.icon, object.description, object.label, object.type);
 	},
 
 	updateMarker: function(object, visible) {
@@ -93,7 +93,7 @@ $.parkingMap = {
 	},
 	
 	addMarkerWithLabel: function(assets, object, visible) {
-		return this.map.createLabeledMarker(object.position, visible, assets.icon, object.description, object.label);
+		return this.map.createLabeledMarker(object.position, visible, assets.icon, object.description, object.label, object.type);
 	},
 
 	updateMarkerWithLabel: function(object, visible) {	
@@ -102,7 +102,7 @@ $.parkingMap = {
 	},
 	
 	addPoint: function(assets, object, visible) {
-		return this.map.createPoint(object.position, assets.size, assets.color, visible, object.description);
+		return this.map.createPoint(object.position, assets.size, assets.color, visible, object.description, object.type);
 	},
 
 	updatePoint: function(object, visible) {
@@ -171,5 +171,9 @@ $.parkingMap = {
 			}
 			$("#toggleParkingsButton").attr('class', action);
 		});
+	},
+	
+	getDirectionsTo: function(position) {
+		this.map.getDirectionsTo(position);
 	}
 }

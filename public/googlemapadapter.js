@@ -2,6 +2,8 @@ $.googleMapAdapter = {
 	map: undefined,
 	searchBox: undefined,
 	infoWindow: undefined,
+	
+	directions: false,
 
 	//Adapter Functions
 	createMap: function(selector, center, zoom) {
@@ -10,6 +12,10 @@ $.googleMapAdapter = {
 			zoom: zoom,
 			disableDefaultUI: true
 		});
+		this.directions = {
+			renderer: new google.maps.DirectionsRenderer(),
+			service: new google.maps.DirectionsService()
+		};
 	},
 	
 	addOnLoadEvent: function(onLoad) {
@@ -46,7 +52,7 @@ $.googleMapAdapter = {
   		google.maps.event.addListener(this.map, 'bounds_changed', function() {$.googleMapAdapter.adjustBounds()});
 	},
 	
-	createMarker: function(position, visible, icon, description, label) {
+	createMarker: function(position, visible, icon, description, label, infoWindowClass) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
@@ -64,13 +70,13 @@ $.googleMapAdapter = {
 		}
 		marker.setVisible(visible);
 		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker);});
+			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
 		}
 		
 		return marker;
 	},
 	
-	createLabeledMarker: function(position, visible, icon, description, label) {
+	createLabeledMarker: function(position, visible, icon, description, label, infoWindowClass) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
@@ -83,13 +89,13 @@ $.googleMapAdapter = {
 		var marker = new MarkerWithLabel(markerOptions);
 		marker.setVisible(visible);
 		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker);});
+			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
 		}
 		
 		return marker;
 	},
 	
-	createPoint: function(position, radius, color, visible, description) {
+	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
 		var circleOptions = {};
 		circleOptions.map = this.map;
 		circleOptions.center = this.createLatLng(position);
@@ -101,7 +107,7 @@ $.googleMapAdapter = {
 		circle.setVisible(visible);
 		circle.position = circleOptions.center;
 		if (description !== undefined) {
-			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle);});
+			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle, infoWindowClass);});
 		}
 		return circle;
 	},
@@ -161,12 +167,12 @@ $.googleMapAdapter = {
 		return new google.maps.LatLng(point.latitude, point.longitude);
 	},
 	
-	createInfoWindow: function(description, object) {
+	createInfoWindow: function(description, object, infoWindowClass) {
 		if (this.infoWindow !== undefined) {
 			this.infoWindow.close();
 		}
 		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-140, -134)});
-		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
+		this.infoWindow.setContent("<div class=\"infoWindow "+infoWindowClass+"\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
 	},
 	
@@ -202,5 +208,11 @@ $.googleMapAdapter = {
 	adjustBounds: function(){
 		var bounds = this.map.getBounds();
     	this.searchBox.setBounds(bounds);
+	},
+	
+	getDirectionsTo: function(position) {
+		if (navigator.geolocation) {
+			
+		}
 	}
 };
