@@ -96,6 +96,19 @@ $.googleMapAdapter = {
 		if (description !== undefined) {
 			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle);});
 		}
+		return circle;
+	},
+	
+	createLine: function(path, color, visible) {
+		var lineOptions = {};
+		lineOptions.path = [];
+		for (var i=0; i<path.length; i++) {
+			lineOptions.path.push(new google.maps.LatLng(path[i].lat, path[i].lng));
+		}
+		lineOptions.map = this.map;
+		lineOptions.strokeColor = color;
+		lineOptions.visible = visible;
+		return new google.maps.Polyline(lineOptions);
 	},
 	
 	setMarkerVisible: function(marker, visible) {
@@ -104,6 +117,10 @@ $.googleMapAdapter = {
 	
 	setPointVisible: function(point, visible) {
 		point.setVisible(visible);
+	},
+	
+	setLineVisible: function(line, visible) {
+		line.setVisible(visible);
 	},
 	
 	getBounds: function() {

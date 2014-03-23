@@ -8,27 +8,28 @@ body {
 	padding: 0
 }
 
+#header, #footer {
+    height: 5%;
+    height: 50px;
+    display: block;
+}
+
 #map-canvas {
-	height: 100%
+	height: 85%;
+    height: calc(100% - 105px);
 }
 
 .controls {
-    margin-top: 16px;
-    border: 1px solid transparent;
-    border-radius: 2px 0 0 2px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    height: 32px;
-    outline: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+    height: 50px;
 }
 
 #pac-input {
     background-color: #fff;
     padding: 0 11px 0 13px;
-    margin-left: 14px;
-    width: 60%;
-    max-width: 400px;
+    width: 85%;
     font-family: Roboto;
     font-size: 15px;
     font-weight: 300;
@@ -37,9 +38,6 @@ body {
 
 #pac-input:focus {
     border-color: #4d90fe;
-    margin-left: -1px;
-    padding-left: 14px;  /* Regular padding-left + 1. */
-    width: 401px;
 }
 
 .pac-container {
@@ -64,17 +62,14 @@ body {
 }
 
 #toggleParkingsButton {
-	margin: 5px;
-    background-color: white;
-    border-style: solid;
-    border-width: 2px;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    text-overflow: ellipsis;
+
+    background-color: blue;
     cursor: pointer;
     text-align: center;
-    font-family: Arial,sans-serif;
-    font-size: 12px;
-	font-weight: bold;
-    padding-left: 4px;
-    padding-right: 4px;
 }
 
 #settings{
@@ -131,14 +126,14 @@ body {
     border-radius:40px;
 }
 #open-settings{ /* open the overlay */
-    padding:5px 5px;
-    background:blue;
-    color:white;
+    font-family: Roboto;
+    padding: 2px 11px 5px 13px;
+    margin-right: 14px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: 300;
+    background: white;
+    color: gray;
     text-decoration:none;
     display:inline-block;
-    margin:5px;
-    -webkit-border-radius:10px;
-    -moz-border-radius:10px;
-    -o-border-radius:10px;
-    border-radius:10px;
 }

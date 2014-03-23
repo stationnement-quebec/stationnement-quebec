@@ -11,19 +11,26 @@ exports.elements = function(req, res) {
     [req.query.min_lng, req.query.min_lat]]]
   };
 
-  var dataSource = require('../datasource.js');
+  var dataSource = require('../lib/datasource.js');
 
   var json = {};
 
-  var sources = dataSource.sources();
-  for (var key in sources) {
-    if (sources.hasOwnProperty(key)) {
-      var source = sources[key];
-      dataSource.getDataForKey(key, function (data) {
-        var pointsArray = data['features'];
-        json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
-      });
+  try {
+    var sources = dataSource.sources();
+    for (var key in sources) {
+      if (sources.hasOwnProperty(key)) {
+        var source = sources[key];
+        dataSource.getDataForKey(key, function (data) {
+          var pointsArray = data['features'];
+          json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
+        });
+      }
     }
+  }
+  catch (err) {
+    console.log("error");
+    res.status(500);
+    json = {status: "error", message: "Une erreur s'est produite sur le serveur."};
   }
 
   res.json(json);
@@ -56,7 +63,7 @@ exports.vdq = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	require('../download.js').updateData();
+	require('../lib/download.js').updateData();
 	res.json({status: "ok"});
 };
 

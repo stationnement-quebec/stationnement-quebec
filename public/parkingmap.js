@@ -7,7 +7,8 @@ $.parkingMap = {
 
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker"},
-		point: {add: "addPoint", update: "updatePoint"}
+		point: {add: "addPoint", update: "updatePoint"},
+		line: {add: "addLine", update: "updateLine"}
 	},
 
 	createMap: function(map, assets, selector, center, zoom, onLoad) {
@@ -101,6 +102,15 @@ $.parkingMap = {
 		this.map.setPointVisible(object.instance, visible);
 		return object.instance;
 	},
+	
+	addLine: function(assets, object, visible) {
+		return this.map.createLine(object.path, assets.color, visible);
+	},
+	
+	updateLine: function(object, visible) {
+		this.map.setLineVisible(object.instance, visible);
+		return object.instance;
+	},
 
 	update: function() {
 		for (var i=0; i<this.objectIds.length; i++) {
@@ -111,7 +121,7 @@ $.parkingMap = {
 
 	addSearchBar: function() {
 		var input = (document.getElementById('pac-input'));
-		this.map.addTopLeftElement(input);
+		/*this.map.addTopLeftElement(input);*/
 		this.map.addSearch(input);
 	},
 
@@ -137,22 +147,22 @@ $.parkingMap = {
 	},
 
 	addSettings: function() {
-		var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
-		this.addButtonBottomRight(settingsButton[0]);
+		/*var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
+		this.addButtonBottomRight(settingsButton[0]);*/
 	},
 
 	addToggleFreePaying: function() {
-		var toggleButton = $("<div id=\"toggleParkingsButton\">Cacher stationnements payants</div>");
-		this.addButtonTopRight(toggleButton[0]);
+		var toggleButton = $("#toggleParkingsButton");
+		/* this.addButtonTopRight(toggleButton[0]); */
 		toggleButton.on("click", function() {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
-			$.parkingMap.setVisibility("paying_parking", $.parkingMap.payingParkingsVisible);
-			$.parkingMap.setVisibility("free_packing", !$.parkingMap.payingParkingsVisible);
-			var action = "Cacher";
+			$.parkingMap.setVisibility("paying_parking", !$.parkingMap.payingParkingsVisible);
+			$.parkingMap.setVisibility("free_packing", $.parkingMap.payingParkingsVisible);
+			var action = "Not $";
 			if (!$.parkingMap.payingParkingsVisible) {
-				action = "Afficher";
+				action = "$";
 			}
-			$("#toggleParkingsButton").html(action+" stationnements payants");
+			$("#toggleParkingsButton").html(action);
 		});
 	}
 }
