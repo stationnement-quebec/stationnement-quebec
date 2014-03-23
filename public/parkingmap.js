@@ -165,11 +165,11 @@ $.parkingMap = {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
 			$.parkingMap.setVisibility("paying_parking", !$.parkingMap.payingParkingsVisible);
 			$.parkingMap.setVisibility("free_packing", $.parkingMap.payingParkingsVisible);
-			var action = "Not $";
+			var action = "free";
 			if (!$.parkingMap.payingParkingsVisible) {
-				action = "$";
+				action = "paying";
 			}
-			$("#toggleParkingsButton").html(action);
+			$("#toggleParkingsButton").attr('class', action);
 		});
 	}
 }
