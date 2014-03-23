@@ -82,7 +82,10 @@ $.parkingMap = {
 	},
 
 	addMarker: function(assets, object, visible) {
+	if (object.type == "traffic_sign")
 		return this.map.createMarker(object.position, visible, assets.icon, object.description);
+	else
+		return this.map.createLabeledMarker(object.position, visible, assets.icon, object.description, object.available);
 	},
 
 	updateMarker: function(object, visible) {
