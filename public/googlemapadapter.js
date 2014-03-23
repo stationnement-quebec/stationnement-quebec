@@ -172,8 +172,11 @@ $.googleMapAdapter = {
 			this.infoWindow.close();
 		}
 		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-140, -134)});
-		this.infoWindow.setContent("<div class=\"infoWindow "+infoWindowClass+"\">"+description+"</div>");
+		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
+		google.maps.event.addListener(this.infoWindow, 'domready', function() {
+			$(".infoBox").addClass(infoWindowClass);
+		});
 	},
 	
 	searchPlace: function() {
