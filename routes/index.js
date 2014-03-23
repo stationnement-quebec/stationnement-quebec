@@ -15,15 +15,22 @@ exports.elements = function(req, res) {
 
   var json = {};
 
-  var sources = dataSource.sources();
-  for (var key in sources) {
-    if (sources.hasOwnProperty(key)) {
-      var source = sources[key];
-      dataSource.getDataForKey(key, function (data) {
-        var pointsArray = data['features'];
-        json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
-      });
+  try {
+    var sources = dataSource.sources();
+    for (var key in sources) {
+      if (sources.hasOwnProperty(key)) {
+        var source = sources[key];
+        dataSource.getDataForKey(key, function (data) {
+          var pointsArray = data['features'];
+          json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
+        });
+      }
     }
+  }
+  catch (err) {
+    console.log("error");
+    res.status(500);
+    json = {status: "error", message: "Une erreur s'est produite sur le serveur."};
   }
 
   res.json(json);
