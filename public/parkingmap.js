@@ -143,13 +143,13 @@ $.parkingMap = {
 		/* this.addButtonTopRight(toggleButton[0]); */
 		toggleButton.on("click", function() {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
-			$.parkingMap.setVisibility("paying_parking", $.parkingMap.payingParkingsVisible);
-			$.parkingMap.setVisibility("free_packing", !$.parkingMap.payingParkingsVisible);
-			var action = "Cacher";
+			$.parkingMap.setVisibility("paying_parking", !$.parkingMap.payingParkingsVisible);
+			$.parkingMap.setVisibility("free_packing", $.parkingMap.payingParkingsVisible);
+			var action = "Not $";
 			if (!$.parkingMap.payingParkingsVisible) {
-				action = "Afficher";
+				action = "$";
 			}
-			$("#toggleParkingsButton").html(action+" stationnements payants");
+			$("#toggleParkingsButton").html(action);
 		});
 	}
 }
