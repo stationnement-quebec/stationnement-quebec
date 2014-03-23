@@ -165,7 +165,7 @@ $.googleMapAdapter = {
 		if (this.infoWindow !== undefined) {
 			this.infoWindow.close();
 		}
-		this.infoWindow = new InfoBox({boxStyle: {background: "url('icons/arrow.gif') no-repeat"}});
+		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-140, -134)});
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
 	},
