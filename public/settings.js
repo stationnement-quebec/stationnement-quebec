@@ -18,6 +18,6 @@ $.settings = {
 	},
 	dataSources: [
 		{id: "api", source: $.API, refreshTimer: 300}, 
-		{id: "client", source: $.client}
+		{id: "client", source: $.client, minZoom: 16}
 	]
 };

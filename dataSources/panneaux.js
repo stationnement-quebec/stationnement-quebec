@@ -81,25 +81,31 @@ function findLines(pointsArray) {
 
   var lastCoord = [0, 0];
   var lastStreet = "";
+  var lastSide = ""
   var line = false;
   for (var i = 0; i < sortedPoints.length; i++) {
     var point = sortedPoints[i];
     var coord = point.geometry.coordinates;
-    if (lastStreet != point.properties.NOM_TOPOG ||
-        coord[0].toFixed(2) != lastCoord[0].toFixed(2) && coord[1].toFixed(2) != lastCoord[1].toFixed(2)) {
+    if (lastStreet != point.properties.NOM_TOPOG 
+        || (coord[0].toFixed(2) != lastCoord[0].toFixed(2) && coord[1].toFixed(2) != lastCoord[1].toFixed(2))
+        || lastSide != point.properties.COTE_RUE
+        ) {
 
       if (line) {
         line['end'] = lastCoord;
         lines.push(line);
       }
 
-      lastStreet = point.properties.NOM_TOPOG;
       line = {start: coord};
+      line['rue'] = lastStreet;
     } 
     lastCoord = coord;
+    lastStreet = point.properties.NOM_TOPOG; 
+    lastSide = point.properties.COTE_RUE;
   } 
   if (line) {
     line['end'] = lastCoord;
+    line['rue'] = lastStreet;
     lines.push(line);
   }
   return lines; 
