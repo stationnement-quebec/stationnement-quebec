@@ -118,7 +118,7 @@ $.parkingMap = {
 
 	addSearchBar: function() {
 		var input = (document.getElementById('pac-input'));
-		this.map.addTopLeftElement(input);
+		/*this.map.addTopLeftElement(input);*/
 		this.map.addSearch(input);
 	},
 
@@ -144,22 +144,22 @@ $.parkingMap = {
 	},
 
 	addSettings: function() {
-		var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
-		this.addButtonBottomRight(settingsButton[0]);
+		/*var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
+		this.addButtonBottomRight(settingsButton[0]);*/
 	},
 
 	addToggleFreePaying: function() {
-		var toggleButton = $("<div id=\"toggleParkingsButton\">Cacher stationnements payants</div>");
-		this.addButtonTopRight(toggleButton[0]);
+		var toggleButton = $("#toggleParkingsButton");
+		/* this.addButtonTopRight(toggleButton[0]); */
 		toggleButton.on("click", function() {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
-			$.parkingMap.setVisibility("paying_parking", $.parkingMap.payingParkingsVisible);
-			$.parkingMap.setVisibility("free_packing", !$.parkingMap.payingParkingsVisible);
-			var action = "Cacher";
+			$.parkingMap.setVisibility("paying_parking", !$.parkingMap.payingParkingsVisible);
+			$.parkingMap.setVisibility("free_packing", $.parkingMap.payingParkingsVisible);
+			var action = "Not $";
 			if (!$.parkingMap.payingParkingsVisible) {
-				action = "Afficher";
+				action = "$";
 			}
-			$("#toggleParkingsButton").html(action+" stationnements payants");
+			$("#toggleParkingsButton").html(action);
 		});
 	}
 }
