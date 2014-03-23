@@ -117,7 +117,9 @@ $.googleMapAdapter = {
 		lineOptions.strokeColor = color;
 		lineOptions.visible = visible;
 		instance.line = new google.maps.Polyline(lineOptions);
-		//instance.marker = this.createMarker({});
+		if (icon !== undefined && path.length == 2) {
+			instance.marker = this.createMarker({latitude: (path[0].latitude + path[1].latitude)/2, longitude: (path[0].longitude + path[1].longitude)/2}, visible, icon, description, label);
+		}
 		return instance;
 	},
 	
@@ -135,6 +137,7 @@ $.googleMapAdapter = {
 	
 	setLineVisible: function(line, visible) {
 		line.line.setVisible(visible);
+		line.marker.setVisible(visible);
 	},
 	
 	getBounds: function() {

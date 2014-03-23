@@ -7,7 +7,7 @@ $.settings = {
 		hydrant: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/blue.png", minZoom: 16},
 		parking_terminal: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/yellow.png"},
 		traffic_sign_label: {type: "labeled_marker", icon: "http://google.com/mapfiles/ms/micons/red.png"},
-		traffic_sign_no_time: {type: "line", color: "red"},
+		traffic_sign_no_time: {type: "line", color: "red", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
 		traffic_sign_long_time: {type: "line", color: "green"},
 		available_parking: {type: "labeled_marker", icon: "icons/circle-green.png"},
