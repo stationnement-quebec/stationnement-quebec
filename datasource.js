@@ -1,29 +1,35 @@
 //This file organize data, and store a cache of it
 
 var fs = require('fs');
-var panneaux = require('./dataSources/panneaux.js')
+var panneaux = require('./dataSources/panneaux.js');
 
-var dataCache = {};
+var dataCache = exports.dataCache = {};
 
 function sources() {
 	return {'panneaux' : panneaux};
 }
 
-function parseDataForKey(key) {
+function parseDataForKey(key, callback) {
 	var path = fullPathOfFileOfKey(key);
 
-	fs.exists(path, function (exist) {
-		if (exist) {
-			dataCache[key] = JSON.parse(fs.readFileSync(path));
-
-			console.log("Loaded " + key);
+	if (fs.existsSync(path)) {
+		dataCache[key] = JSON.parse(fs.readFileSync(path));
+		console.log("Loaded " + key);
+		if (callback) {
+			callback();
 		}
-	});
+	}
+	// fs.exists(path, function (exist) {
+	// 	if (exist) {
+	// 		dataCache[key] = JSON.parse(fs.readFileSync(path));
+	// 		console.log("Loaded " + key);
+	// 	}
+	// });
 }
 
-function parseAllData() {
+function parseAllData(callback) {
 	for (var key in sources()) {
-		parseDataForKey(key);
+		parseDataForKey(key, callback);
 	}
 }
 
@@ -39,4 +45,4 @@ module.exports.sources = sources;
 module.exports.parseDataForKey = parseDataForKey;
 module.exports.parseAllData = parseAllData;
 module.exports.fullPathOfFileOfKey = fullPathOfFileOfKey;
-module.exports.getDataForKey = getDataForKey;
+module.exports.getDataForKey = getDataForKey;    
