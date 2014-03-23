@@ -64,6 +64,20 @@ body {
 	height: 150px;
 }
 
+.markerLabels {
+    overflow: initial !important;
+    text-align: center !important;
+    width: 33px !important;
+}
+.available_parking, .unavailable_parking {
+    margin-left: -25px !important;
+    margin-top: -8px !important;
+}
+.vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-left: -26px !important;
+    margin-top: -33px !important;
+}
+
 #toggleParkingsButton {
     font-family: Roboto;
     font-size: 25px;
