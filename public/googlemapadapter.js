@@ -165,7 +165,7 @@ $.googleMapAdapter = {
 		if (this.infoWindow !== undefined) {
 			this.infoWindow.close();
 		}
-		this.infoWindow = new google.maps.InfoWindow();
+		this.infoWindow = new InfoBox({boxStyle: {background: "url('icons/arrow.gif') no-repeat"}});
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
 	},
