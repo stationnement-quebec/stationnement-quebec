@@ -15,7 +15,7 @@ exports.elements = function(req, res) {
 
   var json = {};
 
-  try {
+ // try {
     var sources = dataSource.sources();
     for (var key in sources) {
       if (sources.hasOwnProperty(key)) {
@@ -27,12 +27,12 @@ exports.elements = function(req, res) {
         });
       }
     }
-  }
-  catch (err) {
+  //}
+  //catch (err) {
     console.log(err.message);
     res.status(500);
     json = {status: "error", message: "Une erreur s'est produite sur le serveur."};
-  }
+  //}
 
   res.json(json);
 };

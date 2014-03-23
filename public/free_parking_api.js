@@ -3,18 +3,18 @@ $.client = {
 		var request = "/elements?min_lat="+coordinates.min.latitude+"&min_lng="+coordinates.min.longitude;
 		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude;
 		$.getJSON(request, function(data) {
-			setTimeout(function(){$.client.addTrafficSigns(callback, data.panneaux);}, 0);
+			setTimeout(function(){$.client.addTrafficSigns(callback, data);}, 0);
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			alert($.parseJSON(jqXHR.responseText).message);
 		});
-		this.addTrafficSigns(callback, [{coordinates: [{start: [-71.239853, 46.804431, 0], end:[-71.240853, 46.805431, 0]}], time: 0}]);
+		//this.addTrafficSigns(callback, [{coordinates: [{start: [-71.239853, 46.804431, 0], end:[-71.240853, 46.805431, 0]}], time: 0}]);
 	},
 
 	addTrafficSigns: function(callback, elements) {
-		$(elements).each(function() {
+		$(elements).each(function(i) {
 
 			var trafficSign = {
-				id: $.client.generateTrafficSignId(this),
+				id: $.client.generateTrafficSignId(this.panneaux[i]),
 				tag: "free_parking",
 				path: [],
 			};
@@ -27,10 +27,11 @@ $.client = {
 			else {
 				trafficSign.type = "traffic_sign_long_time";
 			}
-			trafficSign.path.push($.client.decodeCoordinates(this.coordinates[0].start));
-			for (var i=0; i<this.coordinates.length; i++) {
-				trafficSign.path.push($.client.decodeCoordinates(this.coordinates[i].end));
-			}
+			trafficSign.path.push($.client.decodeCoordinates(this.panneaux[i].start));
+			trafficSign.path.push($.client.decodeCoordinates(this.panneaux[i].end));
+			// for (var i=0; i<this.panneaux.length; i++) {
+			// 	trafficSign.path.push($.client.decodeCoordinates(this.panneaux[i].end));
+			// }
 			//if (this.properties.description != undefined) {
 			//	trafficSign.description = this.properties.parsed_parking_value.description;
 			//}
@@ -39,7 +40,7 @@ $.client = {
 	},
 	
 	generateTrafficSignId: function(trafficSign) {
-		return "ts_"+trafficSign.coordinates[0].start[0]+"_"+trafficSign.coordinates[0].start[1];
+		return "ts_"+trafficSign.start[0]+"_"+trafficSign.start[1];
 	},
 	
 	decodeCoordinates: function(coordinates) {

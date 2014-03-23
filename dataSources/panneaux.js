@@ -36,7 +36,7 @@ function cleanData(rawDataPath, finalDataPath, callback) {
       i++;
     }
 
-    result['features'] = newArray;
+    //result['features'] = newArray;
 
     fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
       callback();
@@ -98,8 +98,10 @@ function findLines(pointsArray) {
     } 
     lastCoord = coord;
   } 
-  line['end'] = lastCoord;
-  lines.push(line);
+  if (line) {
+    line['end'] = lastCoord;
+    lines.push(line);
+  }
   return lines; 
 }
 
