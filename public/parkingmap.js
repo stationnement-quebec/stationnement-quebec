@@ -11,7 +11,9 @@ $.parkingMap = {
 
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker"},
-		point: {add: "addPoint", update: "updatePoint"}
+		point: {add: "addPoint", update: "updatePoint"},
+		line: {add: "addLine", update: "updateLine"},
+		labeled_marker: {add: "addMarkerWithLabel", update: "updateMarkerWithLabel"}
 	},
 
 	createMap: function(map, assets, selector, center, zoom, onLoad) {
@@ -94,7 +96,7 @@ $.parkingMap = {
 
 	addMarker: function(assets, objectType, object, visible) {
 		console.log(objectType);
-		var marker = this.map.createMarker(object.position, visible, assets.icon, object.description);
+		var marker = this.map.createMarker(object.position, visible, assets.icon, object.description, object.label, object.type);
 		if (objectType == 'traffic_sign') {
 			this.clusters.free.addMarker(marker);
 		} else {
@@ -107,13 +109,31 @@ $.parkingMap = {
 		this.map.setMarkerVisible(object.instance, visible);
 		return object.instance;
 	},
+	
+	addMarkerWithLabel: function(assets, object, visible) {
+		return this.map.createLabeledMarker(object.position, visible, assets.icon, object.description, object.label, object.type);
+	},
 
+	updateMarkerWithLabel: function(object, visible) {	
+		this.map.setLabeledMarkerVisible(object.instance, visible);
+		return object.instance;
+	},
+	
 	addPoint: function(assets, object, visible) {
-		return this.map.createPoint(object.position, assets.size, assets.color, visible, object.description);
+		return this.map.createPoint(object.position, assets.size, assets.color, visible, object.description, object.type);
 	},
 
 	updatePoint: function(object, visible) {
 		this.map.setPointVisible(object.instance, visible);
+		return object.instance;
+	},
+	
+	addLine: function(assets, object, visible) {
+		return this.map.createLine(object.path, assets.color, visible, assets.icon, object.description, object.label);
+	},
+	
+	updateLine: function(object, visible) {
+		this.map.setLineVisible(object.instance, visible);
 		return object.instance;
 	},
 
@@ -163,11 +183,15 @@ $.parkingMap = {
 			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
 			$.parkingMap.setVisibility("paying_parking", !$.parkingMap.payingParkingsVisible);
 			$.parkingMap.setVisibility("free_packing", $.parkingMap.payingParkingsVisible);
-			var action = "Not $";
+			var action = "free";
 			if (!$.parkingMap.payingParkingsVisible) {
-				action = "$";
+				action = "paying";
 			}
-			$("#toggleParkingsButton").html(action);
+			$("#toggleParkingsButton").attr('class', action);
 		});
+	},
+	
+	getDirectionsTo: function(position) {
+		this.map.getDirectionsTo(position);
 	}
 }

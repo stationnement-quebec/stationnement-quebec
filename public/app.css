@@ -12,24 +12,27 @@ body {
     height: 5%;
     height: 50px;
     display: block;
+    clear: both;
 }
 
 #map-canvas {
-	height: 85%;
-    height: calc(100% - 105px);
+	height: 100%;
+    height: calc(100% - 50px);
+    clear: both;
 }
 
 .controls {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
-    border: 1px solid black;
     height: 50px;
+    border: 0;
 }
 
 #pac-input {
     background-color: #fff;
     padding: 0 11px 0 13px;
-    width: 85%;
+    width: 100%;
+    width: calc(100% - 50px);
     font-family: Roboto;
     font-size: 15px;
     font-weight: 300;
@@ -56,21 +59,55 @@ body {
     font-weight: 300;
 }
 
+.infoBox {
+    height: 100px;
+    width: 300px;
+    font-size: 14px;
+    border-bottom: 15px solid #108b49;
+}
 .infoWindow {
-	width: 325px;
-	height: 150px;
+    background: #fff;
+    padding: 5px 15px 1px 15px;
+}
+
+.markerLabels {
+    overflow: initial !important;
+    text-align: center !important;
+    width: 25px !important;
+}
+.available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-left: -19px !important;
+    font-size: 16px;
+}
+.available_parking, .unavailable_parking {
+    margin-top: -4px !important;
+}
+.vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-top: -23px !important;
 }
 
 #toggleParkingsButton {
     font-family: Roboto;
-    font-size: 15px;
-    font-weight: 300;
+    font-size: 25px;
+    font-weight: bold;
     text-overflow: ellipsis;
-
-    background-color: blue;
+    border: 0;
     cursor: pointer;
     text-align: center;
+    height: 50px;
+    width: 50px;
+    vertical-align: top;
+    position: absolute;
+    right: 0;
+    background-color: #d3e3f0;
 }
+#toggleParkingsButton.paying {
+    color: #1b4b9b;
+}
+#toggleParkingsButton.free {
+    color: #8ba2c8;
+}
+
 
 #settings{
     height:80%;
@@ -128,12 +165,12 @@ body {
 #open-settings{ /* open the overlay */
     font-family: Roboto;
     padding: 2px 11px 5px 13px;
-    margin-right: 14px;
-    margin-bottom: 16px;
     font-size: 15px;
     font-weight: 300;
     background: white;
     color: gray;
     text-decoration:none;
-    display:inline-block;
+    position: absolute;
+    z-index: 100;
+    right: 0;
 }
