@@ -2,12 +2,11 @@ $.client = {
 	getInformation: function(coordinates, callback) {
 		var request = "/elements?min_lat="+coordinates.min.latitude+"&min_lng="+coordinates.min.longitude;
 		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude;
-		/*$.getJSON(request, function(data) {
+		$.getJSON(request, function(data) {
 			setTimeout(function(){$.client.addTrafficSigns(callback, data.panneaux);}, 0);
 		}).fail(function(jqXHR, textStatus, errorThrown) {
-			console.log("error");
-			console.log([jqXHR, textStatus, errorThrown]);
-		});*/
+			alert($.parseJSON(jqXHR.responseText).message);
+		});
 		this.addTrafficSigns(callback, [{coordinates: [{start: [-71.239853, 46.804431, 0], end:[-71.240853, 46.805431, 0]}], time: 0}]);
 	},
 
