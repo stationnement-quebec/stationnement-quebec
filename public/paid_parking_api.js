@@ -39,6 +39,7 @@ $.API = {
 		}
 		mapObject.available = (avl.OPER - avl.OCC);
 		mapObject.description = "<div>Lieu: "+description+"</div><div>Quantité Restante: "+(avl.OPER - avl.OCC)+"/"+avl.OPER+"</div>";
+		mapObject.label = mapObject.available;
 		callback(mapObject);
 	}
 }
