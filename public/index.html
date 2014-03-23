@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+	<title>Application</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="app.css" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+	<script type="text/javascript" src="googlemapadapter.js"></script>
+	<script type="text/javascript" src="free_parking_api.js"></script>
+	<script type="text/javascript" src="paid_parking_api.js"></script>
+	<script type="text/javascript" src="parkingmap.js"></script>
+	<script type="text/javascript" src="requesthandler.js"></script>
+	<script type="text/javascript" src="settings.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$.main.execute("#map-canvas");
+		});
+	</script>
+  </head>
+  <body>
+	<div id="settings">
+    	<a href="#" class="close">&times;</a>
+    	<h2 style="font-size:35px;text-align:center">Settings</h2>
+	</div>
+	<div classs="header">
+		<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+		<button id="toggleParkingsButton" class="paying">$</button>
+	</div>
+	<div class="overmap">
+		<a href="#settings" id="open-settings"><img src="icons/gear.png" alt="Réglages"></a>
+	</div>
+	<div id="mask" onclick="document.location='#';"></div>
+    <div id="map-canvas"></div>
+  </body>
+</html>
