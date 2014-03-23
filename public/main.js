@@ -1,9 +1,6 @@
-$.main = {
-	center: {latitude: 46.804431, longitude: -71.239853},
-	zoom: 12,
-	
+$.main = {	
 	execute: function(selector) {
-		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, this.center, this.zoom, function() {$.main.addMapInfo();});
+		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, $.settings.center, $.settings.zoom, function() {$.main.addMapInfo();});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
 		$.parkingMap.addSearchBar();
 		$.parkingMap.addToggleFreePaying();
