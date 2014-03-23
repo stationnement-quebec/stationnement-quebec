@@ -84,7 +84,7 @@ $.parkingMap = {
 	},
 
 	addMarker: function(assets, object, visible) {
-		return this.map.createMarker(object.position, visible, assets.icon, object.description);
+		return this.map.createMarker(object.position, visible, assets.icon, object.description, object.label);
 	},
 
 	updateMarker: function(object, visible) {
@@ -111,7 +111,7 @@ $.parkingMap = {
 	},
 	
 	addLine: function(assets, object, visible) {
-		return this.map.createLine(object.path, assets.color, visible);
+		return this.map.createLine(object.path, assets.color, visible, assets.icon, object.description, object.label);
 	},
 	
 	updateLine: function(object, visible) {

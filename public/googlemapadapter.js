@@ -46,7 +46,7 @@ $.googleMapAdapter = {
   		google.maps.event.addListener(this.map, 'bounds_changed', function() {$.googleMapAdapter.adjustBounds()});
 	},
 	
-	createMarker: function(position, visible, icon, description) {
+	createMarker: function(position, visible, icon, description, label) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
@@ -54,7 +54,14 @@ $.googleMapAdapter = {
 		if (icon !== undefined) {
 			markerOptions.icon = icon;
 		}
-		var marker = new google.maps.Marker(markerOptions);
+		if (label !== undefined) {
+			markerOptions.labelContent = label;
+			markerOptions.labelAnchor = new google.maps.Point(4, 30);
+			var marker = new MarkerWithLabel(markerOptions);
+		}
+		else {
+			var marker = new google.maps.Marker(markerOptions);
+		}
 		marker.setVisible(visible);
 		if (description !== undefined) {
 			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker);});
@@ -99,16 +106,19 @@ $.googleMapAdapter = {
 		return circle;
 	},
 	
-	createLine: function(path, color, visible) {
+	createLine: function(path, color, visible, icon, description, label) {
+		var instance = {};
 		var lineOptions = {};
 		lineOptions.path = [];
 		for (var i=0; i<path.length; i++) {
-			lineOptions.path.push(new google.maps.LatLng(path[i].lat, path[i].lng));
+			lineOptions.path.push(new google.maps.LatLng(path[i].latitude, path[i].longitude));
 		}
 		lineOptions.map = this.map;
 		lineOptions.strokeColor = color;
 		lineOptions.visible = visible;
-		return new google.maps.Polyline(lineOptions);
+		instance.line = new google.maps.Polyline(lineOptions);
+		//instance.marker = this.createMarker({});
+		return instance;
 	},
 	
 	setMarkerVisible: function(marker, visible) {
@@ -124,7 +134,7 @@ $.googleMapAdapter = {
 	},
 	
 	setLineVisible: function(line, visible) {
-		line.setVisible(visible);
+		line.line.setVisible(visible);
 	},
 	
 	getBounds: function() {

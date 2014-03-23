@@ -8,7 +8,7 @@ $.client = {
 			console.log("error");
 			console.log([jqXHR, textStatus, errorThrown]);
 		});*/
-		this.addTrafficSigns(callback, [{coordinates: [{lat: 46.804431, lng: -71.239853}, {lat: 46.805431, lng: -71.240853}], time: 0}]);
+		this.addTrafficSigns(callback, [{coordinates: [{start: [-71.239853, 46.804431, 0], end:[-71.240853, 46.805431, 0]}], time: 0}]);
 	},
 
 	addTrafficSigns: function(callback, elements) {
@@ -17,7 +17,7 @@ $.client = {
 			var trafficSign = {
 				id: $.client.generateTrafficSignId(this),
 				tag: "free_parking",
-				path: this.coordinates,
+				path: [],
 			};
 			if (this.time == 0) {
 				trafficSign.type = "traffic_sign_no_time";
@@ -28,28 +28,22 @@ $.client = {
 			else {
 				trafficSign.type = "traffic_sign_long_time";
 			}
-			
+			trafficSign.path.push($.client.decodeCoordinates(this.coordinates[0].start));
+			for (var i=0; i<this.coordinates.length; i++) {
+				trafficSign.path.push($.client.decodeCoordinates(this.coordinates[i].end));
+			}
 			//if (this.properties.description != undefined) {
 			//	trafficSign.description = this.properties.parsed_parking_value.description;
 			//}
-			
 			callback(trafficSign);
-			
-			var trafficSignMarker = {
-				id: "m_"+trafficSign.id,
-				type: "traffic_sign_label",
-				tag: "free_parking",
-				position: {
-					latitude: (this.coordinates[0].lat + this.coordinates[1].lat)/2,
-					longitude: (this.coordinates[0].lng + this.coordinates[1].lng)/2
-				},
-				label: 3
-			};
-			callback(trafficSignMarker);
 		});
 	},
 	
 	generateTrafficSignId: function(trafficSign) {
-		return "ts_"+trafficSign.coordinates[0].lat+"_"+trafficSign.coordinates[0].lng;
+		return "ts_"+trafficSign.coordinates[0].start[0]+"_"+trafficSign.coordinates[0].start[1];
+	},
+	
+	decodeCoordinates: function(coordinates) {
+		return {latitude: coordinates[1], longitude: coordinates[0]};
 	}
 }
