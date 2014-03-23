@@ -23,12 +23,13 @@ exports.elements = function(req, res) {
         dataSource.getDataForKey(key, function (data) {
           var pointsArray = data['features'];
           json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
+          json[key] = require('../dataSources/panneaux.js').findLines(json[key]);
         });
       }
     }
   }
   catch (err) {
-    console.log("error");
+    console.log(err.message);
     res.status(500);
     json = {status: "error", message: "Une erreur s'est produite sur le serveur."};
   }
