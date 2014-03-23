@@ -11,7 +11,7 @@ exports.elements = function(req, res) {
     [req.query.min_lng, req.query.min_lat]]]
   };
 
-  var dataSource = require('../datasource.js');
+  var dataSource = require('../lib/datasource.js');
 
   var json = {};
 
@@ -56,7 +56,7 @@ exports.vdq = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	require('../download.js').updateData();
+	require('../lib/download.js').updateData();
 	res.json({status: "ok"});
 };
 

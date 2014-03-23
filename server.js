@@ -1,7 +1,5 @@
-var dataSource = require('./datasource.js');
-dataSource.parseAllData(function() {
-
-});
+var dataSource = require('./lib/datasource.js');
+dataSource.parseAllData();
 
 var express = require('express');
 var app = express();
