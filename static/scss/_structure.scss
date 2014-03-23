@@ -5,14 +5,24 @@
 .ir{
 	text-indent: -9999px;
 }
+.hide-all{
+	visibility: hidden;
+	height: 0;
+}
+.overflow-hidden{
+	overflow: hidden;
+}
 /* Common */
 body{
 	position: relative;
+	// @include background-image(linear-gradient($color-blue-town, $color-blue-cyan));
 }
 #map-canvas{
+	// max-width: $row-width;
 	max-height: 1000px;
 	height: 100%;
 	width: 100%;
+	margin: auto;
 }
 .wrapper{
 	position: absolute;
@@ -28,5 +38,49 @@ body{
 	position: absolute;
 	top: -99999px;
 }
+.label-checkbox-payant{
+	margin-left: 0 !important;
+	width: 100%;
+	background-color: $color-blue-pastel;
+	color: #ddd;
+	font-weight: 700;
+	text-align: center;
+	padding: 0.3rem;
+}
+[type="checkbox"]:checked + .label-checkbox-payant{
+	margin-left: 0;
+	background-color: darken($color-blue-pastel,15);
+	color: $color-blue-town;
+}
 
 /* button settings */
+.position-bottom{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.icon-gear{
+	display: block;
+	width: 3em;
+	height: 3em;
+	text-indent: -9999px;
+	background-size: contain;
+}
+
+@media #{$small-only} {
+	.tooltip{
+		max-width: none;
+		left: 0 !important;
+		width: 100%;
+	}
+	.nub{
+		left: auto !important; //Hack to change
+		right: 7% !important; //Hack to change
+	}
+}
+@media #{$large-up}{
+	.row{
+		margin-right: 0;
+	}
+}
