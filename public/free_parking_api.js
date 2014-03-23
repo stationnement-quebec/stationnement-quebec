@@ -28,11 +28,24 @@ $.client = {
 			else {
 				trafficSign.type = "traffic_sign_long_time";
 			}
-
+			
 			//if (this.properties.description != undefined) {
 			//	trafficSign.description = this.properties.parsed_parking_value.description;
 			//}
+			
 			callback(trafficSign);
+			
+			var trafficSignMarker = {
+				id: "m_"+trafficSign.id,
+				type: "traffic_sign_label",
+				tag: "free_parking",
+				position: {
+					latitude: (this.coordinates[0].lat + this.coordinates[1].lat)/2,
+					longitude: (this.coordinates[0].lng + this.coordinates[1].lng)/2
+				},
+				label: 3
+			};
+			callback(trafficSignMarker);
 		});
 	},
 	

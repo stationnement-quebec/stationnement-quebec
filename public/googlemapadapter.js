@@ -63,12 +63,12 @@ $.googleMapAdapter = {
 		return marker;
 	},
 	
-	createLabeledMarker: function(position, visible, icon, description, available) {
+	createLabeledMarker: function(position, visible, icon, description, label) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
 		
-		markerOptions.labelContent = available;
+		markerOptions.labelContent = label;
 		markerOptions.labelAnchor = new google.maps.Point(4, 30);
 		if (icon !== undefined) {
 			markerOptions.icon = icon;
@@ -112,6 +112,10 @@ $.googleMapAdapter = {
 	},
 	
 	setMarkerVisible: function(marker, visible) {
+		marker.setVisible(visible);
+	},
+	
+	setLabeledMarkerVisible: function(marker, visible) {
 		marker.setVisible(visible);
 	},
 	
