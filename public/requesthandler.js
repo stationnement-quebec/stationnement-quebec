@@ -1,6 +1,6 @@
 $.requestHandler = {
 	refresh: {},
-	
+
 	request: function(dataSource, callback) {
 		//TODO add cache
 		if (this.refresh[dataSource.id] !== undefined) {
@@ -8,7 +8,7 @@ $.requestHandler = {
 		}
 		this.getInformation(dataSource, callback);
 	},
-	
+
 	getInformation: function(dataSource, callback) {
 		if (dataSource.minZoom !== undefined && $.parkingMap.getZoom() < dataSource.minZoom) {
 			return;
@@ -16,7 +16,9 @@ $.requestHandler = {
 		var bounds = $.parkingMap.getBounds();
 		dataSource.source.getInformation(bounds, callback);
 		if (dataSource.refreshTimer !== undefined) {
-			this.refresh[dataSource.id] = setTimeout(function() {$.requestHandler.getInformation(dataSource, callback);}, dataSource.refreshTimer * 1000);
+			this.refresh[dataSource.id] = setTimeout(function() {
+				$.requestHandler.getInformation(dataSource, callback);
+			}, dataSource.refreshTimer * 1000);
 		}
 	}
 };

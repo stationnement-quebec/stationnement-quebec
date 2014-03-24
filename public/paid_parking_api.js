@@ -1,6 +1,6 @@
 $.API = {
 	getInformation: function(bounds, callback) {
-		$.get( "http://acc-api.ville.quebec.qc.ca/stationnement/rest/vdqpark/availabilityservice?response=json", function( data ) {
+		$.get( "/vdq", function( data ) {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
@@ -37,7 +37,9 @@ $.API = {
 			var occupancy = avl.OCC / avl.OPER;
 			mapObject.type = getVehiculeParcType(occupancy);
 		}
-		mapObject.description = "<div>Lieu: "+description+"</div><div>Quantité Restante: "+(avl.OPER - avl.OCC)+"/"+avl.OPER+"</div>";
+		mapObject.available = (avl.OPER - avl.OCC);
+		mapObject.description = "<div><p>Ce point de stationnement rapporte que <b>" + (avl.OPER - avl.OCC) + "</b> stationnement(s) sont libres.</p><p>Adresse: <b style=\"cursor:pointer;\" onclick=\"$.parkingMap.getDirectionsTo({latitude: "+mapObject.position.latitude+", longitude: "+mapObject.position.longitude+"});\">" + description + "</b></p></div>";
+		mapObject.label = "<div class=\""+mapObject.type+"\">"+mapObject.available+"</div>";
 		callback(mapObject);
 	}
 }

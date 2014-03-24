@@ -2,6 +2,8 @@ $.googleMapAdapter = {
 	map: undefined,
 	searchBox: undefined,
 	infoWindow: undefined,
+	
+	directions: false,
 
 	//Adapter Functions
 	createMap: function(selector, center, zoom) {
@@ -10,6 +12,11 @@ $.googleMapAdapter = {
 			zoom: zoom,
 			disableDefaultUI: true
 		});
+		this.directions = {
+			renderer: new google.maps.DirectionsRenderer(),
+			service: new google.maps.DirectionsService()
+		};
+		this.directions.renderer.setMap(this.map);
 	},
 	
 	addOnLoadEvent: function(onLoad) {
@@ -27,9 +34,17 @@ $.googleMapAdapter = {
 	addTopLeftElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(element);
 	},
+
+	addTopRightElement: function(element) {
+		this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(element);
+	},
 	
 	addBottomLeftElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(element);
+	},
+
+	addBottomRightElement: function(element) {
+		this.map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(element);
 	},
 	
 	addSearch: function(searchBox) {
@@ -38,22 +53,50 @@ $.googleMapAdapter = {
   		google.maps.event.addListener(this.map, 'bounds_changed', function() {$.googleMapAdapter.adjustBounds()});
 	},
 	
-	createMarker: function(position, visible, icon, description) {
+	createMarker: function(position, visible, icon, description, label, infoWindowClass) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
+		
 		if (icon !== undefined) {
 			markerOptions.icon = icon;
 		}
-		var marker = new google.maps.Marker(markerOptions);
+		if (label !== undefined) {
+			markerOptions.labelContent = label;
+			markerOptions.labelAnchor = new google.maps.Point(4, 30);
+			var marker = new MarkerWithLabel(markerOptions);
+		}
+		else {
+			var marker = new google.maps.Marker(markerOptions);
+		}
 		marker.setVisible(visible);
 		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker);});
+			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
 		}
+		
 		return marker;
 	},
 	
-	createPoint: function(position, radius, color, visible, description) {
+	createLabeledMarker: function(position, visible, icon, description, label, infoWindowClass) {
+		var markerOptions = {};
+		markerOptions.map = this.map;
+		markerOptions.position = this.createLatLng(position);
+		
+		markerOptions.labelContent = label;
+		markerOptions.labelAnchor = new google.maps.Point(4, 30);
+		if (icon !== undefined) {
+			markerOptions.icon = icon;
+		}
+		var marker = new MarkerWithLabel(markerOptions);
+		marker.setVisible(visible);
+		if (description !== undefined) {
+			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
+		}
+		
+		return marker;
+	},
+	
+	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
 		var circleOptions = {};
 		circleOptions.map = this.map;
 		circleOptions.center = this.createLatLng(position);
@@ -65,16 +108,43 @@ $.googleMapAdapter = {
 		circle.setVisible(visible);
 		circle.position = circleOptions.center;
 		if (description !== undefined) {
-			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle);});
+			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle, infoWindowClass);});
 		}
+		return circle;
+	},
+	
+	createLine: function(path, color, visible, icon, description, label) {
+		var instance = {};
+		var lineOptions = {};
+		lineOptions.path = [];
+		for (var i=0; i<path.length; i++) {
+			lineOptions.path.push(new google.maps.LatLng(path[i].latitude, path[i].longitude));
+		}
+		lineOptions.map = this.map;
+		lineOptions.strokeColor = color;
+		lineOptions.visible = visible;
+		instance.line = new google.maps.Polyline(lineOptions);
+		if (icon !== undefined && path.length == 2) {
+			instance.marker = this.createMarker({latitude: (path[0].latitude + path[1].latitude)/2, longitude: (path[0].longitude + path[1].longitude)/2}, visible, icon, description, label);
+		}
+		return instance;
 	},
 	
 	setMarkerVisible: function(marker, visible) {
 		marker.setVisible(visible);
 	},
 	
+	setLabeledMarkerVisible: function(marker, visible) {
+		marker.setVisible(visible);
+	},
+	
 	setPointVisible: function(point, visible) {
 		point.setVisible(visible);
+	},
+	
+	setLineVisible: function(line, visible) {
+		line.line.setVisible(visible);
+		line.marker.setVisible(visible);
 	},
 	
 	getBounds: function() {
@@ -98,13 +168,16 @@ $.googleMapAdapter = {
 		return new google.maps.LatLng(point.latitude, point.longitude);
 	},
 	
-	createInfoWindow: function(description, object) {
+	createInfoWindow: function(description, object, infoWindowClass) {
 		if (this.infoWindow !== undefined) {
 			this.infoWindow.close();
 		}
-		this.infoWindow = new google.maps.InfoWindow();
+		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-133, -121)});
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
+		google.maps.event.addListener(this.infoWindow, 'domready', function() {
+			$(".infoBox").addClass(infoWindowClass);
+		});
 	},
 	
 	searchPlace: function() {
@@ -139,5 +212,39 @@ $.googleMapAdapter = {
 	adjustBounds: function(){
 		var bounds = this.map.getBounds();
     	this.searchBox.setBounds(bounds);
+	},
+	
+	getDirectionsTo: function(location) {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var from = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				var to = new google.maps.LatLng(location.latitude, location.longitude);
+				$.googleMapAdapter.makeDirectionRequest(from, to);
+			}, function() {
+				$.googleMapAdapter.getDirectionsToNoGeolocation(location);
+			});
+		}
+		else {
+			this.getDirectionsToNoGeolocation(location);
+		}
+	},
+	
+	getDirectionsToNoGeolocation: function(location) {
+		var from = this.map.getCenter();
+		var to = new google.maps.LatLng(location.latitude, location.longitude);
+		this.makeDirectionRequest(from, to);
+	},
+	
+	makeDirectionRequest: function(from, to) {
+		var request = {
+			origin: from,
+			destination: to,
+			travelMode: google.maps.TravelMode.DRIVING
+		};
+		this.directions.service.route(request, function(result, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+				$.googleMapAdapter.directions.renderer.setDirections(result);
+			}
+		});
 	}
 };
