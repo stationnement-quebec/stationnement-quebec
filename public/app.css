@@ -63,7 +63,17 @@ body {
     height: 100px;
     width: 300px;
     font-size: 14px;
-    border-bottom: 15px solid #108b49;
+    border-bottom-width: 25px;
+    border-bottom-style: solid;
+}
+.infoBox.available_parking, .infoBox.vehicule_park_low_occupancy {
+    border-bottom-color: #108b49;
+}
+.infoBox.vehicule_park_high_occupancy {
+    border-bottom-color: #d88a2b;
+}
+.infoBox.unavailable_parking, .infoBox.vehicule_park_full {
+    border-bottom-color: #de554e;
 }
 .infoWindow {
     background: #fff;
