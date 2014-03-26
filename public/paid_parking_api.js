@@ -4,8 +4,14 @@ $.API = {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
+			var quadtree = new QuadTree(createBoundingBoxFromMapBounds(bounds));
 			$(data.AVL).each(function() {
-				$.API.addObject(callback, this);
+				quadtree.insert(new PayingParkingData(this));
+			});
+			
+			var temp = quadtree.queryRange(createBoundingBoxFromMapBounds(bounds));
+			$(temp).each(function() {
+				$.API.addObject(callback, this.avlData);
 			});
 		});
 	},
