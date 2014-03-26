@@ -14,7 +14,6 @@ exports.elements = function(req, res) {
   var dataSource = require('../lib/datasource.js');
 
   var json = {};
-<<<<<<< HEAD
   var  fs = require('fs');
 
  try {
@@ -33,18 +32,6 @@ exports.elements = function(req, res) {
           actual['end'] = points[i];
           lines.push(actual);
         }
-=======
-  
-  try {
-    var sources = dataSource.sources();
-    for (var key in sources) {
-      if (sources.hasOwnProperty(key)) {
-        var source = sources[key];
-        dataSource.getDataForKey(key, function (data) {
-          var pointsArray = data['features'];
-          json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
-        });
->>>>>>> 2f47697b95b214604a5fc73a84c7794c427312a4
       }
     });
 
