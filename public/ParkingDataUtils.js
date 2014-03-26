@@ -21,6 +21,12 @@ function createBoundingBoxFromMapBounds(mapBounds) {
 }
 
 
+function getQuadTreeDataFromApiData(avlData) {
+
+	return { "data": avlData, "location": getNumericLatLongFromApiData(avlData)};
+} 
+
+
 function getMeanValueOfParkingDataArray(parkingDataArray) {
 
 	var meanLongitude = 0;
@@ -32,10 +38,12 @@ function getMeanValueOfParkingDataArray(parkingDataArray) {
 
 	for(var i = 0; i < numberOfObjects; i++) {
 
-		meanLongitude += parkingDataArray[i].location.longitude;
-		meanLatitude += parkingDataArray[i].location.latitude;
-		totalOccupation += parkingDataArray[i].avlData["OCC"];
-		totalCapacity += parkingDataArray[i].avlData["OPER"];
+		var location = getNumericLatLongFromApiData(parkingDataArray[i]["data"]);
+		meanLongitude += location.x;
+		meanLatitude += location.y;
+
+		totalOccupation += parkingDataArray[i]["data"]["OCC"];
+		totalCapacity += parkingDataArray[i]["data"]["OPER"];
 	}
 
 	meanLongitude /= numberOfObjects;
@@ -43,9 +51,14 @@ function getMeanValueOfParkingDataArray(parkingDataArray) {
 
 	var avlData = templateAVLData;
 	avlData["OCC"] = totalOccupation;
-	avlData["OPER"] = totalCapacity; 
+	avlData["OPER"] = totalCapacity;
 	avlData["LOC"] = meanLongitude.toString() + "," + meanLatitude.toString();
 
-	return (new PayingParkingData(avlData));
+	return { "data": templateAVLData, "location": getNumericLatLongFromApiData(avlData)};
 }
 
+
+function getNumericLatLongFromApiData(avlData) {
+	var points = avlData["LOC"].split(",");
+	return { x: parseFloat(points[0]), y: parseFloat(points[1]) };
+}
