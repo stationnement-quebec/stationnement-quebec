@@ -83,17 +83,17 @@ body {
 .markerLabels {
     overflow: initial !important;
     text-align: center !important;
-    width: 25px !important;
+    width: 26px !important;
 }
 .available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
     margin-left: -19px !important;
     font-size: 16px;
 }
 .available_parking, .unavailable_parking {
-    margin-top: -4px !important;
+    margin-top: 4px !important;
 }
 .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
-    margin-top: -23px !important;
+    margin-top: -14px !important;
 }
 
 #toggleParkingsButton {
