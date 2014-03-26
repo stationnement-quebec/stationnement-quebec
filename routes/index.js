@@ -14,19 +14,28 @@ exports.elements = function(req, res) {
   var dataSource = require('../lib/datasource.js');
 
   var json = {};
+  var  fs = require('fs');
 
  try {
-    var sources = dataSource.sources();
-    for (var key in sources) {
-      if (sources.hasOwnProperty(key)) {
-        var source = sources[key];
-        dataSource.getDataForKey(key, function (data) {
-          var pointsArray = data['features'];
-          json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
-          json[key] = require('../dataSources/panneaux.js').findLines(json[key]);
-        });
+    var content = JSON.parse(fs.readFileSync('data/voies.json'));
+
+    var lines = [];
+    var features = content['features'];
+
+    features.forEach(function(street) {
+      var points = street.geometry.coordinates;
+      var actual = {};
+      for (var i = 0; i < points.length; i++) {
+        if (i % 2 == 0) {
+          actual = {start: points[i]};
+        } else {
+          actual['end'] = points[i];
+          lines.push(actual);
+        }
       }
-    }
+    });
+
+    json = { panneaux: lines };
   }
   catch (err) {
     console.log(err.message);
