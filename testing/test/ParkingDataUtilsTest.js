@@ -102,7 +102,7 @@ describe('ParkingDataUtils', function() {
   	})
 })
 
-// getMeanValueOfParkingDataArrayValidationTest
+// whenThereIsASingleElementInTheArrayItIsReturnedAsTheMeanValue
 describe('ParkingDataUtils', function() {
   	describe('#getMeanValueOfParkingDataArray()', function() {
     		it('whenThereIsASingleElementInTheArrayItIsReturnedAsTheMeanValue', function() {
