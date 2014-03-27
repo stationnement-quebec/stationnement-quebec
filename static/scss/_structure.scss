@@ -1,16 +1,12 @@
 /* Utilities */
-.no-padding{
-	padding: 0;
-}
 .ir{
 	text-indent: -9999px;
 }
 .hide-all{
+	position: absolute;
 	visibility: hidden;
 	height: 0;
-}
-.overflow-hidden{
-	overflow: hidden;
+	top: -9999px;
 }
 /* Common */
 body{
@@ -24,35 +20,95 @@ body{
 	width: 100%;
 	margin: auto;
 }
-.wrapper{
-	position: absolute;
-	display: block;
-	width: 100%;
+.position-top{
+	position: fixed;
 	top: 0;
+	right: 0;
 }
-
-/* Search box */
-
-/* toggle checkbox */
+.position-right{
+	position: fixed;
+	top: 55px;
+	right: 0;
+	max-width: 500px;
+	z-index: 100;
+}
+/* Accordion */
+.accordion {
+	dd > a{
+		text-transform: uppercase;
+		font-weight: 600;
+	}
+	.content{
+		max-height: 500px;
+		overflow: scroll;
+	}
+}
+/* toggle checkbox $$ */
 .checkbox-payant{
 	position: absolute;
 	top: -99999px;
 }
-.label-checkbox-payant{
-	margin-left: 0 !important;
-	width: 100%;
-	background-color: $color-blue-pastel;
-	color: #ddd;
+input[type="checkbox"] + label.label-checkbox-payant{
 	font-weight: 700;
-	text-align: center;
-	padding: 0.3rem;
-}
-[type="checkbox"]:checked + .label-checkbox-payant{
+	display: block;
+	width: 100%;
+	height: 100%;
 	margin-left: 0;
+	padding-left: 0;
+	&:before{
+		content: '';
+		background-color: transparent;
+	}
+	&:after{
+		content: '';
+	}
+}
+[type="checkbox"]:checked + label.label-checkbox-payant{
 	background-color: darken($color-blue-pastel,15);
 	color: $color-blue-town;
 }
 
+/* = PANNEAU RÉGLAGE
+===============================*/
+/* checkbox */
+/* Hiding checkbox */  
+[type="checkbox"]:not(:checked),  
+[type="checkbox"]:checked {  
+  position: absolute;  
+  left: -9999px;  
+}  
+
+[type="checkbox"]:not(:checked) + label,  
+[type="checkbox"]:checked + label {  
+  position: relative;
+  padding-left: 35px;
+
+  &:before{
+		content: '';  
+		position: absolute;  
+		left:0; 
+		top: 2px;  
+		width: 20px; 
+		height: 20px;
+		background-color: white;
+		@include border-radius(4px);
+  }
+  &:after{
+		content: '✔';  
+		position: absolute;  
+		top: -0.4em;
+		left: 2px;  
+		font-size: 1.6em;
+		color: $color-blue-town;  
+		transition: all .2s; /* on prévoit une animation */  
+  }
+}  
+[type="checkbox"]:not(:checked) + label {
+	&:after{
+		opacity: 0;
+	}
+	opacity: 0.7;
+}
 /* button settings */
 .position-bottom{
 	position: fixed;
@@ -67,20 +123,8 @@ body{
 	text-indent: -9999px;
 	background-size: contain;
 }
-
-@media #{$small-only} {
-	.tooltip{
-		max-width: none;
-		left: 0 !important;
-		width: 100%;
-	}
-	.nub{
-		left: auto !important; //Hack to change
-		right: 7% !important; //Hack to change
-	}
-}
-@media #{$large-up}{
-	.row{
-		margin-right: 0;
-	}
+/* timer */
+.timer{
+	font-size: rem-calc(30);
+	font-weight: 700;
 }

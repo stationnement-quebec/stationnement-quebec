@@ -128,7 +128,7 @@ $column-gutter: rem-calc(30);
 
 // We use these to control header font sizes
 // $h1-font-size: rem-calc(44);
-// $h2-font-size: rem-calc(37);
+$h2-font-size: rem-calc(24);
 // $h3-font-size: rem-calc(27);
 // $h4-font-size: rem-calc(23);
 // $h5-font-size: rem-calc(18);
@@ -221,15 +221,15 @@ $column-gutter: rem-calc(30);
 // $include-html-accordion-classes: $include-html-classes;
 
 // $accordion-navigation-padding: rem-calc(16);
-// $accordion-navigation-bg-color: #efefef  ;
+$accordion-navigation-bg-color: darken($color-blue-pastel,10)  ;
 // $accordion-navigation-hover-bg-color: scale-color($accordion-navigation-bg-color, $lightness: -5%);
 // $accordion-navigation-active-bg-color: scale-color($accordion-navigation-bg-color, $lightness: -3%);
-// $accordion-navigation-font-color: #222;
-// $accordion-navigation-font-size: rem-calc(16);
+$accordion-navigation-font-color: $color-blue-town;
+$accordion-navigation-font-size: rem-calc(12);
 // $accordion-navigation-font-family: $body-font-family;
 
 // $accordion-content-padding: $column-gutter/2;
-// $accordion-content-active-bg-color: #fff;
+$accordion-content-active-bg-color: $color-blue-pastel;
 
 // Alert Boxes
 
