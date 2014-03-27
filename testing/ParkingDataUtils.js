@@ -37,6 +37,8 @@ function getMeanValueOfParkingDataArray(parkingDataArray) {
 	var totalCapacity = 0;
 
 	var numberOfObjects = parkingDataArray.length;
+	if(numberOfObjects == 1)
+		return parkingDataArray[0];
 
 	for(var i = 0; i < numberOfObjects; i++) {
 

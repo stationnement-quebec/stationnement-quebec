@@ -101,3 +101,16 @@ describe('ParkingDataUtils', function() {
     		})
   	})
 })
+
+// getMeanValueOfParkingDataArrayValidationTest
+describe('ParkingDataUtils', function() {
+  	describe('#getMeanValueOfParkingDataArray()', function() {
+    		it('whenThereIsASingleElementInTheArrayItIsReturnedAsTheMeanValue', function() {
+
+			var singleElementArray = [parkingData1];
+			var meanAvlData = parkingDataUtils.getMeanValueOfParkingDataArray(singleElementArray);
+
+			assert.deepEqual(meanAvlData, parkingData1);
+    		})
+  	})
+})
