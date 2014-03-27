@@ -4,6 +4,7 @@ $.API = {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
+
 			$(data.AVL).each(function() {
 				$.API.addObject(callback, this);
 			});
