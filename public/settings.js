@@ -10,7 +10,7 @@ $.settings = {
 		traffic_sign_label: {type: "labeled_marker", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_no_time: {type: "line", color: "red", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
-		traffic_sign_long_time: {type: "line", color: "green"},
+		traffic_sign_long_time: {type: "line", color: "108B49"},
 		available_parking: {type: "labeled_marker", icon: "icons/circle-green.png"},
 		unavailable_parking: {type: "labeled_marker", icon: "icons/circle-red.png"},
 		vehicule_park_low_occupancy : {type: "labeled_marker", icon: "icons/pin-green.png"},
@@ -19,6 +19,6 @@ $.settings = {
 	},
 	dataSources: [
 		{id: "api", source: $.API, refreshTimer: 300}, 
-		{id: "client", source: $.client}
+		{id: "client", source: $.client, minZoom: 16}
 	]
 };

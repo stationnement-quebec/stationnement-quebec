@@ -144,7 +144,8 @@ $.googleMapAdapter = {
 	
 	setLineVisible: function(line, visible) {
 		line.line.setVisible(visible);
-		line.marker.setVisible(visible);
+		if (line.marker)
+			line.marker.setVisible(visible);
 	},
 	
 	getBounds: function() {

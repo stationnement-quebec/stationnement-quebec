@@ -16,6 +16,7 @@ function cleanData(rawDataPath, finalDataPath, callback) {
 
     var pointsArray = result['features'];
     var i = 0;
+    var newArray = [];
     for (var data in pointsArray) {
       var value = pointsArray[i];
       var properties = value["properties"];
@@ -29,13 +30,85 @@ function cleanData(rawDataPath, finalDataPath, callback) {
       }
 
       pointsArray[i] = value;
+
+      if (i < 10)
+        newArray[i] = value;
       i++;
     }
+
+    //result['features'] = newArray;
 
     fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
       callback();
     });
   });
+}
+
+function sort(pointsArray) {
+  // pointsArray.forEach(function (data) {
+  //   if (!streets[data.properties.NOM_TOPOG])
+  //     streets[data.properties.NOM_TOPOG] = []
+  //   streets[data.properties.NOM_TOPOG].push(data);
+  // });
+
+  pointsArray.sort(function(a, b){
+    if (a.properties.NOM_TOPOG < b.properties.NOM_TOPOG);
+      return -1;
+    if (a.properties.NOM_TOPOG > b.properties.NOM_TOPOG)
+      return 1;
+
+    if (a.properties.COTE_RUE != b.properties.COTE_RUE) {
+      return a.COTE_RUE == "Est" ? -1 : 1;
+    }
+
+    var coordA = a.geometry.coordinates;
+    var coordB = b.geometry.coordinates;
+
+    if (coordA[0] == coordB[0]) {
+      return coordA[1] - coordB[1];
+    } else if (coordA[1] == coordB[1]) {
+      return coordA[0] - coordB[0];
+    } else {
+      return (coordA[0] - coordB[0]) + (coordA[1] - coordB[1]);
+    }
+  });
+  return pointsArray;
+}
+
+function findLines(pointsArray) {
+  var sortedPoints = sort(pointsArray);
+  var lines = [];
+
+  var lastCoord = [0, 0];
+  var lastStreet = "";
+  var lastSide = ""
+  var line = false;
+  for (var i = 0; i < sortedPoints.length; i++) {
+    var point = sortedPoints[i];
+    var coord = point.geometry.coordinates;
+    if (lastStreet != point.properties.NOM_TOPOG 
+        || (coord[0].toFixed(2) != lastCoord[0].toFixed(2) && coord[1].toFixed(2) != lastCoord[1].toFixed(2))
+        || lastSide != point.properties.COTE_RUE
+        ) {
+
+      if (line) {
+        line['end'] = lastCoord;
+        lines.push(line);
+      }
+
+      line = {start: coord};
+      line['rue'] = lastStreet;
+    } 
+    lastCoord = coord;
+    lastStreet = point.properties.NOM_TOPOG; 
+    lastSide = point.properties.COTE_RUE;
+  } 
+  if (line) {
+    line['end'] = lastCoord;
+    line['rue'] = lastStreet;
+    lines.push(line);
+  }
+  return lines; 
 }
 
 function responseExtension(value) {
@@ -53,3 +126,4 @@ function responseExtension(value) {
 module.exports.getURL = getURL;
 module.exports.cleanData = cleanData;
 module.exports.responseExtension = responseExtension;
+module.exports.findLines = findLines;
