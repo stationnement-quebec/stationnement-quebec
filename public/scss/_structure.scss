@@ -134,47 +134,45 @@ input[type="checkbox"] + label.label-checkbox-payant{
 /* = INFOBOX & MARKER
 ===============================*/
 .infoBox {
-    //width: 300px;
-    font-size: 14px;
-    border-bottom-width: 25px;
-    border-bottom-style: solid;
+	margin-top: -63px !important;
+    font-size: rem-calc(14);
 
-    >img{
-    	margin-top: -48px !important;
-    }
-
-    &.available_parking, &.vehicule_park_low_occupancy{
-    	border-bottom-color: $color-green;
-    }
-    &.vehicule_park_high_occupancy{
-    	border-bottom-color: $color-orange;
-    }
-    &.unavailable_parking, &.vehicule_park_full{
-    	border-bottom-color: $color-red;
+    &.available_parking, &.unavailable_parking {
+        margin-top: -40px !important;
     }
 
 }
 .infoWindow {
     background: #fff;
     padding: 5px 15px 1px 15px;
-    margin-top: -50px;
+	border-bottom: 8px solid $color-green; // .available_parking &, .vehicule_park_low_occupancy &
+    
+    @include border-radius(4px);
 
+    .vehicule_park_high_occupancy &{
+    	border-bottom-color: $color-orange;
+    }
+    .unavailable_parking &, .vehicule_park_full &{
+    	border-bottom-color: $color-red;
+    }
 }
 .markerLabels {
     overflow: initial !important;
-    text-align: center !important;
-    width: 26px !important;
+    text-align: center;
+    width: 26px;
+
+    .available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+        margin-left: -19px !important;
+        font-size: 1rem;
+    }
+    .available_parking, .unavailable_parking {
+        margin-top: 7px !important;
+    }
+    .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+        margin-top: -10px !important;
+    }
 }
-.available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
-    margin-left: -19px !important;
-    font-size: 1rem;
-}
-.available_parking, .unavailable_parking {
-    margin-top: 7px !important;
-}
-.vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
-    margin-top: -11px !important;
-}
+
 
 
 /* = MEDIA QUERIES
