@@ -3,6 +3,8 @@ $.googleMapAdapter = {
 	searchBox: undefined,
 	infoWindow: undefined,
 
+	directions: false,
+
 	//Adapter Functions
 	createMap: function(selector, center, zoom) {
 		this.map = new google.maps.Map($(selector)[0], {
@@ -10,20 +12,25 @@ $.googleMapAdapter = {
 			zoom: zoom,
 			disableDefaultUI: true
 		});
+		this.directions = {
+			renderer: new google.maps.DirectionsRenderer(),
+			service: new google.maps.DirectionsService()
+		};
+		this.directions.renderer.setMap(this.map);
 	},
-	
+
 	addOnLoadEvent: function(onLoad) {
 		google.maps.event.addListenerOnce(this.map, "idle", onLoad);
 	},
-	
+
 	addOnChangeEvent: function(onChange) {
 		google.maps.event.addListener(this.map, "idle", onChange);
 	},
-	
+
 	getZoom: function() {
 		return this.map.getZoom();
 	},
-	
+
 	addTopLeftElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(element);
 	},
@@ -31,7 +38,7 @@ $.googleMapAdapter = {
 	addTopRightElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(element);
 	},
-	
+
 	addBottomLeftElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(element);
 	},
@@ -39,18 +46,18 @@ $.googleMapAdapter = {
 	addBottomRightElement: function(element) {
 		this.map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(element);
 	},
-	
+
 	addSearch: function(searchBox) {
 		this.searchBox = new google.maps.places.SearchBox(searchBox);
 		google.maps.event.addListener(this.searchBox, 'places_changed', function() {$.googleMapAdapter.searchPlace()});
   		google.maps.event.addListener(this.map, 'bounds_changed', function() {$.googleMapAdapter.adjustBounds()});
 	},
-	
-	createMarker: function(position, visible, icon, description, label) {
+
+	createMarker: function(position, visible, icon, description, label, infoWindowClass) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
-		
+
 		if (icon !== undefined) {
 			markerOptions.icon = icon;
 		}
@@ -64,17 +71,21 @@ $.googleMapAdapter = {
 		}
 		marker.setVisible(visible);
 		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker);});
+			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
 		}
-		
+
 		return marker;
 	},
-	
-	createLabeledMarker: function(position, visible, icon, description, label) {
+
+	createMarkerIcon: function(iconPath, sizeX, sizeY) {
+		return new google.maps.MarkerImage( iconPath, null, null, null, new google.maps.Size(sizeX, sizeY));
+	},
+
+	createLabeledMarker: function(position, visible, icon, description, label, infoWindowClass) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
-		
+
 		markerOptions.labelContent = label;
 		markerOptions.labelAnchor = new google.maps.Point(4, 30);
 		if (icon !== undefined) {
@@ -83,13 +94,13 @@ $.googleMapAdapter = {
 		var marker = new MarkerWithLabel(markerOptions);
 		marker.setVisible(visible);
 		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker);});
+			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
 		}
-		
+
 		return marker;
 	},
-	
-	createPoint: function(position, radius, color, visible, description) {
+
+	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
 		var circleOptions = {};
 		circleOptions.map = this.map;
 		circleOptions.center = this.createLatLng(position);
@@ -101,11 +112,11 @@ $.googleMapAdapter = {
 		circle.setVisible(visible);
 		circle.position = circleOptions.center;
 		if (description !== undefined) {
-			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle);});
+			google.maps.event.addListener(circle, "click", function() {$.googleMapAdapter.createInfoWindow(description, circle, infoWindowClass);});
 		}
 		return circle;
 	},
-	
+
 	createLine: function(path, color, visible, icon, description, label) {
 		var instance = {};
 		var lineOptions = {};
@@ -122,25 +133,25 @@ $.googleMapAdapter = {
 		}
 		return instance;
 	},
-	
+
 	setMarkerVisible: function(marker, visible) {
 		marker.setVisible(visible);
 	},
-	
+
 	setLabeledMarkerVisible: function(marker, visible) {
 		marker.setVisible(visible);
 	},
-	
+
 	setPointVisible: function(point, visible) {
 		point.setVisible(visible);
 	},
-	
+
 	setLineVisible: function(line, visible) {
 		line.line.setVisible(visible);
 		if (line.marker)
 			line.marker.setVisible(visible);
 	},
-	
+
 	getBounds: function() {
 		var bounds = this.map.getBounds();
 		var sw = bounds.getSouthWest();
@@ -156,21 +167,24 @@ $.googleMapAdapter = {
 			}
 		};
 	},
-	
+
 	//Helper Functions
 	createLatLng: function(point) {
 		return new google.maps.LatLng(point.latitude, point.longitude);
 	},
-	
-	createInfoWindow: function(description, object) {
+
+	createInfoWindow: function(description, object, infoWindowClass) {
 		if (this.infoWindow !== undefined) {
 			this.infoWindow.close();
 		}
-		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-140, -134)});
+		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-133, -121)});
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
+		google.maps.event.addListener(this.infoWindow, 'domready', function() {
+			$(".infoBox").addClass(infoWindowClass);
+		});
 	},
-	
+
 	searchPlace: function() {
 		var places = this.searchBox.getPlaces();
     	var bounds = new google.maps.LatLngBounds();
@@ -199,9 +213,43 @@ $.googleMapAdapter = {
 		}
   		this.map.fitBounds(bounds);
 	},
-	
+
 	adjustBounds: function(){
 		var bounds = this.map.getBounds();
     	this.searchBox.setBounds(bounds);
+	},
+
+	getDirectionsTo: function(location) {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var from = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				var to = new google.maps.LatLng(location.latitude, location.longitude);
+				$.googleMapAdapter.makeDirectionRequest(from, to);
+			}, function() {
+				$.googleMapAdapter.getDirectionsToNoGeolocation(location);
+			});
+		}
+		else {
+			this.getDirectionsToNoGeolocation(location);
+		}
+	},
+
+	getDirectionsToNoGeolocation: function(location) {
+		var from = this.map.getCenter();
+		var to = new google.maps.LatLng(location.latitude, location.longitude);
+		this.makeDirectionRequest(from, to);
+	},
+
+	makeDirectionRequest: function(from, to) {
+		var request = {
+			origin: from,
+			destination: to,
+			travelMode: google.maps.TravelMode.DRIVING
+		};
+		this.directions.service.route(request, function(result, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+				$.googleMapAdapter.directions.renderer.setDirections(result);
+			}
+		});
 	}
 };

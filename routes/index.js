@@ -55,12 +55,13 @@ exports.vdq = function(req, res) {
     });
     resp.on('end', function() {
       res.setHeader('Content-Type', 'application/json');
-      res.send(response);
+	  res.send(completeApiResponse(response));
     });
   }).on("error", function(e){
     console.log("Got error: " + e.message);
     res.json({status:"Error"});
   });
+  
 };
 
 exports.update = function(req, res) {
@@ -83,4 +84,18 @@ function validElementsFromCenter(pointsArray, polygon, extension) {
   }
 
   return validData;
+}
+
+function completeApiResponse(response){
+	var startTime = 7;
+	var endTime = 20;
+	
+	currentDate = new Date();
+	currentHours = currentDate.getHours();
+  
+	if (currentHours>=endTime || currentHours <startTime){
+		//replace with code to add static data to dynamic data at night
+		console.log("API offline");
+    }
+	return response;
 }
