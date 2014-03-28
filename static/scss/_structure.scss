@@ -11,11 +11,9 @@
 /* Common */
 body{
 	position: relative;
-	// @include background-image(linear-gradient($color-blue-town, $color-blue-cyan));
 }
 #map-canvas{
-	// max-width: $row-width;
-	max-height: 1000px;
+	//max-height: 1000px;
 	height: 100%;
 	width: 100%;
 	margin: auto;
@@ -40,7 +38,7 @@ body{
 	}
 	.content{
 		max-height: 500px;
-		overflow: scroll;
+		overflow: auto;
 	}
 }
 /* toggle checkbox $$ */
@@ -100,7 +98,7 @@ input[type="checkbox"] + label.label-checkbox-payant{
 		left: 2px;  
 		font-size: 1.6em;
 		color: $color-blue-town;  
-		transition: all .2s; /* on prévoit une animation */  
+		transition: all .2s;
   }
 }  
 [type="checkbox"]:not(:checked) + label {
@@ -127,4 +125,19 @@ input[type="checkbox"] + label.label-checkbox-payant{
 .timer{
 	font-size: rem-calc(30);
 	font-weight: 700;
+}
+@media #{$small-only} {
+	//permet de cacher les réglages quand on arrive sur la page
+	.position-right{
+		display: none;
+	}
+}
+//Hack qui en utilisation normal ne serait pas necessaire
+//Changement de largeur de fenêtre sans rafraichissement
+@media #{$medium-up} {
+	.position-right{
+		top: 55px !important;
+		display: block !important;
+		visibility: visible !important;
+	}
 }

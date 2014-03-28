@@ -40,7 +40,7 @@
 // We use these to control various global styles
 $body-bg: $color-blue-town;
 // $body-font-color: #222;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $body-font-weight: normal;
 // $body-font-style: normal;
 
@@ -118,9 +118,9 @@ $column-gutter: rem-calc(30);
 
 // We use these to control header font styles
 // $header-font-family: $body-font-family;
-// $header-font-weight: normal;
+$header-font-weight: 600;
 // $header-font-style: normal;
-// $header-font-color: #222;
+$header-font-color: $color-blue-town;
 // $header-line-height: 1.4;
 // $header-top-margin: .2rem;
 // $header-bottom-margin: .5rem;
