@@ -8,7 +8,8 @@
 	height: 0;
 	top: -9999px;
 }
-/* Common */
+/*= Common 
+========================*/
 body{
 	position: relative;
 }
@@ -96,7 +97,7 @@ input[type="checkbox"] + label.label-checkbox-payant{
 		position: absolute;  
 		top: -0.4em;
 		left: 2px;  
-		font-size: 1.6em;
+		font-size: 1.6rem;
 		color: $color-blue-town;  
 		transition: all .2s;
   }
@@ -119,6 +120,7 @@ input[type="checkbox"] + label.label-checkbox-payant{
 	width: 3em;
 	height: 3em;
 	text-indent: -9999px;
+	background-size: 100%;
 	background-size: contain;
 }
 /* timer */
@@ -126,6 +128,55 @@ input[type="checkbox"] + label.label-checkbox-payant{
 	font-size: rem-calc(30);
 	font-weight: 700;
 }
+
+/* = INFOBOX & MARKER
+===============================*/
+.infoBox {
+    //width: 300px;
+    font-size: 14px;
+    border-bottom-width: 25px;
+    border-bottom-style: solid;
+
+    >img{
+    	margin-top: -48px !important;
+    }
+
+    &.available_parking, &.vehicule_park_low_occupancy{
+    	border-bottom-color: $color-green;
+    }
+    &.vehicule_park_high_occupancy{
+    	border-bottom-color: $color-orange;
+    }
+    &.unavailable_parking, &.vehicule_park_full{
+    	border-bottom-color: $color-red;
+    }
+
+}
+.infoWindow {
+    background: #fff;
+    padding: 5px 15px 1px 15px;
+    margin-top: -50px;
+
+}
+.markerLabels {
+    overflow: initial !important;
+    text-align: center !important;
+    width: 25px !important;
+}
+.available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-left: -19px !important;
+    font-size: 1rem;
+}
+.available_parking, .unavailable_parking {
+    margin-top: -4px !important;
+}
+.vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
+    margin-top: -20px !important;
+}
+
+
+/* = MEDIA QUERIES
+===============================*/
 @media #{$small-only} {
 	//permet de cacher les réglages quand on arrive sur la page
 	.position-right{
