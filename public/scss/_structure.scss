@@ -1,0 +1,143 @@
+/* Utilities */
+.ir{
+	text-indent: -9999px;
+}
+.hide-all{
+	position: absolute;
+	visibility: hidden;
+	height: 0;
+	top: -9999px;
+}
+/* Common */
+body{
+	position: relative;
+}
+#map-canvas{
+	//max-height: 1000px;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+}
+.position-top{
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+.position-right{
+	position: fixed;
+	top: 55px;
+	right: 0;
+	max-width: 500px;
+	z-index: 100;
+}
+/* Accordion */
+.accordion {
+	dd > a{
+		text-transform: uppercase;
+		font-weight: 600;
+	}
+	.content{
+		max-height: 500px;
+		overflow: auto;
+	}
+}
+/* toggle checkbox $$ */
+.checkbox-payant{
+	position: absolute;
+	top: -99999px;
+}
+input[type="checkbox"] + label.label-checkbox-payant{
+	font-weight: 700;
+	display: block;
+	width: 100%;
+	height: 100%;
+	margin-left: 0;
+	padding-left: 0;
+	&:before{
+		content: '';
+		background-color: transparent;
+	}
+	&:after{
+		content: '';
+	}
+}
+[type="checkbox"]:checked + label.label-checkbox-payant{
+	background-color: darken($color-blue-pastel,15);
+	color: $color-blue-town;
+}
+
+/* = PANNEAU RÉGLAGE
+===============================*/
+/* checkbox */
+/* Hiding checkbox */  
+[type="checkbox"]:not(:checked),  
+[type="checkbox"]:checked {  
+  position: absolute;  
+  left: -9999px;  
+}  
+
+[type="checkbox"]:not(:checked) + label,  
+[type="checkbox"]:checked + label {  
+  position: relative;
+  padding-left: 35px;
+
+  &:before{
+		content: '';  
+		position: absolute;  
+		left:0; 
+		top: 2px;  
+		width: 20px; 
+		height: 20px;
+		background-color: white;
+		@include border-radius(4px);
+  }
+  &:after{
+		content: '✔';  
+		position: absolute;  
+		top: -0.4em;
+		left: 2px;  
+		font-size: 1.6em;
+		color: $color-blue-town;  
+		transition: all .2s;
+  }
+}  
+[type="checkbox"]:not(:checked) + label {
+	&:after{
+		opacity: 0;
+	}
+	opacity: 0.7;
+}
+/* button settings */
+.position-bottom{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.icon-gear{
+	display: block;
+	width: 3em;
+	height: 3em;
+	text-indent: -9999px;
+	background-size: contain;
+}
+/* timer */
+.timer{
+	font-size: rem-calc(30);
+	font-weight: 700;
+}
+@media #{$small-only} {
+	//permet de cacher les réglages quand on arrive sur la page
+	.position-right{
+		display: none;
+	}
+}
+//Hack qui en utilisation normal ne serait pas necessaire
+//Changement de largeur de fenêtre sans rafraichissement
+@media #{$medium-up} {
+	.position-right{
+		top: 55px !important;
+		display: block !important;
+		visibility: visible !important;
+	}
+}

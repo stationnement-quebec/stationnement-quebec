@@ -1,42 +1,200 @@
-﻿<!DOCTYPE html>
-<html>
-  <head>
-	<title>Application</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<link rel="stylesheet" type="text/css" href="app.css" />
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-	<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>
-	<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js"></script>
-	<script type="text/javascript" src="BoundingBox.js"></script>
-	<script type="text/javascript" src="ParkingDataUtils.js"></script>
-	<script type="text/javascript" src="QuadTree.js"></script>
-	<script type="text/javascript" src="googlemapadapter.js"></script>
-	<script type="text/javascript" src="free_parking_api.js"></script>
-	<script type="text/javascript" src="paid_parking_api.js"></script>
-	<script type="text/javascript" src="parkingmap.js"></script>
-	<script type="text/javascript" src="requesthandler.js"></script>
-	<script type="text/javascript" src="settings.js"></script>
-	<script type="text/javascript" src="main.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$.main.execute("#map-canvas");
-		});
-	</script>
-  </head>
-  <body>
-	<div id="settings">
-    	<a href="#" class="close">&times;</a>
-    	<h2 style="font-size:35px;text-align:center">Settings</h2>
-	</div>
-	<div classs="header">
-		<input id="pac-input" class="controls" type="text" placeholder="Rechercher un lieu, une rue, une adresse...">
-		<button id="toggleParkingsButton" class="paying">$</button>
-	</div>
-	<div class="overmap">
-		<a href="#settings" id="open-settings"><img src="icons/gear.png" alt="Réglages"></a>
-	</div>
-	<div id="mask" onclick="document.location='#';"></div>
-    <div id="map-canvas"></div>
-  </body>
+﻿<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Application</title>
+		<link rel="stylesheet" href="stylesheets/app.css" />
+		<script src="bower_components/modernizr/modernizr.js"></script>
+		<script>
+		/* grunticon Stylesheet Loader | https://github.com/filamentgroup/grunticon | (c) 2012 Scott Jehl, Filament Group, Inc. | MIT license. */
+		window.grunticon=function(e){if(e&&3===e.length){var t=window,n=!(!t.document.createElementNS||!t.document.createElementNS("http://www.w3.org/2000/svg","svg").createSVGRect||!document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image","1.1")||window.opera&&-1===navigator.userAgent.indexOf("Chrome")),o=function(o){var r=t.document.createElement("link"),a=t.document.getElementsByTagName("script")[0];r.rel="stylesheet",r.href=e[o&&n?0:o?1:2],a.parentNode.insertBefore(r,a)},r=new t.Image;r.onerror=function(){o(!1)},r.onload=function(){o(1===r.width&&1===r.height)},r.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="}};
+		grunticon( [ "stylesheets/icons.data.svg.css", "stylesheets/icons.data.png.css", "stylesheets/icons.fallback.css" ] );</script>
+		<noscript><link href="stylesheets/icons.fallback.css" rel="stylesheet"></noscript>
+	</head>
+	<body>
+		<div id="map-canvas"></div>
+			<div class="hide-all">
+				<h1>Stationnements libres et ouverts</h1>
+			</div>
+			<div class="row position-top">
+					<div class="small-10 medium-11 columns no-padding">
+						
+					</div>
+					<div class="row collapse">
+						<div class="small-10 medium-11 columns">
+							<input type="text" class="input-place" id="pac-input" placeholder="Nom ou adresse">
+						</div>
+						<div class="small-2 medium-1 columns">
+							<span class="postfix">
+								<input type="checkbox" name="checkbox-payant" id="toggleParkingsButton" class="checkbox-payant">
+								<label for="toggleParkingsButton" class="label-checkbox-payant">$</label>
+							</span>
+						</div>
+					</div>
+			</div>
+					<dl id="reveal-settings" class="accordion medium-6 columns position-right" data-accordion data-reveal>
+						<dd>
+							<a href="#panel1">Réglages</a>
+							<div id="panel1" class="content active">
+								<h2>Envoi de notification lorsque...</h2>
+								<p>
+									<input id="checkbox-notification-place" type="checkbox">
+									<label for="checkbox-notification-place">Une place se libère d'un point surveillé</label>
+								</p>
+								<p>
+									<input id="checkbox-notification-fav" type="checkbox">
+									<label for="checkbox-notification-fav">Une place se libère d'un point favoris</label>
+								</p>
+								<p>
+									<input id="checkbox-notification-timer" type="checkbox">
+									<label for="checkbox-notification-timer">Le temps du parcomètre est presqu'écoulé (10&nbsp;mins)</label>
+								</p>
+							</div>
+						</dd>
+						<dd>
+							<a href="#panel2">Favoris</a>
+							<div id="panel2" class="content">
+								<table>
+									<thead>
+										<tr>
+											<th>Lieux</th>
+											<th>Place(s) dispo.</th>
+											<th>Supp.</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>Parc Champlain</td>
+											<td class="bg-warning">3</td>
+											<td><button>X</button></td>
+										</tr>
+										<tr>
+											<td>1050 Rue Louis-Alexandre-Taschereau</td>
+											<td>12</td>
+											<td><button>X</button></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</dd>
+						<dd>
+							<a href="#panel3">Stationnement actuel</a>
+							<div id="panel3" class="content text-center">
+								<p>Il reste actuellement <br>
+									<span class="timer">1:10:34</span> <br>
+									à votre parcomètre</p>
+								<p><button>+ 15 min</button> <button>J'ai terminé ici!</button></p>
+							</div>
+						</dd>
+					</dl>
+			<div class="row position-bottom hide-for-medium-up">
+				<div class="small-offset-8 small-4 columns">
+					<button data-reveal-id="reveal-settings" class="button tiny right"><span class="ir icon-gear">Paramètre</span></button>
+				</div>
+			</div>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/foundation/js/foundation.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>
+		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/infobox/1.1.9/src/infobox.js"></script>
+		<script type="text/javascript" src="BoundingBox.js"></script>
+		<script type="text/javascript" src="ParkingDataUtils.js"></script>
+		<script type="text/javascript" src="QuadTree.js"></script>
+		<script type="text/javascript" src="googlemapadapter.js"></script>
+		<script type="text/javascript" src="free_parking_api.js"></script>
+		<script type="text/javascript" src="paid_parking_api.js"></script>
+		<script type="text/javascript" src="parkingmap.js"></script>
+		<script type="text/javascript" src="requesthandler.js"></script>
+		<script type="text/javascript" src="settings.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$.main.execute("#map-canvas");
+			});
+		</script>
+
+		<script type="text/javascript">
+					// function initialize() {
+					// 	var mapOptions = {
+					// 		center: new google.maps.LatLng(-34.397, 150.644),
+					// 		zoom: 8
+					// 	};
+					// 	var map = new google.maps.Map(document.getElementById("map-canvas"),
+					// 			mapOptions);
+					// }
+					// google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+	</body>
 </html>
