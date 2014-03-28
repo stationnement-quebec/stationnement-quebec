@@ -1,10 +1,11 @@
-var defaultZoomlevel = 12;
-var NODE_CAPACITY = 4;
+function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 
-function QuadTree(bbox) {
+	if(typeof nodeCapacity === "undefined")
+			nodeCapacity = 4;
 
 	this.boundary = bbox;
-	this.data = new Array();
+	this.clusteringFunction = clusteringFunction;
+	this.nodeCapacity = nodeCapacity;
 
 	this.northWest = null;
 	this.northEast = null;
@@ -22,7 +23,7 @@ function QuadTree(bbox) {
 		if (this.northWest == null)	{
 			this.data.push(parkingObject);
 
-			if(this.data.length > NODE_CAPACITY)
+			if(this.data.length > this.nodeCapacity)
 				this.subdivide();
 
 			return true;
@@ -62,7 +63,7 @@ function QuadTree(bbox) {
 		}
 		if (maxDepth == 0) {
 			
-			var meanValue = parkingDataUtils.getMeanValueOfParkingDataArray(objectsInRange);
+			var meanValue = this.clusteringFunction(objectsInRange);
 			objectsInRange = new Array();
 			objectsInRange.push(meanValue);
 		}

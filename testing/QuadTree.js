@@ -1,12 +1,13 @@
 var BoundingBox = require('./BoundingBox.js');
-var parkingDataUtils = require('./ParkingDataUtils.js');
 
-var defaultZoomlevel = 12;
-var NODE_CAPACITY = 4;
+module.exports = function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 
-module.exports = function QuadTree(bbox) {
+	if(typeof nodeCapacity === "undefined")
+			nodeCapacity = 4;
 
 	this.boundary = bbox;
+	this.clusteringFunction = clusteringFunction;
+	this.nodeCapacity = nodeCapacity;
 	this.data = new Array();
 
 	this.northWest = null;
@@ -25,7 +26,7 @@ module.exports = function QuadTree(bbox) {
 		if (this.northWest == null)	{
 			this.data.push(parkingObject);
 
-			if(this.data.length > NODE_CAPACITY)
+			if(this.data.length > this.nodeCapacity)
 				this.subdivide();
 
 			return true;
@@ -65,7 +66,7 @@ module.exports = function QuadTree(bbox) {
 		}
 		if (maxDepth == 0) {
 			
-			var meanValue = parkingDataUtils.getMeanValueOfParkingDataArray(objectsInRange);
+			var meanValue = this.clusteringFunction(objectsInRange);
 			objectsInRange = new Array();
 			objectsInRange.push(meanValue);
 		}

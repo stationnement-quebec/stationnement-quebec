@@ -115,7 +115,7 @@ function fillQuadTree() {
 }
 
 var bounds = new BoundingBox(0,0,50,50);
-var quadtree = new QuadTree(bounds);
+var quadtree = new QuadTree(bounds, parkingDataUtils.getMeanValueOfParkingDataArray);
 
 fillQuadTree();
 
