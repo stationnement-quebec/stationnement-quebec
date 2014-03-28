@@ -8,8 +8,8 @@
 	height: 0;
 	top: -9999px;
 }
-/*= Common 
-========================*/
+/* = COMMON
+===============================*/
 body{
 	position: relative;
 }
@@ -31,7 +31,8 @@ body{
 	max-width: 500px;
 	z-index: 100;
 }
-/* Accordion */
+/* = ACCORDION
+===============================*/
 .accordion {
 	dd > a{
 		text-transform: uppercase;
@@ -42,7 +43,8 @@ body{
 		overflow: auto;
 	}
 }
-/* toggle checkbox $$ */
+/* = TOGGLE CHECKBOX $$
+===============================*/
 .checkbox-payant{
 	position: absolute;
 	top: -99999px;
@@ -161,17 +163,17 @@ input[type="checkbox"] + label.label-checkbox-payant{
 .markerLabels {
     overflow: initial !important;
     text-align: center !important;
-    width: 25px !important;
+    width: 26px !important;
 }
 .available_parking, .unavailable_parking, .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
     margin-left: -19px !important;
     font-size: 1rem;
 }
 .available_parking, .unavailable_parking {
-    margin-top: -4px !important;
+    margin-top: 7px !important;
 }
 .vehicule_park_low_occupancy, .vehicule_park_high_occupancy, .vehicule_park_full {
-    margin-top: -20px !important;
+    margin-top: -11px !important;
 }
 
 
