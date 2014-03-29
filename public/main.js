@@ -3,7 +3,7 @@ $.main = {
 			
 		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, $.settings.center, $.settings.zoom, function() {
 			setTimeout($.main.centerMapWithGeolocation, 0);
-			$.quadtree = new QuadTree($.parkingMap.getBounds(), getMeanValueOfParkingDataArray, 4);
+			$.quadtree = new QuadTree(createBoundingBoxFromMapBounds($.parkingMap.getBounds()), getMeanValueOfParkingDataArray, 4);
 			$.main.addMapInfo();
 		});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
