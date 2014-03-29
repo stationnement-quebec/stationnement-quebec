@@ -1,12 +1,13 @@
 var BoundingBox = require('./BoundingBox.js');
 
-module.exports = function QuadTree(bbox, clusteringFunction, nodeCapacity) {
+module.exports = function QuadTree(bbox, clusteringFunction, minimalDistanceBetweenNodes, nodeCapacity) {
 
 	if(typeof nodeCapacity === "undefined")
 			nodeCapacity = 4;
 
 	this.boundary = bbox;
 	this.clusteringFunction = clusteringFunction;
+	this.minDist = minimalDistanceBetweenNodes;
 	this.nodeCapacity = nodeCapacity;
 
 	this.data = new Array();
@@ -56,6 +57,10 @@ module.exports = function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 			if(bbox.containsPoint(this.data[i]["location"].x, this.data[i]["location"].y))
 				objectsInRange.push(this.data[i]);
 		}
+		
+		for(var i = 0; i < objectsInRange.length; i++) {
+			
+		}
 
 		if (this.northWest != null) {
 			
@@ -68,7 +73,7 @@ module.exports = function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 			
 			var meanValue = this.clusteringFunction(objectsInRange);
 			objectsInRange = new Array();
-			objectsInRange.push(meanValue);
+			objectsInRange.push(meanValue);console.log(objectsInRange);
 		}
 
 		return objectsInRange;
