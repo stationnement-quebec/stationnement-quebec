@@ -14,8 +14,8 @@ function BoundingBox(x, y, halfWidth, halfHeight) {
 	this.containsPoint = containsPoint;
 	function containsPoint(x, y) {
 		
-		var xOk = ( (x >= this.x - this.halfWidth) && (x < this.x + this.halfWidth) )? true : false;
-		var yOk = ( (y >= this.y - this.halfHeight) && (y < this.y + this.halfHeight) )? true : false;
+		var xOk = ( (x >= this.x - this.halfWidth) && (x < this.x + this.halfWidth) );
+		var yOk = ( (y >= this.y - this.halfHeight) && (y < this.y + this.halfHeight) );
 		
 		return (xOk && yOk);
 	}	
