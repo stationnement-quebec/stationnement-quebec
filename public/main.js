@@ -21,6 +21,7 @@ $.main = {
 	},
 	
 	addMapInfo: function() {
+		$.parkingMap.deleteObjects("cluster");
 		for (var i=0; i<$.settings.dataSources.length; i++) {
 			$.requestHandler.request($.settings.dataSources[i], this.addMapElement);
 		}
