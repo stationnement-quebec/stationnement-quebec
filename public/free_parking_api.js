@@ -1,10 +1,10 @@
-$.client = {
+$.freeParkingAPI = {
 	getInformation: function(coordinates, callback) {
 		var request = "/elements?min_lat="+coordinates.min.latitude+"&min_lng="+coordinates.min.longitude;
 		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude;
 		//request = "elements?min_lat=46.81253242489569&min_lng=-71.22675845558928&max_lat=46.8152638335322&max_lng=-71.2113089316635";
 		$.getJSON(request, function(data) {
-			setTimeout(function(){$.client.addTrafficSigns(callback, data);}, 0);
+			setTimeout(function(){$.freeParkingAPI.addTrafficSigns(callback, data);}, 0);
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			//alert($.parseJSON(jqXHR.responseText).message);
 		});
@@ -14,8 +14,8 @@ $.client = {
 	addTrafficSigns: function(callback, elements) {
 		$(elements.panneaux).each(function(i, current) {
 			var trafficSign = {
-				id: $.client.generateTrafficSignId(current),
-				tag: "free_parking",
+				id: $.freeParkingAPI.generateTrafficSignId(current),
+				tag: ["free_parking"],
 				path: [],
 			};
 			if (this.time == 0) {
@@ -27,10 +27,10 @@ $.client = {
 			else {
 				trafficSign.type = "traffic_sign_long_time";
 			}
-			trafficSign.path.push($.client.decodeCoordinates(current.start));
-			trafficSign.path.push($.client.decodeCoordinates(current.end));
+			trafficSign.path.push($.freeParkingAPI.decodeCoordinates(current.start));
+			trafficSign.path.push($.freeParkingAPI.decodeCoordinates(current.end));
 			// for (var i=0; i<this.panneaux.length; i++) {
-			// 	trafficSign.path.push($.client.decodeCoordinates(this.panneaux[i].end));
+			// 	trafficSign.path.push($.freeParkingAPI.decodeCoordinates(this.panneaux[i].end));
 			// }
 			//if (this.properties.description != undefined) {
 			//	trafficSign.description = this.properties.parsed_parking_value.description;

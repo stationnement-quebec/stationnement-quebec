@@ -1,13 +1,15 @@
-$.API = {
+$.paidParkingAPI = {
 	getInformation: function(bounds, callback) {
 		$.get( "/vdq", function( data ) {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
-
+			
+			$.quadtree.clear();
 			$(data.AVL).each(function() {
-				$.API.addObject(callback, this);
-			});
+				if (this.TYPE == "ON") $.quadtree.insert(getQuadTreeDataFromApiData(this));
+				else $.paidParkingAPI.addObject(callback, this);
+			});	
 		});
 	},
 
@@ -15,7 +17,7 @@ $.API = {
 		if (avl.PTS != "1") {
 			return;
 		}
-		var mapObject = {tag: "paying_parking"};
+		var mapObject = {tag: ["paying_parking"]};
 		var points = avl.LOC.split(",");
 		mapObject.position = {
 			latitude: points[1],
@@ -31,6 +33,7 @@ $.API = {
 			else {
 				mapObject.type = "unavailable_parking";
 			}
+			mapObject.zoom = avl.ZOOM;
 		}
 		else {
 			mapObject.id = "p_off_"+avl.OSPID;

@@ -7,6 +7,7 @@ function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 	this.clusteringFunction = clusteringFunction;
 	this.nodeCapacity = nodeCapacity;
 
+	this.data = new Array();
 	this.northWest = null;
 	this.northEast = null;
 	this.southWest = null;
@@ -78,10 +79,10 @@ function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 		var subWidth = this.boundary.halfWidth / 2;
 		var subHeight = this.boundary.halfHeight / 2;
 
-		this.northWest = new QuadTree(new BoundingBox(this.boundary.x - subWidth, this.boundary.y + subHeight, subWidth, subHeight));
-		this.northEast = new QuadTree(new BoundingBox(this.boundary.x + subWidth, this.boundary.y + subHeight, subWidth, subHeight));
-		this.southWest = new QuadTree(new BoundingBox(this.boundary.x - subWidth, this.boundary.y - subHeight, subWidth, subHeight));
-		this.southEast = new QuadTree(new BoundingBox(this.boundary.x + subWidth, this.boundary.y - subHeight, subWidth, subHeight));
+		this.northWest = new QuadTree(new BoundingBox(this.boundary.x - subWidth, this.boundary.y + subHeight, subWidth, subHeight), this.clusteringFunction, this.nodeCapacity);
+		this.northEast = new QuadTree(new BoundingBox(this.boundary.x + subWidth, this.boundary.y + subHeight, subWidth, subHeight), this.clusteringFunction, this.nodeCapacity);
+		this.southWest = new QuadTree(new BoundingBox(this.boundary.x - subWidth, this.boundary.y - subHeight, subWidth, subHeight), this.clusteringFunction, this.nodeCapacity);
+		this.southEast = new QuadTree(new BoundingBox(this.boundary.x + subWidth, this.boundary.y - subHeight, subWidth, subHeight), this.clusteringFunction, this.nodeCapacity);
 
 		this.sendDataToChildren();
 	}

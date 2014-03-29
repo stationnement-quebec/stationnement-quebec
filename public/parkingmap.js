@@ -6,7 +6,7 @@ $.parkingMap = {
 	objectTags: {},
 
 	objectFunctions: {
-		marker: {add: "addMarker", update: "updateMarker"},
+		marker: {add: "addMarker", update: "updateMarker", remove: "removeMarker"},
 		point: {add: "addPoint", update: "updatePoint"},
 		line: {add: "addLine", update: "updateLine"},
 		labeled_marker: {add: "addMarkerWithLabel", update: "updateMarkerWithLabel"}
@@ -39,9 +39,20 @@ $.parkingMap = {
 				this.objectIds.push(object.id);
 			}
 			if (object.tag != undefined) {
-				this.addObjectTagObject(object.tag, object.id);
+				for (var i=0; i<object.tag.length; i++) {
+					this.addObjectTagObject(object.tag[i], object.id);
+				}
 			}
 		}
+	},
+	
+	deleteObjects: function(tag) {
+		var objects = this.getObjectTagInformation(tag).objects;
+		for (var i=0; i<objects.length; i++) {
+			var info = this.objects[objects[i]];
+			this[this.objectFunctions[info.assets.type].remove](info);
+		}
+		this.clearObjectTagInformation(tag);
 	},
 
 	isObjectVisible: function(assets, object) {
@@ -49,8 +60,13 @@ $.parkingMap = {
 		if (assets.minZoom != undefined) {
 			visible = this.map.getZoom() >= assets.minZoom;
 		}
-		if (visible && object.tag != undefined) {
-			visible = this.getObjectTagInformation(object.tag).visible;
+		if (object.tag != undefined) {
+			for (var i=0; i<object.tag.length; i++) {
+				visible = this.getObjectTagInformation(object.tag[i]).visible && visible;
+			}
+		}
+		if (object.zoom != undefined) {
+			visible = this.map.getZoom() == object.zoom && visible;
 		}
 		return visible;
 	},
@@ -67,6 +83,13 @@ $.parkingMap = {
 	getObjectTagInformation: function(tag) {
 		this.initObjectTagInformation(tag);
 		return this.objectTags[tag];
+	},
+	
+	clearObjectTagInformation: function(tag) {
+		this.objectTags[tag] = {
+			visible: true,
+			objects: []
+		};
 	},
 
 	addObjectTagObject: function(tag, id) {
@@ -90,6 +113,10 @@ $.parkingMap = {
 	updateMarker: function(object, visible) {
 		this.map.setMarkerVisible(object.instance, visible);
 		return object.instance;
+	},
+	
+	removeMarker: function(object) {
+		this.map.deleteMarker(object.instance);
 	},
 	
 	addMarkerWithLabel: function(assets, object, visible) {

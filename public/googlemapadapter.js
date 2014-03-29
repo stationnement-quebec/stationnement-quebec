@@ -76,6 +76,10 @@ $.googleMapAdapter = {
 
 		return marker;
 	},
+	
+	deleteMarker: function(marker) {
+		marker.setMap(null);
+	},
 
 	createMarkerIcon: function(iconPath, sizeX, sizeY) {
 		return new google.maps.MarkerImage( iconPath, null, null, null, new google.maps.Size(sizeX, sizeY));
@@ -254,7 +258,6 @@ $.googleMapAdapter = {
 	},
 	
 	setCenter: function(center) {
-		console.log(center);
 		this.map.setCenter(new google.maps.LatLng(center.latitude, center.longitude));
 	}
 };
