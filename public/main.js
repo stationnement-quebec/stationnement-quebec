@@ -1,20 +1,8 @@
-$.main = {	
+$.main = {		
 	execute: function(selector) {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				$.main.executeWithCenter(selector, position.coords);
-			}, function() {
-				$.main.executeWithCenter(selector, $.settings.center);
-			});
-		}
-		else {
-			$.main.executeWithCenter(selector, $.settings.center);
-		}
-	},
-	
-	executeWithCenter: function(selector, center) {
 			
-		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, center, $.settings.zoom, function() {
+		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, $.settings.center, $.settings.zoom, function() {
+			setTimeout($.main.centerMapWithGeolocation, 0);
 			$.quadtree = new QuadTree($.parkingMap.getBounds(), getMeanValueOfParkingDataArray, 4);
 			$.main.addMapInfo();
 		});
@@ -22,6 +10,14 @@ $.main = {
 		$.parkingMap.addSearchBar();
 		$.parkingMap.addToggleFreePaying();
 		$.parkingMap.addSettings();
+	},
+	
+	centerMapWithGeolocation: function() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				$.parkingMap.setCenter(position.coords);
+			}, function() {});
+		}
 	},
 	
 	addMapInfo: function() {

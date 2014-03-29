@@ -175,5 +175,9 @@ $.parkingMap = {
 	
 	getDirectionsTo: function(position) {
 		this.map.getDirectionsTo(position);
+	},
+	
+	setCenter: function(center) {
+		this.map.setCenter(center);
 	}
 }

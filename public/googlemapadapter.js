@@ -251,5 +251,10 @@ $.googleMapAdapter = {
 				$.googleMapAdapter.directions.renderer.setDirections(result);
 			}
 		});
+	},
+	
+	setCenter: function(center) {
+		console.log(center);
+		this.map.setCenter(new google.maps.LatLng(center.latitude, center.longitude));
 	}
 };
