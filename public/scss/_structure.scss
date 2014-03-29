@@ -41,6 +41,16 @@ body{
 		}
 	}
 }
+.logo-vdq {
+	position: absolute;
+	bottom: 32px;
+	left: -107px;
+	display: block;
+	img {
+		width: 75%;
+		height: auto;
+	}
+}
 /* = ACCORDION
 ===============================*/
 .accordion {
@@ -157,8 +167,8 @@ input[type="checkbox"] + label.label-checkbox-payant{
 /* = INFOBOX & MARKER
 ===============================*/
 .infoBox {
-	margin-top: -103px !important;
-	margin-left: -9%;
+	margin-top: -176px !important;
+	margin-left: -10.5%;
     font-size: rem-calc(14);
 
     &.available_parking, &.unavailable_parking {

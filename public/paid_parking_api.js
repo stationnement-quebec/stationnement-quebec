@@ -42,7 +42,7 @@ $.paidParkingAPI = {
 			mapObject.type = getVehiculeParcType(occupancy);
 		}
 		mapObject.available = (avl.OPER - avl.OCC);
-		mapObject.description = "<div><p>Ce point de stationnement rapporte que <b>" + (avl.OPER - avl.OCC) + "</b> stationnement(s) sont libres.</p><p>Adresse: <b>" + description + "</b></p><p><button class=\"expand\" onclick=\"$.parkingMap.getDirectionsTo({latitude: "+mapObject.position.latitude+", longitude: "+mapObject.position.longitude+"});\">Obtenir l'itinéraire</button></p></div>";
+		mapObject.description = "<div><p>Ce point de stationnement rapporte que <b>" + (avl.OPER - avl.OCC) + "</b> stationnement(s) sont libres.</p><p>Adresse: <b>" + description + "</b></p><p><button class=\"expand\" onclick=\"$.parkingMap.getDirectionsTo({latitude: "+mapObject.position.latitude+", longitude: "+mapObject.position.longitude+"});\">Obtenir l'itinéraire</button></p><p><button class=\"expand\">Ajouter aux favoris</button></p></div>";
 		mapObject.label = "<div class=\""+mapObject.type+"\">"+mapObject.available+"</div>";
 		callback(mapObject);
 	}
