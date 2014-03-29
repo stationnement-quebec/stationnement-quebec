@@ -73,7 +73,7 @@ module.exports = function QuadTree(bbox, clusteringFunction, minimalDistanceBetw
 			
 			var meanValue = this.clusteringFunction(objectsInRange);
 			objectsInRange = new Array();
-			objectsInRange.push(meanValue);console.log(objectsInRange);
+			objectsInRange.push(meanValue);
 		}
 
 		return objectsInRange;

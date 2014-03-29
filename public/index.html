@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Application</title>
+		<title>Stationnements libres et ouverts</title>
 		<link rel="stylesheet" href="stylesheets/app.css" />
 		<script src="bower_components/modernizr/modernizr.js"></script>
 		<script>
@@ -33,131 +33,138 @@
 						</div>
 					</div>
 			</div>
-					<dl id="reveal-settings" class="accordion medium-6 columns position-right" data-accordion data-reveal>
-						<dd>
-							<a href="#panel1">Réglages</a>
-							<div id="panel1" class="content active">
-								<h2>Envoi de notification lorsque...</h2>
-								<p>
-									<input id="checkbox-notification-place" type="checkbox">
-									<label for="checkbox-notification-place">Une place se libère d'un point surveillé</label>
-								</p>
-								<p>
-									<input id="checkbox-notification-fav" type="checkbox">
-									<label for="checkbox-notification-fav">Une place se libère d'un point favoris</label>
-								</p>
-								<p>
-									<input id="checkbox-notification-timer" type="checkbox">
-									<label for="checkbox-notification-timer">Le temps du parcomètre est presque écoulé (10&nbsp;minutes)</label>
-								</p>
-							</div>
-						</dd>
-						<dd>
-							<a href="#panel2">Favoris</a>
-							<div id="panel2" class="content">
-								<table>
-									<thead>
-										<tr>
-											<th>Lieux</th>
-											<th>Place(s) dispo.</th>
-											<th>Supp.</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>Parc Champlain</td>
-											<td class="bg-warning">3</td>
-											<td><button>X</button></td>
-										</tr>
-										<tr>
-											<td>1050 Rue Louis-Alexandre-Taschereau</td>
-											<td>12</td>
-											<td><button>X</button></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</dd>
-						<dd>
-							<a href="#panel3">Stationnement actuel</a>
-							<div id="panel3" class="content text-center">
-								<p>Il reste actuellement <br>
-									<span class="timer">1:10:34</span> <br>
-									à votre parcomètre</p>
-								<p><button>+ 15 min</button> <button>J'ai terminé ici!</button></p>
-							</div>
-						</dd>
-					</dl>
+			<dl id="reveal-settings" class="accordion medium-6 columns position-right" data-accordion data-reveal>
+				<dd>
+					<a href="#panel0" class="main-accordion"><span class="ir icon-gear"></span> Paramètres</a>
+					<div id="panel0" class="content active">
+						<dl class="accordion medium-6 columns position-right" data-accordion data-reveal>
+							<dd>
+								<a href="#panel1">Notifications</a>
+								<div id="panel1" class="content">
+									<h2>Envoi de notification lorsque...</h2>
+									<p>
+										<input id="checkbox-notification-place" type="checkbox">
+										<label for="checkbox-notification-place">Une place se libère d'un point surveillé</label>
+									</p>
+									<p>
+										<input id="checkbox-notification-fav" type="checkbox">
+										<label for="checkbox-notification-fav">Une place se libère d'un point favoris</label>
+									</p>
+									<p>
+										<input id="checkbox-notification-timer" type="checkbox">
+										<label for="checkbox-notification-timer">Le temps du parcomètre est presque écoulé (10&nbsp;minutes)</label>
+									</p>
+								</div>
+							</dd>
+							<dd>
+								<a href="#panel2">Favoris</a>
+								<div id="panel2" class="content">
+									<table>
+										<thead>
+											<tr>
+												<th>Lieux</th>
+												<th>Place(s) dispo.</th>
+												<th>Supp.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>Parc Champlain</td>
+												<td class="bg-warning">3</td>
+												<td><button>X</button></td>
+											</tr>
+											<tr>
+												<td>1050 Rue Louis-Alexandre-Taschereau</td>
+												<td>12</td>
+												<td><button>X</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</dd>
+							<dd>
+								<a href="#panel3">Stationnement actuel</a>
+								<div id="panel3" class="content text-center">
+									<p>Il reste actuellement <br>
+										<span class="timer">1:10:34</span> <br>
+										à votre parcomètre</p>
+									<p><button>+ 15 min</button> <button>J'ai terminé ici!</button></p>
+								</div>
+							</dd>
+						</dl>
+					</div>
+				</dd>
+			</dl>
 			<div class="row position-bottom hide-for-medium-up">
 				<div class="small-offset-8 small-4 columns">
 					<button data-reveal-id="reveal-settings" class="button tiny right"><span class="ir icon-gear">Paramètre</span></button>
