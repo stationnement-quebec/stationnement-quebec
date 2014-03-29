@@ -2,11 +2,9 @@ $.requestHandler = {
 	refresh: {},
 
 	request: function(dataSource, callback) {
-		//TODO add cache
-		if (this.refresh[dataSource.id] !== undefined) {
-			clearTimeout(this.refresh[dataSource.id]);
+		if (dataSource.refreshTimer === undefined || this.refresh[dataSource.id] === undefined) {
+			this.getInformation(dataSource, callback);
 		}
-		this.getInformation(dataSource, callback);
 	},
 
 	getInformation: function(dataSource, callback) {

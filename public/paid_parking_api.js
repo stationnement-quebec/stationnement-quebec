@@ -1,4 +1,4 @@
-$.API = {
+$.paidParkingAPI = {
 	getInformation: function(bounds, callback) {
 		$.get( "/vdq", function( data ) {
 			if (data.STATUS != "SUCCESS") {
@@ -7,13 +7,9 @@ $.API = {
 			
 			$.quadtree.clear();
 			$(data.AVL).each(function() {
-				$.quadtree.insert(getQuadTreeDataFromApiData(this));
-			});			
-			
-			var nodesToShow = $.quadtree.queryRange(createBoundingBoxFromMapBounds(bounds), Math.max(0, $.parkingMap.getZoom() - $.settings.zoom));
-			$(nodesToShow).each(function() {
-				$.API.addObject(callback, this.data);
-			});
+				if (this.TYPE == "ON") $.quadtree.insert(getQuadTreeDataFromApiData(this));
+				else $.paidParkingAPI.addObject(callback, this);
+			});	
 		});
 	},
 
@@ -21,7 +17,7 @@ $.API = {
 		if (avl.PTS != "1") {
 			return;
 		}
-		var mapObject = {tag: "paying_parking"};
+		var mapObject = {tag: ["paying_parking"]};
 		var points = avl.LOC.split(",");
 		mapObject.position = {
 			latitude: points[1],
@@ -29,7 +25,7 @@ $.API = {
 		};
 		var description = "";
 		if (avl.TYPE == "ON") {
-			//mapObject.id = "p_on_"+avl.BFID;
+			mapObject.id = "p_on_"+avl.BFID;
 			description = avl.NAME;
 			if (+avl.OCC < +avl.OPER) {
 				mapObject.type = "available_parking";
@@ -37,9 +33,10 @@ $.API = {
 			else {
 				mapObject.type = "unavailable_parking";
 			}
+			mapObject.zoom = avl.ZOOM;
 		}
 		else {
-			//mapObject.id = "p_off_"+avl.OSPID;
+			mapObject.id = "p_off_"+avl.OSPID;
 			description = avl.DESC;
 			var occupancy = avl.OCC / avl.OPER;
 			mapObject.type = getVehiculeParcType(occupancy);
