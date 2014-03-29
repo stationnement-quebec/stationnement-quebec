@@ -1,6 +1,19 @@
 $.main = {	
 	execute: function(selector) {
-		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, $.settings.center, $.settings.zoom, function() {$.main.addMapInfo();});
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				$.main.executeWithCenter(selector, position.coords);
+			}, function() {
+				$.main.executeWithCenter(selector, $.settings.center);
+			});
+		}
+		else {
+			$.main.executeWithCenter(selector, $.settings.center);
+		}
+	},
+	
+	executeWithCenter: function(selector, center) {
+		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, center, $.settings.zoom, function() {$.main.addMapInfo();});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
 		$.parkingMap.addSearchBar();
 		$.parkingMap.addToggleFreePaying();
