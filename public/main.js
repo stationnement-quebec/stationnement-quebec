@@ -1,9 +1,9 @@
 $.main = {		
 	execute: function(selector) {
-			
+		
 		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, $.settings.center, $.settings.zoom, function() {
 			setTimeout($.main.centerMapWithGeolocation, 0);
-			$.quadtree = new QuadTree(createBoundingBoxFromMapBounds($.parkingMap.getBounds()), getMeanValueOfParkingDataArray, 8);
+			$.quadtree = new QuadTree(createBoundingBoxFromMapBounds($.settings.bounds), getMeanValueOfParkingDataArray, 8);
 			$.main.addMapInfo();
 		});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});

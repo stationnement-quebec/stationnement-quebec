@@ -1,6 +1,12 @@
 $.settings = {
 	center: {latitude: 46.804431, longitude: -71.239853},
 	zoom: 12,
+	
+	bounds: {
+		min: {latitude: 46.75329394726448, longitude: -71.46232614453123},
+		max: {latitude: 46.855519489356276, longitude: -71.01737985546873}
+	},
+	
 	adapter: $.googleMapAdapter,
 	assets: {
 		hydrant: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/blue.png", minZoom: 16},
