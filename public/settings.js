@@ -7,6 +7,8 @@ $.settings = {
 		max: {latitude: 46.855519489356276, longitude: -71.01737985546873}
 	},
 	
+	clustering: 4,
+	
 	adapter: $.googleMapAdapter,
 	assets: {
 		hydrant: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/blue.png", minZoom: 16},

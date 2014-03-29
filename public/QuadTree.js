@@ -38,12 +38,17 @@ function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 
  
 	this.queryRange = queryRange;
-	function queryRange(bbox, maxDepth) {
-
+	function queryRange(bbox, maxDepth, objectsInRangeOriginal) {
+if (objectsInRangeOriginal === undefined) objectsInRange = [];
+else {
+	objectsInRange = [];
+	for (var i=0; i<objectsInRangeOriginal.length; i++) {
+		objectsInRange.push(objectsInRangeOriginal[i]);
+	}
+}
 		if(typeof maxDepth === "undefined")
 			maxDepth = 100000;
-	
-		var objectsInRange = new Array();
+
 
 		// check if the wanted area intersect with our bounding box	
 		if(!this.boundary.intersect(bbox))
@@ -57,16 +62,15 @@ function QuadTree(bbox, clusteringFunction, nodeCapacity) {
 
 		if (this.northWest != null) {
 			
-			Array.prototype.push.apply(objectsInRange,this.northWest.queryRange(bbox, maxDepth - 1));
-			Array.prototype.push.apply(objectsInRange,this.northEast.queryRange(bbox, maxDepth - 1));
-			Array.prototype.push.apply(objectsInRange,this.southWest.queryRange(bbox, maxDepth - 1));
-			Array.prototype.push.apply(objectsInRange,this.southEast.queryRange(bbox, maxDepth - 1));
+			objectsInRange = this.northWest.queryRange(bbox, maxDepth - 1, objectsInRange);
+			objectsInRange = this.northEast.queryRange(bbox, maxDepth - 1, objectsInRange);
+			objectsInRange = this.southWest.queryRange(bbox, maxDepth - 1, objectsInRange);
+			objectsInRange = this.southEast.queryRange(bbox, maxDepth - 1, objectsInRange);
+			
 		}
 		if (maxDepth == 0) {
 			
-			var meanValue = this.clusteringFunction(objectsInRange);
-			objectsInRange = new Array();
-			objectsInRange.push(meanValue);
+			return [this.clusteringFunction(objectsInRange)];
 		}
 
 		return objectsInRange;
