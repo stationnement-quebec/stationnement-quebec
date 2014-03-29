@@ -4,9 +4,15 @@ $.API = {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
-
+			
+			$.quadtree.clear();
 			$(data.AVL).each(function() {
-				$.API.addObject(callback, this);
+				$.quadtree.insert(getQuadTreeDataFromApiData(this));
+			});			
+			
+			var nodesToShow = $.quadtree.queryRange(createBoundingBoxFromMapBounds(bounds), Math.max(0, $.parkingMap.getZoom() - $.settings.zoom));
+			$(nodesToShow).each(function() {
+				$.API.addObject(callback, this.data);
 			});
 		});
 	},
@@ -23,7 +29,7 @@ $.API = {
 		};
 		var description = "";
 		if (avl.TYPE == "ON") {
-			mapObject.id = "p_on_"+avl.BFID;
+			//mapObject.id = "p_on_"+avl.BFID;
 			description = avl.NAME;
 			if (+avl.OCC < +avl.OPER) {
 				mapObject.type = "available_parking";
@@ -33,7 +39,7 @@ $.API = {
 			}
 		}
 		else {
-			mapObject.id = "p_off_"+avl.OSPID;
+			//mapObject.id = "p_off_"+avl.OSPID;
 			description = avl.DESC;
 			var occupancy = avl.OCC / avl.OPER;
 			mapObject.type = getVehiculeParcType(occupancy);
