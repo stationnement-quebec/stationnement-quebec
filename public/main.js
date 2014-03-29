@@ -13,7 +13,11 @@ $.main = {
 	},
 	
 	executeWithCenter: function(selector, center) {
-		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, center, $.settings.zoom, function() {$.main.addMapInfo();});
+			
+		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, center, $.settings.zoom, function() {
+			$.quadtree = new QuadTree($.parkingMap.getBounds(), getMeanValueOfParkingDataArray, 4);
+			$.main.addMapInfo();
+		});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
 		$.parkingMap.addSearchBar();
 		$.parkingMap.addToggleFreePaying();
