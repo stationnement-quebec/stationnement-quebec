@@ -54,7 +54,8 @@ else {
 		if(!this.boundary.intersect(bbox))
 			return objectsInRange;
 
-		for(var i = 0; i < this.data.length; i++) {
+		var len = this.data.length;
+		for(var i = 0; i < len; i++) {
 
 			if(bbox.containsPoint(this.data[i]["location"].x, this.data[i]["location"].y))
 				objectsInRange.push(this.data[i]);
@@ -94,7 +95,9 @@ else {
 
 	this.sendDataToChildren = sendDataToChildren;
 	function sendDataToChildren() {
-		for (var i = 0; i < this.data.length; i++) {
+		
+		var len = this.data.length;
+		for (var i = 0; i < len; i++) {
 
 			if(!this.northWest.insert(this.data[i]))
    				if(!this.northEast.insert(this.data[i]))
