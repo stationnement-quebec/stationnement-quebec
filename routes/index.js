@@ -37,33 +37,6 @@ exports.elements = function(req, res) {
   res.json(json);
 };
 
-/*
-	Proxy to the dynamic api
- */
-exports.vdq = function(req, res) {
-	var http = require('http');
-	var options = {
-    host: 'acc-api.ville.quebec.qc.ca',
-    port: 80,
-    path: '/stationnement/rest/vdqpark/availabilityservice?response=json'
-  };
-
-  var response = "";
-  http.get(options, function(resp){
-    resp.on('data', function(chunk){
-      response = response + chunk;
-    });
-    resp.on('end', function() {
-      res.setHeader('Content-Type', 'application/json');
-	  res.send(completeApiResponse(response));
-    });
-  }).on("error", function(e){
-    console.log("Got error: " + e.message);
-    res.json({status:"Error"});
-  });
-  
-};
-
 exports.update = function(req, res) {
 	require('../lib/download.js').updateData();
 	res.json({status: "ok"});
@@ -89,10 +62,10 @@ function validElementsFromCenter(pointsArray, polygon, extension) {
 function completeApiResponse(response){
 	var startTime = 7;
 	var endTime = 20;
-	
+
 	currentDate = new Date();
 	currentHours = currentDate.getHours();
-  
+
 	if (currentHours>=endTime || currentHours <startTime){
 		//replace with code to add static data to dynamic data at night
 		console.log("API offline");

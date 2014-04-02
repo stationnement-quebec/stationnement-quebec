@@ -1,15 +1,15 @@
 $.paidParkingAPI = {
 	getInformation: function(bounds, callback) {
-		$.get( "/vdq", function( data ) {
+		$.get( "http://acc-api.ville.quebec.qc.ca/stationnement/rest/vdqpark/availabilityservice?response=json", function( data ) {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
-			
+
 			$.quadtree.clear();
 			$(data.AVL).each(function() {
 				if (this.TYPE == "ON") $.quadtree.insert(getQuadTreeDataFromApiData(this));
 				else $.paidParkingAPI.addObject(callback, this);
-			});	
+			});
 		});
 	},
 

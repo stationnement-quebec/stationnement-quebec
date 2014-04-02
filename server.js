@@ -11,7 +11,6 @@ app.get('/*',function(req,res,next){
 
 var routes = require('./routes');
 app.get('/elements', routes.elements);
-app.get('/vdq', routes.vdq);
 app.get('/update', routes.update);
 
 app.use(express.static(__dirname + '/public'));
