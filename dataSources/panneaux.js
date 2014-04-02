@@ -36,8 +36,6 @@ function cleanData(rawDataPath, finalDataPath, callback) {
       i++;
     }
 
-    //result['features'] = newArray;
-
     fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
       callback();
     });
@@ -45,12 +43,6 @@ function cleanData(rawDataPath, finalDataPath, callback) {
 }
 
 function sort(pointsArray) {
-  // pointsArray.forEach(function (data) {
-  //   if (!streets[data.properties.NOM_TOPOG])
-  //     streets[data.properties.NOM_TOPOG] = []
-  //   streets[data.properties.NOM_TOPOG].push(data);
-  // });
-
   pointsArray.sort(function(a, b){
     if (a.properties.NOM_TOPOG < b.properties.NOM_TOPOG);
       return -1;
@@ -86,7 +78,7 @@ function findLines(pointsArray) {
   for (var i = 0; i < sortedPoints.length; i++) {
     var point = sortedPoints[i];
     var coord = point.geometry.coordinates;
-    if (lastStreet != point.properties.NOM_TOPOG 
+    if (lastStreet != point.properties.NOM_TOPOG
         || (coord[0].toFixed(2) != lastCoord[0].toFixed(2) && coord[1].toFixed(2) != lastCoord[1].toFixed(2))
         || lastSide != point.properties.COTE_RUE
         ) {
@@ -98,17 +90,17 @@ function findLines(pointsArray) {
 
       line = {start: coord};
       line['rue'] = lastStreet;
-    } 
+    }
     lastCoord = coord;
-    lastStreet = point.properties.NOM_TOPOG; 
+    lastStreet = point.properties.NOM_TOPOG;
     lastSide = point.properties.COTE_RUE;
-  } 
+  }
   if (line) {
     line['end'] = lastCoord;
     line['rue'] = lastStreet;
     lines.push(line);
   }
-  return lines; 
+  return lines;
 }
 
 function responseExtension(value) {
