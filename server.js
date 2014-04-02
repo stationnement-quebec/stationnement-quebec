@@ -17,7 +17,3 @@ app.get('/update', routes.update);
 app.use(express.static(__dirname + '/public'));
 
 app.listen(3000);
-
-//setInterval(function(){
- // download.updateData();
-//},86400000);
