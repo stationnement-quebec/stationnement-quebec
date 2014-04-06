@@ -13,7 +13,7 @@ exports.elements = function(req, res) {
 
   var dataSource = require('../lib/datasource.js');
 
-  var json = {};
+  var message = {};
 
  try {
     var sources = dataSource.sources();
@@ -22,8 +22,8 @@ exports.elements = function(req, res) {
         var source = sources[key];
         dataSource.getDataForKey(key, function (data) {
           var pointsArray = data['features'];
-          json[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
-          json[key] = require('../dataSources/panneaux.js').findLines(json[key]);
+          message[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
+          message[key] = require('../dataSources/panneaux.js').findLines(message[key]);
         });
       }
     }
@@ -31,10 +31,10 @@ exports.elements = function(req, res) {
   catch (err) {
     console.log(err.message);
     res.status(500);
-    json = {status: "error", message: "Une erreur s'est produite sur le serveur."};
+    message = {status: "error", message: "Une erreur s'est produite sur le serveur."};
   }
 
-  res.json(json);
+  res.json(message);
 };
 
 exports.update = function(req, res) {
