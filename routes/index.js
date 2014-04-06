@@ -1,5 +1,5 @@
 /*
-	GET a list of static sings within a certain area
+	GET a list of static signs within a certain area
  */
 exports.elements = function(req, res) {
 	var polygon = {
@@ -17,15 +17,25 @@ exports.elements = function(req, res) {
 
  try {
     var sources = dataSource.sources();
-    for (var key in sources) {
-      if (sources.hasOwnProperty(key)) {
-        var source = sources[key];
-        dataSource.getDataForKey(key, function (data) {
-          var pointsArray = data['features'];
-          message[key] = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
-          message[key] = require('../dataSources/panneaux.js').findLines(message[key]);
-        });
-      }
+    var validParkings = {};
+
+    var key = 'panneaux';
+    if (sources.hasOwnProperty(key)) {
+      var source = sources[key];
+      dataSource.getDataForKey(key, function (data) {
+        var pointsArray = data['features'];
+        validParkings = validElementsFromCenter(pointsArray, polygon, source.responseExtension);
+        //message[key] = require('../dataSources/panneaux.js').findLines(validParkings);
+      });
+    }
+
+    key = 'voie_pub';
+    if (sources.hasOwnProperty(key)) {
+      var source = sources[key];
+      dataSource.getDataForKey(key, function (data) {
+        var streetsArray = data['features'];
+        message[key] = require('../dataSources/voie_pub.js').findValidStreets(streetsArray, validParkings);
+      });
     }
   }
   catch (err) {
@@ -51,24 +61,9 @@ function validElementsFromCenter(pointsArray, polygon, extension) {
     var feature = pointsArray[i];
     var point = feature['geometry'];
 
-    if (gju.pointInPolygon(point, polygon) && (extension(feature) || true)) {
+    if (gju.pointInPolygon(point, polygon) && (/*extension(feature) ||*/true)) {
       validData.push(feature);
     }
   }
-
   return validData;
-}
-
-function completeApiResponse(response){
-	var startTime = 7;
-	var endTime = 20;
-
-	currentDate = new Date();
-	currentHours = currentDate.getHours();
-
-	if (currentHours>=endTime || currentHours <startTime){
-		//replace with code to add static data to dynamic data at night
-		console.log("API offline");
-    }
-	return response;
 }

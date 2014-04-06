@@ -12,7 +12,7 @@ $.freeParkingAPI = {
 	},
 
 	addTrafficSigns: function(callback, elements) {
-		$(elements.panneaux).each(function(i, current) {
+		$(elements.voie_pub).each(function(i, current) {
 			var trafficSign = {
 				id: $.freeParkingAPI.generateTrafficSignId(current),
 				tag: ["free_parking"],
@@ -27,11 +27,9 @@ $.freeParkingAPI = {
 			else {
 				trafficSign.type = "traffic_sign_long_time";
 			}
-			trafficSign.path.push($.freeParkingAPI.decodeCoordinates(current.start));
-			trafficSign.path.push($.freeParkingAPI.decodeCoordinates(current.end));
-			// for (var i=0; i<this.panneaux.length; i++) {
-			// 	trafficSign.path.push($.freeParkingAPI.decodeCoordinates(this.panneaux[i].end));
-			// }
+			for (var i=0; i<current.length; i++) {
+				trafficSign.path.push($.freeParkingAPI.decodeCoordinates(current[i]));
+			}
 			//if (this.properties.description != undefined) {
 			//	trafficSign.description = this.properties.parsed_parking_value.description;
 			//}
@@ -40,7 +38,7 @@ $.freeParkingAPI = {
 	},
 	
 	generateTrafficSignId: function(trafficSign) {
-		return "ts_"+trafficSign.start[0]+"_"+trafficSign.start[1];
+		return "ts_"+trafficSign[0][0]+"_"+trafficSign[0][1];
 	},
 	
 	decodeCoordinates: function(coordinates) {
