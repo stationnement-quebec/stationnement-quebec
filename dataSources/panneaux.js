@@ -10,7 +10,7 @@ function getURL() {
 function cleanData(rawDataPath, finalDataPath, callback) {
   //This use the togeojson command line utility. Way faster than doing it directly in node
   //Not tested on Windows, I'm pretty sure that will fail
-  var command = "/usr/local/bin/togeojson " + rawDataPath + " > " + finalDataPath;
+  var command = "togeojson " + rawDataPath + " > " + finalDataPath;
   exec(command, function (error, stdout, stderr) {
     var result = JSON.parse(fs.readFileSync(finalDataPath));
 

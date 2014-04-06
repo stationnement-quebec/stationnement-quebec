@@ -61,7 +61,7 @@ function validElementsFromCenter(pointsArray, polygon, extension) {
     var feature = pointsArray[i];
     var point = feature['geometry'];
 
-    if (gju.pointInPolygon(point, polygon) && (/*extension(feature) ||*/true)) {
+    if (gju.pointInPolygon(point, polygon) && (extension(feature))) {
       validData.push(feature);
     }
   }
