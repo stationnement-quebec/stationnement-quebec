@@ -6,6 +6,7 @@
       "express": "3.x",
       "mkdirp": "*",
       "togeojson": "*",
-      "geojson-utils": "1.0.*"
+      "geojson-utils": "1.0.*",
+      "forever": "0.*"
    }
 }
