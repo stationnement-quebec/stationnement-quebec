@@ -17,7 +17,7 @@ $.settings = {
 		traffic_sign_label: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_no_time: {type: "line", color: "red", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
-		traffic_sign_long_time: {type: "line", color: "green"},
+		traffic_sign_long_time: {type: "line", color: "green", minZoom: 16},
 		available_parking: {type: "marker",
 			icon: $.googleMapAdapter.createMarkerIcon("icons/circle-green.png", 30, 30)
 		},
