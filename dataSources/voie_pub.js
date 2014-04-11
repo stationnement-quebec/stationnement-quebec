@@ -6,8 +6,6 @@ function getURL() {
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-  //This use the togeojson command line utility. Way faster than doing it directly in node
-  //Not tested on Windows, I'm pretty sure that will fail
   var command = "togeojson " + rawDataPath + " > " + finalDataPath;
   exec(command, function (error, stdout, stderr) {
     var result = JSON.parse(fs.readFileSync(finalDataPath));
@@ -18,22 +16,17 @@ function cleanData(rawDataPath, finalDataPath, callback) {
   });
 }
 
-function findValidStreets(streetsArray, validParkings) {
-  var validStreets = [];
-  for (var i = 0; i < streetsArray.length; i++) {
-    var street = streetsArray[i];
-
-    for (var j = 0; j < validParkings.length; j++){
-      var parking = validParkings[j];
-      if (street.properties.ID==parking.properties.ID_VOIE_PUB){
-        validStreets.push(street.geometry.coordinates);
-        break;
-      }
+function getStreetsIdMap(streetsData){
+	var streetsIdMap = {};
+	var streets = streetsData['features'];
+	for (var i = 0; i < streets.length; i++) {
+		var street = streets[i];
+		streetsIdMap[street.properties.ID] = street.geometry.coordinates;
     }
-  }
-  return validStreets;
+	return streetsIdMap;
 }
 
 module.exports.getURL = getURL;
 module.exports.cleanData = cleanData;
+module.exports.getStreetsIdMap = getStreetsIdMap;
 module.exports.findValidStreets = findValidStreets;

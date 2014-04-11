@@ -8,8 +8,6 @@ function getURL() {
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-  //This use the togeojson command line utility. Way faster than doing it directly in node
-  //Not tested on Windows, I'm pretty sure that will fail
   var command = "togeojson " + rawDataPath + " > " + finalDataPath;
   exec(command, function (error, stdout, stderr) {
     var result = JSON.parse(fs.readFileSync(finalDataPath));
@@ -42,65 +40,30 @@ function cleanData(rawDataPath, finalDataPath, callback) {
   });
 }
 
-function sort(pointsArray) {
-  pointsArray.sort(function(a, b){
-    if (a.properties.NOM_TOPOG < b.properties.NOM_TOPOG);
-      return -1;
-    if (a.properties.NOM_TOPOG > b.properties.NOM_TOPOG)
-      return 1;
-
-    if (a.properties.COTE_RUE != b.properties.COTE_RUE) {
-      return a.COTE_RUE == "Est" ? -1 : 1;
-    }
-
-    var coordA = a.geometry.coordinates;
-    var coordB = b.geometry.coordinates;
-
-    if (coordA[0] == coordB[0]) {
-      return coordA[1] - coordB[1];
-    } else if (coordA[1] == coordB[1]) {
-      return coordA[0] - coordB[0];
-    } else {
-      return (coordA[0] - coordB[0]) + (coordA[1] - coordB[1]);
-    }
-  });
-  return pointsArray;
+function placeSignsOnStreets(parkingData,streetIdMap) {
+  parkings = parkingData['features'];
+	
+  for (var i = 0; i < parkings.length; i++) {
+	var parking = parkings[i];
+	var streetCoords = streetIdMap[parking.properties.ID_VOIE_PUB];
+	parking.properties.streetCoordinates=streetCoords;
+  }
+  return parkingData;
 }
 
-function findLines(pointsArray) {
-  var sortedPoints = sort(pointsArray);
-  var lines = [];
+function validElementsFromCenter(pointsArray, polygon, extension) {
+	var gju = require('geojson-utils');
+  var validData = [];
 
-  var lastCoord = [0, 0];
-  var lastStreet = "";
-  var lastSide = ""
-  var line = false;
-  for (var i = 0; i < sortedPoints.length; i++) {
-    var point = sortedPoints[i];
-    var coord = point.geometry.coordinates;
-    if (lastStreet != point.properties.NOM_TOPOG
-        || (coord[0].toFixed(2) != lastCoord[0].toFixed(2) && coord[1].toFixed(2) != lastCoord[1].toFixed(2))
-        || lastSide != point.properties.COTE_RUE
-        ) {
+  for (var i in pointsArray) {
+    var feature = pointsArray[i];
+    var point = feature['geometry'];
 
-      if (line) {
-        line['end'] = lastCoord;
-        lines.push(line);
-      }
-
-      line = {start: coord};
-      line['rue'] = lastStreet;
+    if (gju.pointInPolygon(point, polygon) && (extension(feature))) {
+      validData.push(feature);
     }
-    lastCoord = coord;
-    lastStreet = point.properties.NOM_TOPOG;
-    lastSide = point.properties.COTE_RUE;
   }
-  if (line) {
-    line['end'] = lastCoord;
-    line['rue'] = lastStreet;
-    lines.push(line);
-  }
-  return lines;
+  return validData;
 }
 
 function responseExtension(value) {
@@ -117,5 +80,6 @@ function responseExtension(value) {
 
 module.exports.getURL = getURL;
 module.exports.cleanData = cleanData;
+module.exports.validElementsFromCenter = validElementsFromCenter;
+module.exports.placeSignsOnStreets = placeSignsOnStreets;
 module.exports.responseExtension = responseExtension;
-module.exports.findLines = findLines;
