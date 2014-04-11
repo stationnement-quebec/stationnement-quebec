@@ -29,4 +29,4 @@ function getStreetsIdMap(streetsData){
 module.exports.getURL = getURL;
 module.exports.cleanData = cleanData;
 module.exports.getStreetsIdMap = getStreetsIdMap;
-module.exports.findValidStreets = findValidStreets;
+//module.exports.findValidStreets = findValidStreets;
