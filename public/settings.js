@@ -2,12 +2,7 @@ $.settings = {
 	center: {latitude: 46.804431, longitude: -71.239853},
 	zoom: 12,
 	
-	bounds: {
-		min: {latitude: 46.75329394726448, longitude: -71.46232614453123},
-		max: {latitude: 46.855519489356276, longitude: -71.01737985546873}
-	},
 	
-	clustering: 4,
 	
 	adapter: $.googleMapAdapter,
 	assets: {
@@ -35,8 +30,8 @@ $.settings = {
 		}
 	},
 	dataSources: [
-		{id: "paid", source: $.paidParkingAPI, refreshTimer: 300}, 
+		{id: "paid", source: $.paidParkingAPI, refreshTimer: 300, capacity: 4, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
 		{id: "free", source: $.freeParkingAPI, minZoom: 16},
-		{id: "quad", source: $.paidParkingClusterer}
+		{id: "quad", source: $.paidParkingClusterer, zoomModifier: 10}
 	]
 };
