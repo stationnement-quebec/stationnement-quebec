@@ -24,30 +24,6 @@ $.QuadTree = {
 		this.trees[tag].computeCallback = function() {};
 	},
 	
-	debug: function(data) {
-		new google.maps.Rectangle({
-			bounds: new google.maps.LatLngBounds(
-				new google.maps.LatLng(data.bounds.min.latitude, data.bounds.min.longitude),
-				new google.maps.LatLng(data.bounds.max.latitude, data.bounds.max.longitude)
-			),
-			fillOpacity: 0,
-			map: $.googleMapAdapter.map
-		});
-		if (data.subSections) {
-			for (var i=0; i<data.subSections.length;i++) {
-				this.debug(data.subSections[i]);
-			}
-		}
-		else {
-			for (var i=0;i<data.points.length;i++) {
-				new google.maps.Marker({
-					position: new google.maps.LatLng(data.points[i].coordinates.latitude, data.points[i].coordinates.longitude),
-					map: $.googleMapAdapter.map
-				});
-			}
-		}
-	},
-	
 	computeData: function(data, capacity, clusteringFunction) {
 		var returnData = {bounds: data.bounds};
 		var points = data.points;
@@ -131,9 +107,9 @@ $.QuadTree = {
 	},
 	
 	clear: function(tag) {
-		/*this.trees[tag].data = {
+		this.trees[tag].data = {
 			bounds: this.trees[tag].data.bounds,
 			points: []
-		}*/
+		}
 	}
 };

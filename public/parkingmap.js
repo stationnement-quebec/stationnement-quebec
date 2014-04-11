@@ -8,8 +8,7 @@ $.parkingMap = {
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker", remove: "removeMarker"},
 		point: {add: "addPoint", update: "updatePoint"},
-		line: {add: "addLine", update: "updateLine"},
-		labeled_marker: {add: "addMarkerWithLabel", update: "updateMarkerWithLabel"}
+		line: {add: "addLine", update: "updateLine"}
 	},
 
 	createMap: function(map, assets, selector, center, zoom, onLoad) {
@@ -29,7 +28,7 @@ $.parkingMap = {
 			var objectAssets = this.assets[object.type];
 			var visible = this.isObjectVisible(objectAssets, object);
 			if (this.objectExists(object)) {
-				var instance = this[this.objectFunctions[objectAssets.type].update](this.objects[object.id], visible);
+				var instance = this[this.objectFunctions[objectAssets.type].update](this.objects[object.id], visible, object);
 				this.objects[object.id] = {instance: instance, assets: objectAssets, object: object};
 				return;
 			}
@@ -110,22 +109,16 @@ $.parkingMap = {
 		return this.map.createMarker(object.position, visible, assets.icon, object.description, object.label, object.type);
 	},
 
-	updateMarker: function(object, visible) {
+	updateMarker: function(object, visible, newObject) {
 		this.map.setMarkerVisible(object.instance, visible);
+		if (newObject != undefined) {
+			this.map.updateMarkerLabel(object.instance, newObject.label);
+		}
 		return object.instance;
 	},
 	
 	removeMarker: function(object) {
 		this.map.deleteMarker(object.instance);
-	},
-	
-	addMarkerWithLabel: function(assets, object, visible) {
-		return this.map.createLabeledMarker(object.position, visible, assets.icon, object.description, object.label, object.type);
-	},
-
-	updateMarkerWithLabel: function(object, visible) {	
-		this.map.setLabeledMarkerVisible(object.instance, visible);
-		return object.instance;
 	},
 	
 	addPoint: function(assets, object, visible) {

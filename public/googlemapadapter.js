@@ -77,31 +77,16 @@ $.googleMapAdapter = {
 		return marker;
 	},
 	
+	updateMarkerLabel: function(marker, label) {
+		marker.set("label", label);
+	},
+	
 	deleteMarker: function(marker) {
 		marker.setMap(null);
 	},
 
 	createMarkerIcon: function(iconPath, sizeX, sizeY) {
 		return new google.maps.MarkerImage( iconPath, null, null, null, new google.maps.Size(sizeX, sizeY));
-	},
-
-	createLabeledMarker: function(position, visible, icon, description, label, infoWindowClass) {
-		var markerOptions = {};
-		markerOptions.map = this.map;
-		markerOptions.position = this.createLatLng(position);
-
-		markerOptions.labelContent = label;
-		markerOptions.labelAnchor = new google.maps.Point(4, 30);
-		if (icon !== undefined) {
-			markerOptions.icon = icon;
-		}
-		var marker = new MarkerWithLabel(markerOptions);
-		marker.setVisible(visible);
-		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
-		}
-
-		return marker;
 	},
 
 	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
@@ -139,10 +124,6 @@ $.googleMapAdapter = {
 	},
 
 	setMarkerVisible: function(marker, visible) {
-		marker.setVisible(visible);
-	},
-
-	setLabeledMarkerVisible: function(marker, visible) {
 		marker.setVisible(visible);
 	},
 

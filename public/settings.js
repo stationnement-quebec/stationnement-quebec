@@ -30,7 +30,7 @@ $.settings = {
 		}
 	},
 	dataSources: [
-		{id: "paid", source: $.paidParkingAPI, refreshTimer: 300, capacity: 4, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
+		{id: "paid", source: $.paidParkingAPI, refreshTimer: 60, capacity: 4, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
 		{id: "free", source: $.freeParkingAPI, minZoom: 16},
 		{id: "quad", source: $.paidParkingClusterer, zoomModifier: 10}
 	]

@@ -4,7 +4,7 @@ $.paidParkingAPI = {
 	},
 
 	getInformation: function(bounds, callback) {
-		$.get( "http://acc-api.ville.quebec.qc.ca/stationnement/rest/vdqpark/availabilityservice?response=json", function( data ) {
+		$.get("http://acc-api.ville.quebec.qc.ca/stationnement/rest/vdqpark/availabilityservice?response=json", function( data ) {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
