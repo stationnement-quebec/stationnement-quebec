@@ -14,9 +14,6 @@ $.freeParkingAPI = {
 	addTrafficSigns: function(callback, elements) {
 		$(elements.panneaux).each(function(i, current) {
 			var currentStreetCoordinates = current.properties.streetCoordinates;
-			if (currentStreetCoordinates==undefined){
-				console.log(current);
-			}
 			var trafficSignStreet = {
 				id: $.freeParkingAPI.generateStreetId(currentStreetCoordinates),
 				tag: ["free_parking"],

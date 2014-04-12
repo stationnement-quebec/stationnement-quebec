@@ -1,5 +1,6 @@
 var extraction = require('../infoExtraction/parkingInfoExtractor.js');
 var verifier = require('../infoExtraction/parkingAllowedVerifier.js');
+var geometryCalculator = require('../signGeometry/geometryCalculator.js');
 var exec = require('child_process').exec;
 var fs = require('fs');
 
@@ -41,12 +42,16 @@ function cleanData(rawDataPath, finalDataPath, callback) {
 }
 
 function placeSignsOnStreets(parkingData,streetIdMap) {
-  parkings = parkingData['features'];
+  var parkings = parkingData['features'];
 	
   for (var i = 0; i < parkings.length; i++) {
-	var parking = parkings[i];
-	var streetCoords = streetIdMap[parking.properties.ID_VOIE_PUB];
-	parking.properties.streetCoordinates=streetCoords;
+	 var parking = parkings[i];
+	 var streetCoords = streetIdMap[parking.properties.ID_VOIE_PUB];
+   if (streetCoords!=undefined ){
+    var segment=geometryCalculator.findClosestSegment(parking.geometry.coordinates, streetCoords);
+    parking.geometry.coordinates=geometryCalculator.projectPointOnLine(parking.geometry.coordinates, segment);
+	  parking.properties.streetCoordinates=segment;
+    }
   }
   return parkingData;
 }
