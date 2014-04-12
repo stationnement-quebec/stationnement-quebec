@@ -8,11 +8,11 @@ $.settings = {
 	assets: {
 		hydrant: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/blue.png", minZoom: 16},
 		parking_terminal: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/yellow.png"},
-		traffic_sign: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/red.png"},
+		traffic_sign: {type: "marker", icon: $.googleMapAdapter.createMarkerIcon("icons/circle-green.png", 30, 30), minZoom: 19},
 		traffic_sign_label: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_no_time: {type: "line", color: "red", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
-		traffic_sign_long_time: {type: "line", color: "green", minZoom: 16},
+		traffic_sign_long_time: {type: "line", color: "green", minZoom: 18},
 		available_parking: {type: "marker",
 			icon: $.googleMapAdapter.createMarkerIcon("icons/circle-green.png", 30, 30)
 		},
@@ -31,7 +31,7 @@ $.settings = {
 	},
 	dataSources: [
 		{id: "paid", source: $.paidParkingAPI, refreshTimer: 60, capacity: 4, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
-		{id: "free", source: $.freeParkingAPI, minZoom: 16},
+		{id: "free", source: $.freeParkingAPI, minZoom: 18},
 		{id: "quad", source: $.paidParkingClusterer, zoomModifier: 10}
 	]
 };
