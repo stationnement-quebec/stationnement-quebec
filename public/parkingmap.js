@@ -65,7 +65,7 @@ $.parkingMap = {
 			}
 		}
 		if (object.zoom != undefined) {
-			visible = this.map.getZoom() == object.zoom && visible;
+			visible = this.map.getZoom() == object.zoom && visible && this.map.isWithinBounds(object);
 		}
 		return visible;
 	},

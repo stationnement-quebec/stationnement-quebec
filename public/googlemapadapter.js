@@ -204,6 +204,10 @@ $.googleMapAdapter = {
     	this.searchBox.setBounds(bounds);
 	},
 
+	isWithinBounds: function(object){
+		return this.map.getBounds().contains(this.createLatLng(object.position));
+	},
+	
 	getDirectionsTo: function(location) {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
