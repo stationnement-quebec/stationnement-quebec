@@ -8,7 +8,7 @@ $.settings = {
 	assets: {
 		hydrant: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/blue.png", minZoom: 16},
 		parking_terminal: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/yellow.png"},
-		traffic_sign: {type: "marker", icon: $.googleMapAdapter.createMarkerIcon("icons/circle-green.png", 30, 30), minZoom: 19},
+		traffic_sign: {type: "marker", icon: $.googleMapAdapter.createMarkerIcon("icons/circle-white.png", 30, 30), minZoom: 19},
 		traffic_sign_label: {type: "marker", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_no_time: {type: "line", color: "red", icon: "http://google.com/mapfiles/ms/micons/red.png"},
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
