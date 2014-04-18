@@ -19,7 +19,7 @@ namespace :deploy do
     run "cd #{current_path} && npm install"
   end
 
-  desc "Restart thin deamon"
+  desc "Restart node deamon"
   task :restart_daemons, :roles => :app do
     run "cd #{current_path} && ./node_modules/forever/bin/forever stop server_production.js; true"
     run "cd #{current_path} && NODE_ENV=production ./node_modules/forever/bin/forever start server_production.js"
@@ -43,17 +43,7 @@ namespace :deploy do
     run "rm #{shared_path}/logrotate_script"
   end
 
-  desc "Setup symlink for uploaded feeds and bundles"
-    task :symlink_upload, :roles => :app do
-        run "rm -rf #{release_path}/public/feeds #{release_path}/public/bundles #{release_path}/debug"
-        run "ln -nfs #{shared_path}/feeds #{release_path}/public/feeds"
-        run "ln -nfs #{shared_path}/bundles #{release_path}/public/bundles"
-        run "ln -nfs #{shared_path}/debug #{release_path}/debug"
-    end
-end
-
 after "deploy", "deploy:build"
 after "deploy", "deploy:restart_daemons"
-after "deploy", "deploy:symlink_upload"
 after "deploy:restart_daemons", "deploy:rotate_logs"
 after "deploy:update", "deploy:cleanup"
