@@ -42,6 +42,7 @@ namespace :deploy do
     run "cp #{shared_path}/logrotate_script /etc/logrotate.d/#{application}"
     run "rm #{shared_path}/logrotate_script"
   end
+end
 
 after "deploy", "deploy:build"
 after "deploy", "deploy:restart_daemons"
