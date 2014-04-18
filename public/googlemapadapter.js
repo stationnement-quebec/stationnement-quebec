@@ -59,7 +59,12 @@ $.googleMapAdapter = {
 		markerOptions.position = this.createLatLng(position);
 
 		if (icon !== undefined) {
-			markerOptions.icon = icon;
+			var iconPath = icon.url;
+			var iconOffset = null;
+			if (icon.offset) iconOffset = new google.maps.Point(icon.offset.x, icon.offset.y);
+			var iconSize = null;
+			if (icon.size) iconSize = new google.maps.Size(icon.size.x, icon.size.y);
+			markerOptions.icon = new google.maps.MarkerImage(iconPath, null, null, iconOffset, iconSize);
 		}
 		if (label !== undefined) {
 			markerOptions.labelContent = label;
