@@ -9,41 +9,43 @@ function getURL() {
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-  var command = "togeojson " + rawDataPath + " > " + finalDataPath;
-  exec(command, function (error, stdout, stderr) {
-    var result = JSON.parse(fs.readFileSync(finalDataPath));
+  exec("which togeojson", function (error, stdout, stderr) {
+    var command = stdout + " " + rawDataPath + " > " + finalDataPath;
+    exec(command, function (error, stdout, stderr) {
+      var result = JSON.parse(fs.readFileSync(finalDataPath));
 
-    var pointsArray = result['features'];
-    var i = 0;
-    var newArray = [];
-    for (var data in pointsArray) {
-      var value = pointsArray[i];
-      var properties = value["properties"];
-      var description = properties["TYPE_DESC"];
+      var pointsArray = result['features'];
+      var i = 0;
+      var newArray = [];
+      for (var data in pointsArray) {
+        var value = pointsArray[i];
+        var properties = value["properties"];
+        var description = properties["TYPE_DESC"];
 
-      try {
-        properties["parsed_parking_value"] = extraction.getParkingInfo(description);
+        try {
+          properties["parsed_parking_value"] = extraction.getParkingInfo(description);
+        }
+        catch (err) {
+          console.log("Could not parse description : " + description);
+        }
+        pointsArray[i] = value;
+
+        if (i < 10) {
+          newArray[i] = value;
+        }
+        i++;
       }
-      catch (err) {
-        console.log("Could not parse description : " + description);
-      }
 
-      pointsArray[i] = value;
-
-      if (i < 10)
-        newArray[i] = value;
-      i++;
-    }
-
-    fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
-      callback();
-    });
+      fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
+        callback();
+      });
   });
+});
 }
 
 function placeSignsOnStreets(parkingData,streetIdMap) {
   var parkings = parkingData['features'];
-	
+
   for (var i = 0; i < parkings.length; i++) {
 	 var parking = parkings[i];
 	 var streetCoords = streetIdMap[parking.properties.ID_VOIE_PUB];

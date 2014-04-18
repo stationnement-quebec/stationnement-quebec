@@ -6,12 +6,14 @@ function getURL() {
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-  var command = "togeojson " + rawDataPath + " > " + finalDataPath;
-  exec(command, function (error, stdout, stderr) {
-    var result = JSON.parse(fs.readFileSync(finalDataPath));
-    var streetsArray = result['features'];
-    fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
-      callback();
+  exec("which togeojson", function (error, stdout, stderr) {
+    var command = "/usr/local/bin/togeojson " + rawDataPath + " > " + finalDataPath;
+    exec(command, function (error, stdout, stderr) {
+      var result = JSON.parse(fs.readFileSync(finalDataPath));
+      var streetsArray = result['features'];
+      fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
+        callback();
+      });
     });
   });
 }
