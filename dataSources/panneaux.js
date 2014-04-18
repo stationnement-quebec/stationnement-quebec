@@ -10,6 +10,7 @@ function getURL() {
 
 function cleanData(rawDataPath, finalDataPath, callback) {
   exec("which togeojson", function (error, stdout, stderr) {
+    stdout = stdout.replace(/(\r\n|\n|\r)/gm,"");
     var command = stdout + " " + rawDataPath + " > " + finalDataPath;
     exec(command, function (error, stdout, stderr) {
       var result = JSON.parse(fs.readFileSync(finalDataPath));
