@@ -1,6 +1,6 @@
 $.settings = {
 	center: {latitude: 46.804431, longitude: -71.239853},
-	zoom: 12,
+	zoom: 14,
 	
 	
 	
