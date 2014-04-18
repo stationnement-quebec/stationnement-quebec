@@ -1,44 +1,60 @@
 $.freeParkingAPI = {
+	init: function(settings) {},
+
 	getInformation: function(coordinates, callback) {
 		var request = "/elements?min_lat="+coordinates.min.latitude+"&min_lng="+coordinates.min.longitude;
 		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude;
-		//request = "elements?min_lat=46.81253242489569&min_lng=-71.22675845558928&max_lat=46.8152638335322&max_lng=-71.2113089316635";
 		$.getJSON(request, function(data) {
 			setTimeout(function(){$.freeParkingAPI.addTrafficSigns(callback, data);}, 0);
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			//alert($.parseJSON(jqXHR.responseText).message);
 		});
-		//this.addTrafficSigns(callback, [{coordinates: [{start: [-71.239853, 46.804431, 0], end:[-71.240853, 46.805431, 0]}], time: 0}]);
 	},
 
 	addTrafficSigns: function(callback, elements) {
-		$(elements.voie_pub).each(function(i, current) {
-			var trafficSign = {
-				id: $.freeParkingAPI.generateTrafficSignId(current),
+		$(elements.panneaux).each(function(i, current) {
+			var currentStreetCoordinates = current.properties.streetCoordinates;
+			var trafficSignStreet = {
+				id: $.freeParkingAPI.generateStreetId(currentStreetCoordinates),
 				tag: ["free_parking"],
 				path: [],
 			};
 			if (this.time == 0) {
-				trafficSign.type = "traffic_sign_no_time";
+				trafficSignStreet.type = "traffic_sign_no_time";
 			}
 			else if (this.time < 15) {
-				trafficSign.type = "traffic_sign_short_time";
+				trafficSignStreet.type = "traffic_sign_short_time";
 			}
 			else {
-				trafficSign.type = "traffic_sign_long_time";
+				trafficSignStreet.type = "traffic_sign_long_time";
 			}
-			for (var i=0; i<current.length; i++) {
-				trafficSign.path.push($.freeParkingAPI.decodeCoordinates(current[i]));
+			for (var i=0; i<currentStreetCoordinates.length; i++) {
+				trafficSignStreet.path.push($.freeParkingAPI.decodeCoordinates(currentStreetCoordinates[i]));
 			}
-			//if (this.properties.description != undefined) {
-			//	trafficSign.description = this.properties.parsed_parking_value.description;
-			//}
-			callback(trafficSign);
+
+			var parkingCoordinates = current.geometry.coordinates;
+			var trafficSignMarker = {
+ 				id: "m_"+$.freeParkingAPI.generateTrafficSignId(parkingCoordinates),
+ 				type: "traffic_sign",
+ 				tag: "free_parking",
+ 				position: $.freeParkingAPI.decodeCoordinates(parkingCoordinates),
+ 			};
+
+ 			if (current.properties.description != undefined) {
+				trafficSignMarker.description = current.properties.parsed_parking_value.description;
+			}
+
+ 			callback(trafficSignMarker);
+			callback(trafficSignStreet);
 		});
 	},
 	
-	generateTrafficSignId: function(trafficSign) {
-		return "ts_"+trafficSign[0][0]+"_"+trafficSign[0][1];
+	generateStreetId: function(streetCoordinates) {
+		return "st_"+streetCoordinates[0][0]+"_"+streetCoordinates[streetCoordinates.length-1][1];
+	},
+
+	generateTrafficSignId: function(trafficSignCoordinates) {
+		return "ts_"+trafficSignCoordinates[0]+"_"+trafficSignCoordinates[1];
 	},
 	
 	decodeCoordinates: function(coordinates) {

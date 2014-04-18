@@ -59,7 +59,12 @@ $.googleMapAdapter = {
 		markerOptions.position = this.createLatLng(position);
 
 		if (icon !== undefined) {
-			markerOptions.icon = icon;
+			var iconPath = icon.url;
+			var iconOffset = null;
+			if (icon.offset) iconOffset = new google.maps.Point(icon.offset.x, icon.offset.y);
+			var iconSize = null;
+			if (icon.size) iconSize = new google.maps.Size(icon.size.x, icon.size.y);
+			markerOptions.icon = new google.maps.MarkerImage(iconPath, null, null, iconOffset, iconSize);
 		}
 		if (label !== undefined) {
 			markerOptions.labelContent = label;
@@ -77,31 +82,16 @@ $.googleMapAdapter = {
 		return marker;
 	},
 	
+	updateMarkerLabel: function(marker, label) {
+		marker.set("label", label);
+	},
+	
 	deleteMarker: function(marker) {
 		marker.setMap(null);
 	},
 
 	createMarkerIcon: function(iconPath, sizeX, sizeY) {
 		return new google.maps.MarkerImage( iconPath, null, null, null, new google.maps.Size(sizeX, sizeY));
-	},
-
-	createLabeledMarker: function(position, visible, icon, description, label, infoWindowClass) {
-		var markerOptions = {};
-		markerOptions.map = this.map;
-		markerOptions.position = this.createLatLng(position);
-
-		markerOptions.labelContent = label;
-		markerOptions.labelAnchor = new google.maps.Point(4, 30);
-		if (icon !== undefined) {
-			markerOptions.icon = icon;
-		}
-		var marker = new MarkerWithLabel(markerOptions);
-		marker.setVisible(visible);
-		if (description !== undefined) {
-			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
-		}
-
-		return marker;
 	},
 
 	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
@@ -139,10 +129,6 @@ $.googleMapAdapter = {
 	},
 
 	setMarkerVisible: function(marker, visible) {
-		marker.setVisible(visible);
-	},
-
-	setLabeledMarkerVisible: function(marker, visible) {
 		marker.setVisible(visible);
 	},
 
@@ -223,6 +209,10 @@ $.googleMapAdapter = {
     	this.searchBox.setBounds(bounds);
 	},
 
+	isWithinBounds: function(object){
+		return this.map.getBounds().contains(this.createLatLng(object.position));
+	},
+	
 	getDirectionsTo: function(location) {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
