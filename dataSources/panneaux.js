@@ -50,27 +50,36 @@ function placeSignsOnStreets(parkingData,streetIdMap) {
   for (var i = 0; i < parkings.length; i++) {
 	 var parking = parkings[i];
 	 var streetCoords = streetIdMap[parking.properties.ID_VOIE_PUB];
-   if (streetCoords!=undefined ){
-    var segment=geometryCalculator.findClosestSegment(parking.geometry.coordinates, streetCoords);
-    parking.geometry.coordinates=geometryCalculator.projectPointOnLine(parking.geometry.coordinates, segment);
-	  parking.properties.streetCoordinates=segment;
+   if (streetCoords != undefined){
+        var segment = geometryCalculator.findClosestSegment(parking.geometry.coordinates, streetCoords);
+        parking.geometry.coordinates=geometryCalculator.projectPointOnLine(parking.geometry.coordinates, segment);
+	      parking.properties.streetCoordinates=segment;
     }
   }
   return parkingData;
 }
 
 function validElementsFromCenter(pointsArray, polygon, extension) {
-	var gju = require('geojson-utils');
   var validData = [];
 
-  for (var i in pointsArray) {
-    var feature = pointsArray[i];
+  var len = pointsArray.length;
+  while (len--) {
+    var feature = pointsArray[len];
     var point = feature['geometry'];
+    var coordinates = point.coordinates;
 
-    if (gju.pointInPolygon(point, polygon) && (extension(feature))) {
-      validData.push(feature);
+    var lat = coordinates[1];
+    if (lat > polygon.min_lat && lat < polygon.max_lat) {
+      var lng = coordinates[0];
+
+      if (lng > polygon.max_lng && lng < polygon.min_lng &&
+          extension(feature)) {
+
+          validData.push(feature);
+      }
     }
   }
+
   return validData;
 }
 

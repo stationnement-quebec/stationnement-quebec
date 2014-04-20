@@ -1,33 +1,23 @@
 /*
 	GET a list of static signs within a certain area
  */
+
+var dataSource = require('../lib/datasource.js');
+var sources = dataSource.sources();
+
 exports.elements = function(req, res) {
-	var polygon = {
-    "type": "Polygon",
-    "coordinates": [[[req.query.min_lng, req.query.min_lat],
-    [req.query.max_lng, req.query.min_lat],
-    [req.query.max_lng, req.query.max_lat],
-    [req.query.min_lng, req.query.max_lat],
-    [req.query.min_lng, req.query.min_lat]]]
-  };
-
-  var dataSource = require('../lib/datasource.js');
-
   var message = {};
 
  try {
-    var sources = dataSource.sources();
     var validParkings = {};
 
     var key = 'panneaux';
-    if (sources.hasOwnProperty(key)) {
       var source = sources[key];
       dataSource.getDataForKey(key, function (data) {
         var pointsArray = data['features'];
-        validParkings = source.validElementsFromCenter(pointsArray, polygon, source.responseExtension);
+        validParkings = source.validElementsFromCenter(pointsArray, req.query, source.responseExtension);
       });
-	  message[key]=validParkings;
-    }
+			message[key]=validParkings;
   }
   catch (err) {
     console.log(err.message);
