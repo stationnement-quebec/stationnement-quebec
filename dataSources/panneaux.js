@@ -16,7 +16,6 @@ function cleanData(rawDataPath, finalDataPath, callback) {
 
     var pointsArray = result['features'];
     var i = 0;
-    var newArray = [];
     for (var data in pointsArray) {
       var value = pointsArray[i];
       var properties = value["properties"];
@@ -29,11 +28,7 @@ function cleanData(rawDataPath, finalDataPath, callback) {
         console.log("Could not parse description : " + description);
       }
       pointsArray[i] = value;
-
-      if (i < 10) {
-        newArray[i] = value;
-      }
-      i++;
+      i++
     }
 
     fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
@@ -42,7 +37,7 @@ function cleanData(rawDataPath, finalDataPath, callback) {
   });
 }
 
-function placeSignsOnStreets(parkingData,streetIdMap) {
+function placeSignsOnStreets(parkingData, streetIdMap) {
   var parkings = parkingData['features'];
 
   for (var i = 0; i < parkings.length; i++) {
@@ -70,7 +65,7 @@ function validElementsFromCenter(pointsArray, polygon, extension) {
     if (lat > polygon.min_lat && lat < polygon.max_lat) {
       var lng = coordinates[0];
 
-      if (lng > polygon.max_lng && lng < polygon.min_lng &&
+      if (lng > polygon.min_lng && lng < polygon.max_lng &&
           extension(feature)) {
 
           validData.push(feature);
