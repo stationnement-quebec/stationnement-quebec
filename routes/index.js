@@ -1,6 +1,4 @@
-/*
-	GET a list of static signs within a certain area
- */
+/** GET a list of static signs within a certain area */
 
 var dataSource = require('../lib/datasource.js');
 var sources = dataSource.sources();
@@ -22,7 +20,7 @@ exports.elements = function(req, res) {
   catch (err) {
     console.log(err.message);
     res.status(500);
-    message = {status: "error", message: "Une erreur s'est produite sur le serveur."};
+    message = {status: "error", message: "An error occured on the server."};
   }
 
   res.json(message);

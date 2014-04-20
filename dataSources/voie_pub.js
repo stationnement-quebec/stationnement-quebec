@@ -1,20 +1,18 @@
-var exec = require('child_process').exec;
+/** Data source that download voie public data */
+
 var fs = require('fs');
+var kml_parser = require('../lib/kml_parser.js');
 
 function getURL() {
   return "http://donnees.ville.quebec.qc.ca/Handler.ashx?id=18&f=KML";
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-  exec("which togeojson", function (error, stdout, stderr) {
-    stdout = stdout.replace(/(\r\n|\n|\r)/gm,"");
-    var command = stdout + " " + rawDataPath + " > " + finalDataPath;
-    exec(command, function (error, stdout, stderr) {
-      var result = JSON.parse(fs.readFileSync(finalDataPath));
-      var streetsArray = result['features'];
-      fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
-        callback();
-      });
+  kml_parser.transformKML(rawDataPath, finalDataPath, function () {
+    var result = JSON.parse(fs.readFileSync(finalDataPath));
+    var streetsArray = result['features'];
+    fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
+      callback();
     });
   });
 }
@@ -25,7 +23,7 @@ function getStreetsIdMap(streetsData){
 	for (var i = 0; i < streets.length; i++) {
 		var street = streets[i];
 		streetsIdMap[street.properties.ID] = street.geometry.coordinates;
-    }
+  }
 	return streetsIdMap;
 }
 

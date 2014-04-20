@@ -1,3 +1,5 @@
+/** With a given date and parsed parking value, tell if we can park at that place */
+
 var schoolPeriodVerifier = require('./schoolPeriodVerifier.js');
 
 var parsedTimePattern = new RegExp(/(\d+)h(\d*)/);

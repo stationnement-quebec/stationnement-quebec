@@ -1,3 +1,4 @@
+/** Server to use in production. Will download data at launch. */
 
 var download = require('./lib/download.js');
 

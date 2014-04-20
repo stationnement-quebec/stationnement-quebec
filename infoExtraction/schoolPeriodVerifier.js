@@ -1,3 +1,5 @@
+/** Verify if a specific time is in the school period */
+
 var schoolPeriodAutumnStart = new Date();
 var schoolPeriodAutumnEnd = new Date();
 var schoolPeriodWinterStart = new Date();

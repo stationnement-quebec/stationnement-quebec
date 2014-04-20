@@ -1,3 +1,5 @@
+/** Module to calculate geometry to know where to display the lines on the street */
+
 function sqr(x) { return x * x }
 
 function dist2(v, w) { return sqr(v.x - w.x) + sqr(v.y - w.y) }
@@ -53,4 +55,3 @@ function projectPointOnLine(point, line){
 
 module.exports.findClosestSegment = findClosestSegment;
 module.exports.projectPointOnLine = projectPointOnLine;
-

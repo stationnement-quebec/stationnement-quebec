@@ -1,47 +1,45 @@
+/** Data source that download static parking data */
+
 var extraction = require('../infoExtraction/parkingInfoExtractor.js');
 var verifier = require('../infoExtraction/parkingAllowedVerifier.js');
 var geometryCalculator = require('../signGeometry/geometryCalculator.js');
-var exec = require('child_process').exec;
 var fs = require('fs');
+var kml_parser = require('../lib/kml_parser.js');
 
 function getURL() {
   return "http://donnees.ville.quebec.qc.ca/Handler.ashx?id=7&f=KML";
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-  exec("which togeojson", function (error, stdout, stderr) {
-    stdout = stdout.replace(/(\r\n|\n|\r)/gm,"");
-    var command = stdout + " " + rawDataPath + " > " + finalDataPath;
-    exec(command, function (error, stdout, stderr) {
-      var result = JSON.parse(fs.readFileSync(finalDataPath));
+  kml_parser.transformKML(rawDataPath, finalDataPath, function () {
+    var result = JSON.parse(fs.readFileSync(finalDataPath));
 
-      var pointsArray = result['features'];
-      var i = 0;
-      var newArray = [];
-      for (var data in pointsArray) {
-        var value = pointsArray[i];
-        var properties = value["properties"];
-        var description = properties["TYPE_DESC"];
+    var pointsArray = result['features'];
+    var i = 0;
+    var newArray = [];
+    for (var data in pointsArray) {
+      var value = pointsArray[i];
+      var properties = value["properties"];
+      var description = properties["TYPE_DESC"];
 
-        try {
-          properties["parsed_parking_value"] = extraction.getParkingInfo(description);
-        }
-        catch (err) {
-          console.log("Could not parse description : " + description);
-        }
-        pointsArray[i] = value;
-
-        if (i < 10) {
-          newArray[i] = value;
-        }
-        i++;
+      try {
+        properties["parsed_parking_value"] = extraction.getParkingInfo(description);
       }
+      catch (err) {
+        console.log("Could not parse description : " + description);
+      }
+      pointsArray[i] = value;
 
-      fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
-        callback();
-      });
+      if (i < 10) {
+        newArray[i] = value;
+      }
+      i++;
+    }
+
+    fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
+      callback();
+    });
   });
-});
 }
 
 function placeSignsOnStreets(parkingData,streetIdMap) {
