@@ -43,10 +43,15 @@ function placeSignsOnStreets(parkingData, streetIdMap) {
   for (var i = 0; i < parkings.length; i++) {
 	 var parking = parkings[i];
 	 var streetCoords = streetIdMap[parking.properties.ID_VOIE_PUB];
-   if (streetCoords != undefined){
-        var segment = geometryCalculator.findClosestSegment(parking.geometry.coordinates, streetCoords);
-        parking.geometry.coordinates=geometryCalculator.projectPointOnLine(parking.geometry.coordinates, segment);
-	      parking.properties.streetCoordinates=segment;
+   if (streetCoords != undefined) {
+     try {
+       var segment = geometryCalculator.findClosestSegment(parking.geometry.coordinates, streetCoords);
+       parking.geometry.coordinates=geometryCalculator.projectPointOnLine(parking.geometry.coordinates, segment);
+       parking.properties.streetCoordinates=segment;
+     }
+     catch (err) {
+       console.log("Could not place sign on street with parking : " + parking);
+     }
     }
   }
   return parkingData;
@@ -80,10 +85,15 @@ function responseExtension(value) {
   var properties = value["properties"];
   var stationnementValue = properties["parsed_parking_value"];
 
-  properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(new Date(), stationnementValue, 'none');
+  try {
+    properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(new Date(), stationnementValue, 'none');
+  }
+  catch (err) {
+    console.log("Could not tell if parking is allowed : " + stationnementValue);
+  }
 
   if (properties["parking_allowed"]){
-    return value;
+    return true;
   }
   return undefined;
 }
