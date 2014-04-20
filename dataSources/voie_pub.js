@@ -10,7 +10,6 @@ function getURL() {
 function cleanData(rawDataPath, finalDataPath, callback) {
   kml_parser.transformKML(rawDataPath, finalDataPath, function () {
     var result = JSON.parse(fs.readFileSync(finalDataPath));
-    var streetsArray = result['features'];
     fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
       callback();
     });
