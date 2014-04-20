@@ -1,0 +1,27 @@
+Voici un load test, comme promis dans la stratégie de test : 
+
+loadtest -n 1000 "http://localhost:3000/elements?min_lat=46.79700591716231&min_lng=-71.24447176392363&max_lat=46.799583881035346&max_lng=-71.23932192261503"
+[Sat Apr 19 2014 20:35:29 GMT-0400 (EDT)] INFO Requests: 0 (0%), requests per second: 0, mean latency: 0 ms
+[Sat Apr 19 2014 20:35:34 GMT-0400 (EDT)] INFO Requests: 387 (39%), requests per second: 77, mean latency: 10 ms
+[Sat Apr 19 2014 20:35:39 GMT-0400 (EDT)] INFO Requests: 778 (78%), requests per second: 78, mean latency: 10 ms
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO 
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Target URL:          http://localhost:3000/elements?min_lat=46.79700591716231&min_lng=-71.24447176392363&max_lat=46.799583881035346&max_lng=-71.23932192261503
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Max requests:        1000
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Concurrency level:   1
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Agent:               none
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO 
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Completed requests:  1000
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Total errors:        0
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Total time:          12.862841967 s
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Requests per second: 78
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Total time:          12.862841967 s
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO 
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO Percentage of the requests served within a certain time
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO   50%      12 ms
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO   90%      14 ms
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO   95%      16 ms
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO   99%      17 ms
+[Sat Apr 19 2014 20:35:42 GMT-0400 (EDT)] INFO  100%      21 ms (longest request)
+
+
+
