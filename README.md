@@ -15,6 +15,12 @@ Server can be started with
 
 `node server.js`
 
+In production, you use 
+
+`node server_production.js`
+
+This will download the data, the developement version doesn't.
+
 ## Deployement
 
 Deployement can be done with `cap deploy`, done in the project directory. Capistrano 2 is required.
