@@ -77,6 +77,12 @@ $.googleMapAdapter = {
 		marker.setVisible(visible);
 		if (description !== undefined) {
 			google.maps.event.addListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
+		} else {
+			google.maps.event.addListener(marker, "click", function() {
+				$.googleMapAdapter.map.setZoom($.googleMapAdapter.getZoom() + 1);
+				$.googleMapAdapter.setCenter(position);
+				$.googleMapAdapter.adjustBounds();
+			});
 		}
 
 		return marker;
