@@ -11,8 +11,7 @@ $.paidParkingAPI = {
 
 			$.QuadTree.clear("paid");
 			$(data.AVL).each(function() {
-				if (this.TYPE == "ON") $.QuadTree.insert("paid", this);
-				else $.paidParkingAPI.addObject(callback, this);
+				$.QuadTree.insert("paid", this);
 			});
 			$.QuadTree.compute("paid");
 		});
@@ -46,7 +45,7 @@ $.paidParkingAPI = {
 			mapObject.type = getVehiculeParcType(occupancy);
 		}
 		mapObject.available = (avl.OPER - avl.OCC);
-		if((avl.OSPID === undefined && !avl.BFID.contains("c")) ||(avl.OSPID !== undefined)) {
+		if(!avl.CLUSTER) {
 
 		mapObject.description = "<div><p>Ce point de stationnement rapporte que <b>" + (avl.OPER - avl.OCC) + "</b> stationnement(s) sont libres.</p><p>Adresse: <b>" + description + "</b></p><p><button class=\"expand\" onclick=\"$.parkingMap.getDirectionsTo({latitude: "+mapObject.position.latitude+", longitude: "+mapObject.position.longitude+"});\">Obtenir l'itinéraire</button></p><p><button class=\"expand\">Ajouter aux favoris</button></p></div>";
 
@@ -56,13 +55,17 @@ $.paidParkingAPI = {
 	},
 	
 	cluster: function(nodeArray) {
+		var id = "c";
+		if (nodeArray[0].value.TYPE == "ON") id += nodeArray[0].value.BFID;
+		else id += nodeArray[0].value.OSPID;
 		var clusterNode = {
 			PTS: "1",
 			TYPE: "ON",
 			NAME: "",
-			BFID: "c"+nodeArray[0].value.BFID,
+			BFID: id,
 			OCC: 0,
-			OPER: 0
+			OPER: 0,
+			CLUSTER: true
 		};
 		var clusterLatitude = 0;
 		var clusterLongitude = 0;
