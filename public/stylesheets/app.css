@@ -3,3 +3,39 @@
 .infoBox.available_parking,.infoBox.unavailable_parking{margin-top:-40px !important}.infoBox button.expand{margin-bottom:0 !important}.infoWindow{background:#fff;padding:15px 15px 1px 15px;border-bottom:8px solid #108b49;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;-o-border-radius:4px;border-radius:4px}.vehicule_park_high_occupancy .infoWindow{border-bottom-color:#d88a2b}.unavailable_parking .infoWindow,.vehicule_park_full .infoWindow{border-bottom-color:#de554e}.markerLabels{overflow:initial !important;text-align:center;width:26px}.markerLabels .available_parking,.markerLabels .unavailable_parking,.markerLabels .vehicule_park_low_occupancy,.markerLabels .vehicule_park_high_occupancy,.markerLabels .vehicule_park_full{margin-left:-19px !important;font-size:1rem}.markerLabels .available_parking,.markerLabels .unavailable_parking{margin-top:22px !important}.markerLabels .vehicule_park_low_occupancy,.markerLabels .vehicule_park_high_occupancy,.markerLabels .vehicule_park_full{margin-top:-10px !important}@media only screen and (max-width: 40em){.position-right{display:none}.position-right .position-right{display:block !important}}@media only screen and (min-width: 40.063em){.position-right{display:none}.position-right .position-right{display:block !important}}
 .row{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5rem;*zoom:1}
 .aligned_right{max-width:999rem}
+
+[type="radio"]:not(:checked),[type="radio"]:checked
+{position:absolute;left:-9999px}
+
+[type="radio"]:not(:checked)+label,
+[type="radio"]:checked+label{
+	position:relative;
+	padding-left:35px
+}
+
+[type="radio"]:not(:checked)+label:before,[type="radio"]:checked+label:before{
+	content:'';
+	position:absolute;
+	left:0;
+	top:2px;
+	width:20px;
+	height:20px;
+	background-color:white;
+	border-radius:50%
+}
+
+[type="radio"]:not(:checked)+label:after,[type="radio"]:checked+label:after{
+	content:"\2022";
+	position:absolute;
+	top:-0.5em;
+	left:2px;
+	font-size:2.6rem;
+	color:#1b4b9b;
+	transition:all .2s
+}
+[type="radio"]:not(:checked)+label{
+	opacity:0.7
+}
+[type="radio"]:not(:checked)+label:after{
+	opacity:0
+}
