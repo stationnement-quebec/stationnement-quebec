@@ -17,6 +17,7 @@ $.googleMapAdapter = {
 			service: new google.maps.DirectionsService()
 		};
 		this.directions.renderer.setMap(this.map);
+		this.fixInfoWindow();
 	},
 
 	addOnLoadEvent: function(onLoad) {
@@ -176,6 +177,7 @@ $.googleMapAdapter = {
 		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-133, -121)});
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
+		this.infoWindow.noSupress=true; // Stop info window from being hidden by the fixInfoWindow function
 		google.maps.event.addListener(this.infoWindow, 'domready', function() {
 			$(".infoBox").addClass(infoWindowClass);
 		});
@@ -251,6 +253,20 @@ $.googleMapAdapter = {
 				$.googleMapAdapter.directions.renderer.setDirections(result);
 			}
 		});
+	},
+
+	//Hides google maps own info windows
+	fixInfoWindow: function() {
+    	var set = google.maps.InfoWindow.prototype.set;
+    	google.maps.InfoWindow.prototype.set = function (key, val) {
+        if (key === 'map') {
+            if (!this.get('noSupress')) {
+                console.log('This InfoWindow is supressed. To enable it, set "noSupress" option to true');
+                return;
+            }
+        }
+        set.apply(this, arguments);
+    	}
 	},
 	
 	setCenter: function(center) {
