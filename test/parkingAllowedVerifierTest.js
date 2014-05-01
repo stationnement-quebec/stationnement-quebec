@@ -23,6 +23,11 @@ var parkingForbidden3 = infoExtractor.getParkingInfo("Arrêt int. 7h30 - 16h LUN
 	var badDateForParkingForbidden3 = new Date(2014, 2, 12, 10, 30, 0, 0);
 	var goodDateForParkingForbidden3 = new Date(2014, 7, 12, 12, 0, 0, 0);
 
+var parkingForbidden4 = infoExtractor.getParkingInfo('Stat. int. 8h - 16h LUN À VEN (fl. ga.)');
+	var badDateForParkingForbidden4 = new Date();
+	var goodDateForParkingForbidden4 = new Date(2014, 5, 1, 18, 45, 0, 0);
+
+
 // whenTheUserHasTheRightAuthorizationLabelItReturnsTrue
 describe('parkingAllowedVerifier', function() {
   	describe('#isItPossibleToParkAtThisTime()', function() {
@@ -76,19 +81,21 @@ describe('parkingAllowedVerifier', function() {
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDayOfWeekforParkingForbidden1, parkingForbidden1, 'none'),true);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDateForParkingForbidden2, parkingForbidden2, 'none'),true);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDateForParkingForbidden3, parkingForbidden3, 'none'),true);
+			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDateForParkingForbidden4, parkingForbidden4, 'none'),true);
     		})
   	})
 })
 
 
-// whenAllDateAttributesFitInAParkingForbiddenPanelIntervalItReturnsFalse
+// whenADateAttributeFitInAParkingForbiddenPanelIntervalItReturnsFalse
 describe('parkingAllowedVerifier', function() {
   	describe('#isItPossibleToParkAtThisTime()', function() {
-    		it('whenAllDateAttributesFitInAParkingForbiddenPanelIntervalItReturnsFalse', function() {
+    		it('whenADateAttributeFitInAParkingForbiddenPanelIntervalItReturnsFalse', function() {
 
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badHour1ForParkingForbidden1, parkingForbidden1, 'none'),false);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badHour2ForParkingForbidden1, parkingForbidden1, 'none'),false);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badDateForParkingForbidden3, parkingForbidden3, 'none'),false);
+			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badDateForParkingForbidden4, parkingForbidden4, 'none'),false);
     		})
   	})
 })
