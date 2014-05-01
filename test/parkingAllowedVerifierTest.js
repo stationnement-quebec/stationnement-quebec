@@ -1,6 +1,6 @@
 var assert = require('assert');
-var infoExtractor = require('../parkingInfoExtractor.js');
-var parkingAllowedVerifier = require('../parkingAllowedVerifier.js');
+var infoExtractor = require('../infoExtraction/parkingInfoExtractor.js');
+var parkingAllowedVerifier = require('../infoExtraction/parkingAllowedVerifier.js');
 
 
 var authorization_label1 = 'A3-3';

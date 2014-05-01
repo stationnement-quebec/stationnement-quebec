@@ -1,5 +1,5 @@
 var assert = require('assert');
-var infoExtractor = require('../parkingInfoExtractor.js');
+var infoExtractor = require('../infoExtraction/parkingInfoExtractor.js');
 
 var testStr1 = 'Arrêt int. 7h30 - 16h LUN À VEN PÉRIODE SCOLAIRE (fl. dou.)';
 var testStr1Data = {
