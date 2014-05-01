@@ -24,9 +24,10 @@ var parkingForbidden3 = infoExtractor.getParkingInfo("Arrêt int. 7h30 - 16h LUN
 	var goodDateForParkingForbidden3 = new Date(2014, 7, 12, 12, 0, 0, 0);
 
 var parkingForbidden4 = infoExtractor.getParkingInfo('Stat. int. 8h - 16h LUN À VEN (fl. ga.)');
-	var badDateForParkingForbidden4 = new Date();
-	var goodDateForParkingForbidden4 = new Date(2014, 5, 1, 18, 45, 0, 0);
+	var badDateForParkingForbidden4 = new Date(2014, 4, 1, 14, 30, 0, 0);
+	var goodDateForParkingForbidden4 = new Date(2014, 4, 1, 18, 45, 0, 0);
 
+var snowClearingPanel = infoExtractor.getParkingInfo('Stat. int. DANS CETTE RUE 23h - 6h30 LORSQUE LE FEU CLIGNOTE');
 
 // whenTheUserHasTheRightAuthorizationLabelItReturnsTrue
 describe('parkingAllowedVerifier', function() {
@@ -107,6 +108,16 @@ describe('parkingAllowedVerifier', function() {
     		it('whenADateFitInAParkingForbiddenPanelIntervalItReturnsFalse', function() {
 
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badDateForParkingForbidden2, parkingForbidden2, 'none'),false);
+    		})
+  	})
+})
+
+// whenCheckingASnowClearingPanelItReturnsFalse
+describe('parkingAllowedVerifier', function() {
+  	describe('#isItPossibleToParkAtThisTime()', function() {
+    		it('whenCheckingASnowClearingPanelItReturnsFalse', function() {
+
+			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(new Date(), snowClearingPanel, 'none'),false);
     		})
   	})
 })
