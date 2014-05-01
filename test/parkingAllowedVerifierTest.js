@@ -1,6 +1,6 @@
 var assert = require('assert');
-var infoExtractor = require('../parkingInfoExtractor.js');
-var parkingAllowedVerifier = require('../parkingAllowedVerifier.js');
+var infoExtractor = require('../infoExtraction/parkingInfoExtractor.js');
+var parkingAllowedVerifier = require('../infoExtraction/parkingAllowedVerifier.js');
 
 
 var authorization_label1 = 'A3-3';
@@ -22,6 +22,12 @@ var parkingForbidden2 = infoExtractor.getParkingInfo('Stat. int. 8h - 17h 1er SE
 var parkingForbidden3 = infoExtractor.getParkingInfo("Arrêt int. 7h30 - 16h LUN À VEN PÉRIODE SCOLAIRE (fl. dou.)");
 	var badDateForParkingForbidden3 = new Date(2014, 2, 12, 10, 30, 0, 0);
 	var goodDateForParkingForbidden3 = new Date(2014, 7, 12, 12, 0, 0, 0);
+
+var parkingForbidden4 = infoExtractor.getParkingInfo('Stat. int. 8h - 16h LUN À VEN (fl. ga.)');
+	var badDateForParkingForbidden4 = new Date(2014, 4, 1, 14, 30, 0, 0);
+	var goodDateForParkingForbidden4 = new Date(2014, 4, 1, 18, 45, 0, 0);
+
+var snowClearingPanel = infoExtractor.getParkingInfo('Stat. int. DANS CETTE RUE 23h - 6h30 LORSQUE LE FEU CLIGNOTE');
 
 // whenTheUserHasTheRightAuthorizationLabelItReturnsTrue
 describe('parkingAllowedVerifier', function() {
@@ -76,19 +82,21 @@ describe('parkingAllowedVerifier', function() {
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDayOfWeekforParkingForbidden1, parkingForbidden1, 'none'),true);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDateForParkingForbidden2, parkingForbidden2, 'none'),true);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDateForParkingForbidden3, parkingForbidden3, 'none'),true);
+			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(goodDateForParkingForbidden4, parkingForbidden4, 'none'),true);
     		})
   	})
 })
 
 
-// whenAllDateAttributesFitInAParkingForbiddenPanelIntervalItReturnsFalse
+// whenADateAttributeFitInAParkingForbiddenPanelIntervalItReturnsFalse
 describe('parkingAllowedVerifier', function() {
   	describe('#isItPossibleToParkAtThisTime()', function() {
-    		it('whenAllDateAttributesFitInAParkingForbiddenPanelIntervalItReturnsFalse', function() {
+    		it('whenADateAttributeFitInAParkingForbiddenPanelIntervalItReturnsFalse', function() {
 
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badHour1ForParkingForbidden1, parkingForbidden1, 'none'),false);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badHour2ForParkingForbidden1, parkingForbidden1, 'none'),false);
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badDateForParkingForbidden3, parkingForbidden3, 'none'),false);
+			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badDateForParkingForbidden4, parkingForbidden4, 'none'),false);
     		})
   	})
 })
@@ -100,6 +108,16 @@ describe('parkingAllowedVerifier', function() {
     		it('whenADateFitInAParkingForbiddenPanelIntervalItReturnsFalse', function() {
 
 			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(badDateForParkingForbidden2, parkingForbidden2, 'none'),false);
+    		})
+  	})
+})
+
+// whenCheckingASnowClearingPanelItReturnsFalse
+describe('parkingAllowedVerifier', function() {
+  	describe('#isItPossibleToParkAtThisTime()', function() {
+    		it('whenCheckingASnowClearingPanelItReturnsFalse', function() {
+
+			assert.equal(parkingAllowedVerifier.isItPossibleToParkAtThisTime(new Date(), snowClearingPanel, 'none'),false);
     		})
   	})
 })

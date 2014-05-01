@@ -1,5 +1,5 @@
 var assert = require('assert');
-var periodVerifier = require('../schoolPeriodVerifier.js');
+var periodVerifier = require('../infoExtraction/schoolPeriodVerifier.js');
 
 var dateInAutumnSchoolPeriod = new Date(2014, 10, 12, 9, 30, 0, 0);
 var dateInWinterSchoolPeriod = new Date(2014, 1, 12, 19, 30, 0, 0);

@@ -1,5 +1,5 @@
 var assert = require('assert');
-var infoParser = require('../parkingInfoParser.js');
+var infoParser = require('../infoExtraction/parkingInfoParser.js');
 
 var testStr1 = 'Arrêt int. 7h30 - 16h LUN À VEN PÉRIODE SCOLAIRE (fl. dou.)';
 var testStr1ActiveDay = ['LUN', 'MAR', 'MER', 'JEU', 'VEN'];

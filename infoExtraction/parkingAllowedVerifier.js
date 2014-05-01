@@ -1,7 +1,8 @@
 /** With a given date and parsed parking value, tell if we can park at that place */
-
 var schoolPeriodVerifier = require('./schoolPeriodVerifier.js');
 
+var snowClearingStart = '23h';
+var snowClearingEnd = '6h30';
 var parsedTimePattern = new RegExp(/(\d+)h(\d*)/);
 var parsedDatePattern = new RegExp(/(\d{2})-(\d{2})/);
 var days = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
@@ -27,6 +28,10 @@ function isItPossibleToParkAtThisTime(date, dataOfThePanel, authorization_label)
 
 
 function isItPossibleToParkWhenItsAParkingForbiddenSign(panelData, date, month, dayOfTheMonth, dayOfTheWeek, timeInMinute) {
+
+	var timeInterval = panelData['time_intervals'][0];
+	if ( (timeInterval.startTime == snowClearingStart) && (timeInterval.endTime == snowClearingEnd) )
+		return false;
 
 	if (doesTheMonthAndDayFitThePanelInterval(panelData, date, month, dayOfTheMonth) == false)
 		return true;
