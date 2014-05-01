@@ -53,20 +53,16 @@
 								</div>
 							</dd>
 							<dd>
-								<a href="#panel4">Notifications</a>
+								<a href="#panel4">Affichage</a>
 								<div id="panel4" class="content">
-									<h2>Envoi de notification lorsque...</h2>
+									<h2>Afficher les...</h2>
 									<p>
-										<input id="checkbox-notification-place" type="checkbox">
-										<label for="checkbox-notification-place">Une place se libère d'un point surveillé</label>
+										<input id="checkbox-gratuits" type="checkbox" checked="checked" onclick="$.parkingMap.toggleFreeParkings(this.checked);">
+										<label for="checkbox-gratuits">Stationnements gratuits</label>
 									</p>
 									<p>
-										<input id="checkbox-notification-fav" type="checkbox">
-										<label for="checkbox-notification-fav">Une place se libère d'un point favoris</label>
-									</p>
-									<p>
-										<input id="checkbox-notification-timer" type="checkbox">
-										<label for="checkbox-notification-timer">Le temps du parcomètre est presque écoulé (10&nbsp;minutes)</label>
+										<input id="checkbox-payants" type="checkbox" checked="checked" onclick="$.parkingMap.togglePaidParkings(this.checked);">
+										<label for="checkbox-payants">Stationnements payants</label>
 									</p>
 								</div>
 							</dd>
@@ -207,18 +203,6 @@
 			$(function() {
 				$.main.execute("#map-canvas");
 			});
-		</script>
-
-		<script type="text/javascript">
-					// function initialize() {
-					// 	var mapOptions = {
-					// 		center: new google.maps.LatLng(-34.397, 150.644),
-					// 		zoom: 8
-					// 	};
-					// 	var map = new google.maps.Map(document.getElementById("map-canvas"),
-					// 			mapOptions);
-					// }
-					// google.maps.event.addDomListener(window, 'load', initialize);
 		</script>
 	</body>
 </html>

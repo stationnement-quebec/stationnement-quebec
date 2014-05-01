@@ -149,7 +149,6 @@ $.parkingMap = {
 
 	addSearchBar: function() {
 		var input = (document.getElementById('pac-input'));
-		/*this.map.addTopLeftElement(input);*/
 		this.map.addSearch(input);
 	},
 
@@ -174,24 +173,12 @@ $.parkingMap = {
 		return this.map.getZoom();
 	},
 
-	addSettings: function() {
-		/*var settingsButton = $("<a href=\"#settings\" id=\"open-settings\">Settings</a>");
-		this.addButtonBottomRight(settingsButton[0]);*/
+	toggleFreeParkings: function(isVisible) {
+		$.parkingMap.setVisibility("free_parking", isVisible);
 	},
 
-	addToggleFreePaying: function() {
-		var toggleButton = $("#toggleParkingsButton");
-		/* this.addButtonTopRight(toggleButton[0]); */
-		toggleButton.on("click", function() {
-			$.parkingMap.payingParkingsVisible = !$.parkingMap.payingParkingsVisible;
-			$.parkingMap.setVisibility("paying_parking", !$.parkingMap.payingParkingsVisible);
-			$.parkingMap.setVisibility("free_packing", $.parkingMap.payingParkingsVisible);
-			var action = "free";
-			if (!$.parkingMap.payingParkingsVisible) {
-				action = "paying";
-			}
-			$("#toggleParkingsButton").attr('class', action);
-		});
+	togglePaidParkings: function(isVisible) {
+		$.parkingMap.setVisibility("paying_parking", isVisible);
 	},
 	
 	getDirectionsTo: function(position) {
