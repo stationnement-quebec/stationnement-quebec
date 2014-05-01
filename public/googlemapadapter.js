@@ -175,11 +175,20 @@ $.googleMapAdapter = {
 			this.infoWindow.close();
 		}
 		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-133, -121)});
+		this.infoWindow.noSupress=true; // Stop info window from being hidden by the fixInfoWindow function
+		//this.infoWindow.setContent("<div id=\"content-info\" class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
 		this.infoWindow.open(this.map, object);
-		this.infoWindow.noSupress=true; // Stop info window from being hidden by the fixInfoWindow function
+		this.setCenter(object.getPosition());
 		google.maps.event.addListener(this.infoWindow, 'domready', function() {
+			//var test =  document.getElementById("content-info");
 			$(".infoBox").addClass(infoWindowClass);
+			//var parent= test.parentNode;
+			//parent.id = "reveal-info";
+			//parent.setAttribute("data-reveal","");
+			//parent.setAttribute("style","position: absolute; top: 50%;left: 50%;z-index:101");
+			//$("#reveal-info").foundation();
+			//$("#reveal-info").foundation("reveal", "open");
 		});
 	},
 
@@ -218,6 +227,11 @@ $.googleMapAdapter = {
 	},
 
 	isWithinBounds: function(object){
+		if(object.hasOwnProperty('path')){ //For lines check if at least one end point is within bounds
+			var lineIsWithinBounds = this.map.getBounds().contains(this.createLatLng(object.path[0]));
+			lineIsWithinBounds = lineIsWithinBounds || this.map.getBounds().contains(this.createLatLng(object.path[1]));
+			return lineIsWithinBounds;
+		}
 		return this.map.getBounds().contains(this.createLatLng(object.position));
 	},
 	
