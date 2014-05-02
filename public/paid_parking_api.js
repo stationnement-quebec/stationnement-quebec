@@ -14,7 +14,7 @@ $.paidParkingAPI = {
 			var uniqueParkings = [];
 			$(data.AVL).each(function() {
 
-				if(typeof(this.BFID) !== undefined)
+				if(this.BFID !== undefined)
 					currentID = this.BFID;
 				else
 					currentID = this.OSPID;
