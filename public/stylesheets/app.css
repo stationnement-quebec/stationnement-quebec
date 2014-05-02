@@ -40,18 +40,33 @@
 	opacity:0
 }
 
-.geolocbutton{
+.geolocbutton,.geolocbutton:focus{
 	display:block;
 	position:relative;
 	z-index:2;
 	text-align:center;
 	width:100%;
-	padding-top:0;
-	padding-bottom:0;
+	padding:0;
 	border-style:solid;
 	border-width:1px;
 	overflow:hidden;
 	font-size:1rem;
 	height:2.4375rem;
 	line-height:2.4375rem;
+	padding-left: 10px;
+	background-color:#f2f2f2;
+	border-color: #ccc;
+	outline:0;
+}
+
+.geolocbutton:hover,.geolocbutton:focus:hover{
+	background-color: #a4c2dc;
+}
+
+.geolocimage{
+	position: relative;
+	top:-2px;
+	horizontal-align:;
+	width:34px;
+	height:34px;
 }
