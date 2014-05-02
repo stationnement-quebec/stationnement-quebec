@@ -39,3 +39,19 @@
 [type="radio"]:not(:checked)+label:after{
 	opacity:0
 }
+
+.geolocbutton{
+	display:block;
+	position:relative;
+	z-index:2;
+	text-align:center;
+	width:100%;
+	padding-top:0;
+	padding-bottom:0;
+	border-style:solid;
+	border-width:1px;
+	overflow:hidden;
+	font-size:1rem;
+	height:2.4375rem;
+	line-height:2.4375rem;
+}
