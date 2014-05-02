@@ -8,10 +8,32 @@ $.paidParkingAPI = {
 			if (data.STATUS != "SUCCESS") {
 				return;
 			}
+	
+			var currentID = 0;
+			var previousID = 0;
+			var uniqueParkings = [];
+			$(data.AVL).each(function() {
+
+				if(typeof(this.BFID) !== undefined)
+					currentID = this.BFID;
+				else
+					currentID = this.OSPID;
+
+				if(currentID != previousID)
+					uniqueParkings.push(this);
+				else {
+
+					var index = uniqueParkings.length - 1;
+					uniqueParkings[index].OCC += this.OCC;
+					uniqueParkings[index].OPER += this.OPER;					
+				}
+				previousID = currentID;	
+			});
 
 			$.QuadTree.clear("paid");
-			$(data.AVL).each(function() {
-				$.QuadTree.insert("paid", this);
+			uniqueParkings.forEach(function(value) {
+			
+				$.QuadTree.insert("paid", value);
 			});
 			$.QuadTree.compute("paid");
 		});
