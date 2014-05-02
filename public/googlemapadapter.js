@@ -194,36 +194,27 @@ $.googleMapAdapter = {
 
 	searchPlace: function() {
 		var places = this.searchBox.getPlaces();
-    	var bounds = new google.maps.LatLngBounds();
-    	for (var i = 0, place; place = places[i]; i++) {
     		var image = {
-    			url: place.icon,
-    			size: new google.maps.Size(71, 71),
-    			origin: new google.maps.Point(0, 0),
-    			anchor: new google.maps.Point(17, 34),
-    			scaledSize: new google.maps.Size(25, 25)
-    		};
-      		var marker = new google.maps.Marker({
-      			map: this.map,
-      			icon: image,
-      			title: place.name,
-      			position: place.geometry.location
-      		});
-
-      		bounds.extend(place.geometry.location);
-  		}
-		if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-			var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.001, bounds.getNorthEast().lng() + 0.001);
-			var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.001, bounds.getNorthEast().lng() - 0.001);
-			bounds.extend(extendPoint1);
-			bounds.extend(extendPoint2);
-		}
-  		this.map.fitBounds(bounds);
+	    		url: places[0].icon,
+	    		size: new google.maps.Size(71, 71),
+	    		origin: new google.maps.Point(0, 0),
+	    		anchor: new google.maps.Point(17, 34),
+	    		scaledSize: new google.maps.Size(25, 25)
+		};
+	      	var marker = new google.maps.Marker({
+	      		map: this.map,
+	      		icon: image,
+	      		title: places[0].name,
+	      		position: places[0].geometry.location
+	      	});
+		this.map.setCenter(places[0].geometry.location);
+		this.map.setZoom(18);
+  		this.adjustBounds();
 	},
 
 	adjustBounds: function(){
 		var bounds = this.map.getBounds();
-    	this.searchBox.setBounds(bounds);
+    		this.searchBox.setBounds(bounds);
 	},
 
 	isWithinBounds: function(object){
