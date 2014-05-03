@@ -6,13 +6,12 @@ $.settings = {
 	
 	adapter: $.googleMapAdapter,
 	assets: {
-		hydrant: {type: "marker", icon: {url: "http://google.com/mapfiles/ms/micons/blue.png"}, minZoom: 16},
-		parking_terminal: {type: "marker", icon: {url: "http://google.com/mapfiles/ms/micons/yellow.png"}},
 		traffic_sign: {type: "marker", icon: {url: "icons/circle-white.png", offset: {x: 15, y: 15}, size: {x: 30, y: 30}}, minZoom: 19},
 		traffic_sign_label: {type: "marker", icon: {url: "http://google.com/mapfiles/ms/micons/red.png"}},
 		traffic_sign_no_time: {type: "line", color: "red", icon: {url: "http://google.com/mapfiles/ms/micons/red.png"}},
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
 		traffic_sign_long_time: {type: "line", color: "green"},
+		search_result: {type: "marker", icon: {url: "icons/search_icon.png", size: {x: 32, y: 32}, offset: {x: 16, y: 16}}},
 		available_parking: {type: "marker", icon: {url: "icons/circle-green.png", size: {x: 30, y: 30}, offset: {x: 15, y: 15}}},
 		unavailable_parking: {type: "marker", icon: {url: "icons/circle-red.png", size: {x: 30, y: 30}, offset: {x: 15, y: 15}}},
 		vehicule_park_low_occupancy : {type: "marker", icon: {url: "icons/pin-green.png", size: {x: 38, y: 52}}},

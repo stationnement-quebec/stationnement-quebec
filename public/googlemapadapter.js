@@ -1,6 +1,7 @@
 $.googleMapAdapter = {
 	map: undefined,
 	searchBox: undefined,
+	searchMarker: undefined,	
 	infoWindow: undefined,
 
 	directions: false,
@@ -18,6 +19,8 @@ $.googleMapAdapter = {
 		};
 		this.directions.renderer.setMap(this.map);
 		this.fixInfoWindow();
+
+		this.createSearchIcon();				
 	},
 
 	addOnLoadEvent: function(onLoad) {
@@ -67,13 +70,14 @@ $.googleMapAdapter = {
 			if (icon.size) iconSize = new google.maps.Size(icon.size.x, icon.size.y);
 			markerOptions.icon = new google.maps.MarkerImage(iconPath, null, null, iconOffset, iconSize);
 		}
+		var marker;
 		if (label !== undefined) {
 			markerOptions.labelContent = label;
 			markerOptions.labelAnchor = new google.maps.Point(4, 30);
-			var marker = new MarkerWithLabel(markerOptions);
+			marker = new MarkerWithLabel(markerOptions);
 		}
 		else {
-			var marker = new google.maps.Marker(markerOptions);
+			marker = new google.maps.Marker(markerOptions);
 		}
 		marker.setVisible(visible);
 		if (description !== undefined) {
@@ -194,19 +198,9 @@ $.googleMapAdapter = {
 
 	searchPlace: function() {
 		var places = this.searchBox.getPlaces();
-    		var image = {
-	    		url: places[0].icon,
-	    		size: new google.maps.Size(71, 71),
-	    		origin: new google.maps.Point(0, 0),
-	    		anchor: new google.maps.Point(17, 34),
-	    		scaledSize: new google.maps.Size(25, 25)
-		};
-	      	var marker = new google.maps.Marker({
-	      		map: this.map,
-	      		icon: image,
-	      		title: places[0].name,
-	      		position: places[0].geometry.location
-	      	});
+    		
+		this.updateSearchMarker(places[0].name, places[0].geometry.location);
+	      
 		this.map.setCenter(places[0].geometry.location);
 		this.map.setZoom(18);
   		this.adjustBounds();
@@ -276,5 +270,19 @@ $.googleMapAdapter = {
 	
 	setCenter: function(center) {
 		this.map.setCenter(new google.maps.LatLng(center.latitude, center.longitude));
+	},
+
+	createSearchIcon: function() {
+		var iconProperties = $.settings.assets.search_result;
+		this.searchMarker = this.createMarker(new google.maps.LatLng(46,-71), false, iconProperties.icon, "", undefined, iconProperties.type);
+		this.searchMarker.setVisible(false);
+		google.maps.event.clearListeners(this.searchMarker, "click");		
+	},
+
+	updateSearchMarker: function(title, position) {
+		this.searchMarker.setVisible(false);
+		this.searchMarker.setTitle(title);
+		this.searchMarker.setPosition(position);
+		this.searchMarker.setVisible(true);
 	}
 };
