@@ -1,7 +1,8 @@
 $.settings = {
 	center: {latitude: 46.804431, longitude: -71.239853},
 	zoom: 14,
-	
+	minZoom: 10,
+	maxZoom: 21,
 	
 	
 	adapter: $.googleMapAdapter,
