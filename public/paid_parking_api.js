@@ -1,43 +1,52 @@
 $.paidParkingAPI = {
 	init: function(settings) {
-		$.QuadTree.init("paid", settings.bounds, this.cluster, this.extractCoordinates, settings.capacity);
+		$.QuadTree.init("paid", settings.bounds, this.nodeClusteringFunction, this.extractCoordinates, settings.capacity);
 	},
 
 	getInformation: function(bounds, callback) {
 		$.get("http://acc-api.ville.quebec.qc.ca/stationnement/rest/vdqpark/availabilityservice?response=json", function( data ) {
-			if (data.STATUS != "SUCCESS") {
+			if (data.STATUS != "SUCCESS")
 				return;
-			}
 	
-			var currentID = 0;
-			var previousID = 0;
-			var uniqueParkings = [];
-			$(data.AVL).each(function() {
-
-				if(this.BFID !== undefined)
-					currentID = this.BFID;
-				else
-					currentID = this.OSPID;
-
-				if(currentID != previousID)
-					uniqueParkings.push(this);
-				else {
-
-					var index = uniqueParkings.length - 1;
-					uniqueParkings[index].OCC += this.OCC;
-					uniqueParkings[index].OPER += this.OPER;					
-				}
-				previousID = currentID;	
-			});
-
-			$.QuadTree.clear("paid");
-			uniqueParkings.forEach(function(value) {
-			
-				$.QuadTree.insert("paid", value);
-			});
-			$.QuadTree.compute("paid");
+			var uniqueParkings = $.paidParkingAPI.mergeParkingsWithTheSameID($(data.AVL));
+			$.paidParkingAPI.fillPaidParkingData(uniqueParkings);
 		});
 	},
+
+	mergeParkingsWithTheSameID: function(avlData) {
+		var currentID = 0;
+		var previousID = 0;
+		var uniqueParkings = [];
+	
+		$(avlData).each(function() {
+			if(this.TYPE == "ON") // on street parking
+				currentID = this.BFID;
+			else
+				currentID = this.OSPID;
+
+			if(currentID != previousID)
+				uniqueParkings.push(this);
+			else {
+				var index = uniqueParkings.length - 1;
+				uniqueParkings[index].OCC += this.OCC;
+				uniqueParkings[index].OPER += this.OPER;					
+			}
+			previousID = currentID;	
+		});
+
+		return uniqueParkings;
+	},
+
+	fillPaidParkingData: function(uniqueParkingArray) {
+
+		$.QuadTree.clear("paid");
+		uniqueParkingArray.forEach(function(value) {
+		
+			$.QuadTree.insert("paid", value);
+		});
+		$.QuadTree.compute("paid");
+	},
+
 
 	addObject: function(callback, avl, zoom) {
 		if (avl.PTS != "1") {
@@ -64,7 +73,7 @@ $.paidParkingAPI = {
 			mapObject.id = "p_off_"+avl.OSPID;
 			description = avl.DESC;
 			var occupancy = avl.OCC / avl.OPER;
-			mapObject.type = getVehiculeParcType(occupancy);
+			mapObject.type = $.paidParkingAPI.getVehiculeParcType(occupancy);
 		}
 		mapObject.available = (avl.OPER - avl.OCC);
 		if(!avl.CLUSTER) {
@@ -75,8 +84,18 @@ $.paidParkingAPI = {
 		mapObject.label = "<div class=\""+mapObject.type+"\">"+mapObject.available+"</div>";
 		callback(mapObject);
 	},
+
+	getVehiculeParcType: function(occupancy) {
+		var type = "vehicule_park_high_occupancy";
+		if(occupancy < 0.5)
+			type = "vehicule_park_low_occupancy";
+		else if (occupancy >= 1)
+			type = "vehicule_park_full";
+
+		return type;
+	},
 	
-	cluster: function(nodeArray) {
+	nodeClusteringFunction: function(nodeArray) {
 		var id = "c";
 		if (nodeArray[0].value.TYPE == "ON") id += nodeArray[0].value.BFID;
 		else id += nodeArray[0].value.OSPID;
@@ -116,19 +135,4 @@ $.paidParkingAPI = {
 			longitude: parseFloat(points[0])
 		};		
 	}
-}
-
-
-function getVehiculeParcType(occupancy) {
-
-	var type = "vehicule_park_high_occupancy";
-
-	if(occupancy < 0.5){
-		type = "vehicule_park_low_occupancy";
-	}
-	else if (occupancy >= 1){
-		type = "vehicule_park_full";
-	}
-
-	return type;
 }
