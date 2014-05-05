@@ -89,10 +89,6 @@ $.googleMapAdapter = {
 		marker.setMap(null);
 	},
 
-	createMarkerIcon: function(iconPath, sizeX, sizeY) {
-		return new google.maps.MarkerImage( iconPath, null, null, null, new google.maps.Size(sizeX, sizeY));
-	},
-
 	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
 		var circleOptions = {};
 		circleOptions.map = this.map;
@@ -290,6 +286,11 @@ $.googleMapAdapter = {
 			});
 		}
 	},	
+
+	createLocationMarker: function(position) {
+		var iconProperties = $.settings.assets.current_location;
+		var locationMarker = this.createMarker(position, true, iconProperties.icon, "", undefined, iconProperties.type);	
+	},
 
 	createSearchIcon: function() {
 		var iconProperties = $.settings.assets.search_result;

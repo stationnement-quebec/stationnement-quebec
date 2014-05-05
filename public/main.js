@@ -5,13 +5,21 @@ $.main = {
 		}
 		
 		$.parkingMap.createMap($.settings.adapter, $.settings.assets, selector, $.settings.center, $.settings.zoom, function() {
-			//setTimeout($.main.centerMapWithGeolocation, 0);
+			setTimeout($.main.createPointAtGeolocation, 0);
 			$.main.addMapInfo();
 		});
 		$.parkingMap.addUpdateEvent(function() {$.main.addMapInfo();});
 		$.parkingMap.addSearchBar();
 	},
 	
+	createPointAtGeolocation: function() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				$.parkingMap.markLocation(position);
+			}, function() {});
+		}
+	},
+
 	centerMapWithGeolocation: function() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {

@@ -184,6 +184,10 @@ $.parkingMap = {
 	getDirectionsTo: function(position) {
 		this.map.getDirectionsTo(position);
 	},
+
+	markLocation: function(position) {
+		$.googleMapAdapter.createLocationMarker(position.coords);
+	},
 	
 	setCenter: function(center) {
 		this.map.setCenter(center);
