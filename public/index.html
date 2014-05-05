@@ -209,8 +209,9 @@
     			$( "#datepicker" ).datetimepicker({
 					showButtonPanel: true,
 					stepMinute:10,
-					onSelect: function(dateText, inst){
+    				onClose: function(dateText, inst){
         				$.settings.date = $( "#datepicker" ).datetimepicker( "getDate" );
+        				console.log($.settings.date);
     				},
 				});
   			});
