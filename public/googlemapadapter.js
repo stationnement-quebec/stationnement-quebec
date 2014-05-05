@@ -1,13 +1,14 @@
 $.googleMapAdapter = {
 	map: undefined,
 	searchBox: undefined,
-	searchMarker: undefined,	
+	searchMarker: undefined,
+	searchMarkerOnCLickAction: undefined,	
 	infoWindow: undefined,
 
 	directions: false,
 
 	//Adapter Functions
-	createMap: function(selector, center, zoom) {
+	createMap: function(selector, center, zoom, searchMarkerOnCLickAction) {
 		this.map = new google.maps.Map($(selector)[0], {
 			center: this.createLatLng(center),
 			zoom: zoom,
@@ -20,6 +21,7 @@ $.googleMapAdapter = {
 		this.directions.renderer.setMap(this.map);
 		this.fixInfoWindow();
 
+		this.searchMarkerOnCLickAction = searchMarkerOnCLickAction;
 		this.createSearchIcon();				
 	},
 
@@ -299,6 +301,12 @@ $.googleMapAdapter = {
 		this.setMarkerVisible(this.searchMarker,false);
 		this.searchMarker.setTitle(title);
 		this.searchMarker.setPosition(position);
+
+		if(this.searchMarkerOnCLickAction !== undefined) {
+			this.clearEventListener(this.searchMarker, "click");
+			this.addEventListener(this.searchMarker, "click", searchMarkerOnCLickAction(title, position));
+		}
+
 		this.setMarkerVisible(this.searchMarker,true);
 	}
 };
