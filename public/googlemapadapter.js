@@ -207,7 +207,7 @@ $.googleMapAdapter = {
 				var to = new google.maps.LatLng(location.latitude, location.longitude);
 				this.makeDirectionRequest(from, to);
 			}, function() {
-				this.getDirectionsToNoGeolocation(location);
+				$.googleMapAdapter.getDirectionsToNoGeolocation(location);
 			});
 		}
 		else {
@@ -229,7 +229,7 @@ $.googleMapAdapter = {
 		};
 		this.directions.service.route(request, function(result, status) {
 			if (status == google.maps.DirectionsStatus.OK) {
-				this.directions.renderer.setDirections(result);
+				$.googleMapAdapter.directions.renderer.setDirections(result);
 			}
 		});
 	},
