@@ -3,7 +3,7 @@ $.freeParkingAPI = {
 
 	getInformation: function(coordinates, callback) {
 		var request = "/elements?min_lat="+coordinates.min.latitude+"&min_lng="+coordinates.min.longitude;
-		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude;
+		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude+"&date="+$.settings.date;
 		$.getJSON(request, function(data) {
 			setTimeout(function(){$.freeParkingAPI.addTrafficSigns(callback, data);}, 0);
 		}).fail(function(jqXHR, textStatus, errorThrown) {
