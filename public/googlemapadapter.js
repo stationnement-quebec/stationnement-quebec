@@ -155,6 +155,9 @@ $.googleMapAdapter = {
 
 	//Helper Functions
 	createLatLng: function(point) {
+		if(!point.hasOwnProperty('latitude')){
+			throw "Exception: Expected a point with a latitude and longitude defined";
+		}
 		return new google.maps.LatLng(point.latitude, point.longitude);
 	},
 
