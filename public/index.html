@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Stationnements libres et ouverts</title>
 		<link rel="stylesheet" href="stylesheets/app.css" />
+		<link rel="stylesheet" href="stylesheets/ui-lightness/jquery-ui-1.10.4.min.css" />
 		<script src="bower_components/modernizr/modernizr.js"></script>
 		<script>
 		/* grunticon Stylesheet Loader | https://github.com/filamentgroup/grunticon | (c) 2012 Scott Jehl, Filament Group, Inc. | MIT license. */
@@ -46,6 +47,7 @@
 									<p>
 										<input id="radio-date" type="radio" name="radio-time" value="radio-date">
 										<label for="radio-date">Pour une date et heure donnée</label>
+										<p><input type="text" id="datepicker" style="display:none"></p>
 									</p>
 								</div>
 							</dd>
@@ -181,6 +183,8 @@
 				<img src="icons/logo-vdq.gif" height="68" width="105" alt="Logo Ville de Québec">
 			</div>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/jquery/dist/jquery-ui.min.js"></script>
+		<script src="bower_components/jquery/dist/jquery-ui-timepicker-addon.js"></script>
 		<script src="bower_components/foundation/js/foundation.min.js"></script>
 		<script src="js/app.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
@@ -199,6 +203,26 @@
 		<script type="text/javascript">
 			$(function() {
 				$.main.execute("#map-canvas");
+			});
+
+  			$(function() {
+    			$( "#datepicker" ).datetimepicker({
+					showButtonPanel: true,
+					stepMinute:10,
+					onSelect: function(dateText, inst){
+        				$.settings.date = $( "#datepicker" ).datetimepicker( "getDate" );
+    				},
+				});
+  			});
+
+			$(document).ready(function(){ 
+    			$("input[id$='radio-date']").click(function() {
+        			$("#datepicker").show();
+    			}); 
+    			$("input[id$='radio-now']").click(function() {
+        			$("#datepicker").hide();
+        			$.settings.date=null;
+    			}); 
 			});
 		</script>
 	</body>

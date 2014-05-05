@@ -3,6 +3,7 @@ $.settings = {
 	zoom: 14,
 	minZoom: 10,
 	maxZoom: 21,
+	date: null,
 	
 	
 	adapter: $.googleMapAdapter,
