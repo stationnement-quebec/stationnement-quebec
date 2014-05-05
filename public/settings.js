@@ -13,7 +13,7 @@ $.settings = {
 		traffic_sign_short_time: {type: "line", color: "FF9900"},
 		traffic_sign_long_time: {type: "line", color: "green"},
 		search_result: {type: "marker", icon: {url: "icons/search_icon.png", size: {x: 32, y: 32}, offset: {x: 16, y: 16}}},
-		current_location: {type: "marker", icon: {url: "icons/location_icon.png", size: {x: 20, y: 20}, offset: {x: 10, y: 10}}},
+		current_location: {type: "marker", icon: {url: "icons/location_icon.png", size: {x: 24, y: 24}, offset: {x: 12, y: 12}}},
 		available_parking: {type: "marker", icon: {url: "icons/circle-green.png", size: {x: 30, y: 30}, offset: {x: 15, y: 15}}},
 		unavailable_parking: {type: "marker", icon: {url: "icons/circle-red.png", size: {x: 30, y: 30}, offset: {x: 15, y: 15}}},
 		vehicule_park_low_occupancy : {type: "marker", icon: {url: "icons/pin-green.png", size: {x: 38, y: 52}}},

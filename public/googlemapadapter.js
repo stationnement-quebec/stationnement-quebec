@@ -293,6 +293,7 @@ $.googleMapAdapter = {
 	createLocationMarker: function(position) {
 		var iconProperties = $.settings.assets.current_location;
 		var locationMarker = this.createMarker(position, true, iconProperties.icon, "", undefined, iconProperties.type);	
+		this.clearEventListener(locationMarker, "click");
 	},
 
 	createSearchIcon: function() {
