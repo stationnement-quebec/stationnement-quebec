@@ -205,20 +205,20 @@ $.googleMapAdapter = {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				var from = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 				var to = new google.maps.LatLng(location.latitude, location.longitude);
-				this.makeDirectionRequest(from, to);
+				$.googleMapAdapter.makeDirectionRequest(from, to);
 			}, function() {
 				$.googleMapAdapter.getDirectionsToNoGeolocation(location);
 			});
 		}
 		else {
-			this.getDirectionsToNoGeolocation(location);
+			$.googleMapAdapter.getDirectionsToNoGeolocation(location);
 		}
 	},
 
 	getDirectionsToNoGeolocation: function(location) {
 		var from = this.map.getCenter();
 		var to = new google.maps.LatLng(location.latitude, location.longitude);
-		this.makeDirectionRequest(from, to);
+		$.googleMapAdapter.makeDirectionRequest(from, to);
 	},
 
 	makeDirectionRequest: function(from, to) {
@@ -227,7 +227,7 @@ $.googleMapAdapter = {
 			destination: to,
 			travelMode: google.maps.TravelMode.DRIVING
 		};
-		this.directions.service.route(request, function(result, status) {
+		$.googleMapAdapter.directions.service.route(request, function(result, status) {
 			if (status == google.maps.DirectionsStatus.OK) {
 				$.googleMapAdapter.directions.renderer.setDirections(result);
 			}
