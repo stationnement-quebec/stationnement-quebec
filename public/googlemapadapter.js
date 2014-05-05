@@ -294,7 +294,8 @@ $.googleMapAdapter = {
 
 	createSearchIcon: function() {
 		var iconProperties = $.settings.assets.search_result;
-		this.searchMarker = this.createMarker(new google.maps.LatLng(46,-71), false, iconProperties.icon, "", undefined, iconProperties.type);
+		var position = {latitude:0,longitude:0};
+		this.searchMarker = this.createMarker(position, false, iconProperties.icon, "", undefined, iconProperties.type);
 		this.clearEventListener(this.searchMarker, "click");		
 	},
 
