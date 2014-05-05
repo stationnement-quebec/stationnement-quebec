@@ -64,37 +64,17 @@ $.googleMapAdapter = {
   		this.addEventListener(this.map, 'bounds_changed', function() {$.googleMapAdapter.adjustBounds()});
 	},
 
-	createMarker: function(position, visible, icon, description, label, infoWindowClass) {
+	createMarker: function(position, visible, icon, description, label, infoWindowClass, onClickAction) {
 		var markerOptions = {};
 		markerOptions.map = this.map;
 		markerOptions.position = this.createLatLng(position);
 
-		if (icon !== undefined) {
-			var iconPath = icon.url;
-			var iconOffset = null;
-			if (icon.offset) iconOffset = new google.maps.Point(icon.offset.x, icon.offset.y);
-			var iconSize = null;
-			if (icon.size) iconSize = new google.maps.Size(icon.size.x, icon.size.y);
-			markerOptions.icon = new google.maps.MarkerImage(iconPath, null, null, iconOffset, iconSize);
-		}
-		var marker;
-		if (label !== undefined) {
-			markerOptions.labelContent = label;
-			markerOptions.labelAnchor = new google.maps.Point(4, 30);
-			marker = new MarkerWithLabel(markerOptions);
-		}
-		else {
-			marker = new google.maps.Marker(markerOptions);
-		}
+		if (icon !== undefined) {markerOptions.icon = this.createMarkerIcon(icon);}
+		var marker = this.createLabeledOrNonLabeledMarker(label, markerOptions);
 		marker.setVisible(visible);
-		if (description !== undefined) {
-			this.addEventListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, infoWindowClass);});
-		} else {
-			this.addEventListener(marker, "click", function() {				
-				$.googleMapAdapter.setCenter(position);
-				$.googleMapAdapter.setZoom($.googleMapAdapter.getZoom() + 1);
-			});
-		}
+
+		if (onClickAction !== undefined) {this.addEventListener(marker, "click", onClickAction);}
+		else {this.addDefaultOnCLickActionToMarker(marker, description, position, infoWindowClass);}
 
 		return marker;
 	},
@@ -223,9 +203,9 @@ $.googleMapAdapter = {
 			navigator.geolocation.getCurrentPosition(function(position) {
 				var from = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 				var to = new google.maps.LatLng(location.latitude, location.longitude);
-				$.googleMapAdapter.makeDirectionRequest(from, to);
+				this.makeDirectionRequest(from, to);
 			}, function() {
-				$.googleMapAdapter.getDirectionsToNoGeolocation(location);
+				this.getDirectionsToNoGeolocation(location);
 			});
 		}
 		else {
@@ -247,23 +227,23 @@ $.googleMapAdapter = {
 		};
 		this.directions.service.route(request, function(result, status) {
 			if (status == google.maps.DirectionsStatus.OK) {
-				$.googleMapAdapter.directions.renderer.setDirections(result);
+				this.directions.renderer.setDirections(result);
 			}
 		});
 	},
 
 	//Hides google maps own info windows
 	fixInfoWindow: function() {
-    	var set = google.maps.InfoWindow.prototype.set;
-    	google.maps.InfoWindow.prototype.set = function (key, val) {
-        if (key === 'map') {
-            if (!this.get('noSupress')) {
-                console.log('This InfoWindow is supressed. To enable it, set "noSupress" option to true');
-                return;
-            }
-        }
-        set.apply(this, arguments);
-    	}
+	    	var set = google.maps.InfoWindow.prototype.set;
+	    	google.maps.InfoWindow.prototype.set = function (key, val) {
+			if (key === 'map') {
+			    if (!this.get('noSupress')) {
+				console.log('This InfoWindow is supressed. To enable it, set "noSupress" option to true');
+				return;
+			    }
+			}
+			set.apply(this, arguments);
+	    	}
 	},
 	
 	setCenter: function(center) {
@@ -278,10 +258,40 @@ $.googleMapAdapter = {
 		google.maps.event.clearListeners(object, event);
 	},
 
+	createMarkerIcon: function(iconData) {
+		var iconPath = iconData.url;		
+		var iconOffset = null;
+		if (iconData.offset) {iconOffset = new google.maps.Point(iconData.offset.x, iconData.offset.y);}
+		var iconSize = null;
+		if (iconData.size) {iconSize = new google.maps.Size(iconData.size.x, iconData.size.y);}
+
+		return new google.maps.MarkerImage(iconPath, null, null, iconOffset, iconSize);
+	},
+
+	createLabeledOrNonLabeledMarker: function(label, markerOptions) {
+		if (label !== undefined) {
+			markerOptions.labelContent = label;
+			markerOptions.labelAnchor = new google.maps.Point(4, 30);
+			return new MarkerWithLabel(markerOptions);
+		}
+
+		return new google.maps.Marker(markerOptions);
+	},
+
+	addDefaultOnCLickActionToMarker: function(marker, description, position, windowClass) {
+		if (description !== undefined)
+			this.addEventListener(marker, "click", function() {$.googleMapAdapter.createInfoWindow(description, marker, windowClass);});
+		else {
+			this.addEventListener(marker, "click", function() {				
+				$.googleMapAdapter.setCenter(position);
+				$.googleMapAdapter.setZoom($.googleMapAdapter.getZoom() + 1);
+			});
+		}
+	},	
+
 	createSearchIcon: function() {
 		var iconProperties = $.settings.assets.search_result;
 		this.searchMarker = this.createMarker(new google.maps.LatLng(46,-71), false, iconProperties.icon, "", undefined, iconProperties.type);
-		this.setMarkerVisible(this.searchMarker,false);
 		this.clearEventListener(this.searchMarker, "click");		
 	},
 
