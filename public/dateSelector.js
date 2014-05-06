@@ -30,7 +30,9 @@ $.dateSelector = {
     },
 
     resetFreeParkings: function(){
+        var visibility=$.parkingMap.getObjectTagInformation("free_parking").visible;
         $.parkingMap.deleteObjects("free_parking");
         $.requestHandler.request({id: "free", source: $.freeParkingAPI}, $.main.addMapElement);
+        $.parkingMap.toggleFreeParkings(visibility);
     }
 }
