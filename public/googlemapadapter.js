@@ -89,6 +89,10 @@ $.googleMapAdapter = {
 		marker.setMap(null);
 	},
 
+	deleteLine: function(line) {
+		line.setMap(null);
+	},
+
 	createPoint: function(position, radius, color, visible, description, infoWindowClass) {
 		var circleOptions = {};
 		circleOptions.map = this.map;

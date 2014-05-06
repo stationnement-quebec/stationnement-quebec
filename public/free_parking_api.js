@@ -30,7 +30,7 @@ $.freeParkingAPI = {
 		var trafficSignMarker = {
  			id: "m_"+$.freeParkingAPI.generateTrafficSignId(parkingCoordinates),
  			type: "traffic_sign",
- 			tag: "free_parking",
+ 			tag: ["free_parking"],
  			position: $.freeParkingAPI.decodeCoordinates(parkingCoordinates),
  		};
 

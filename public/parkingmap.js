@@ -8,7 +8,7 @@ $.parkingMap = {
 	objectFunctions: {
 		marker: {add: "addMarker", update: "updateMarker", remove: "removeMarker"},
 		point: {add: "addPoint", update: "updatePoint"},
-		line: {add: "addLine", update: "updateLine"}
+		line: {add: "addLine", update: "updateLine", remove: "removeLine"}
 	},
 
 	createMap: function(map, assets, selector, center, zoom, onLoad) {
@@ -38,9 +38,7 @@ $.parkingMap = {
 				this.objectIds.push(object.id);
 			}
 			if (object.tag != undefined) {
-				for (var i=0; i<object.tag.length; i++) {
-					this.addObjectTagObject(object.tag[i], object.id);
-				}
+				this.addObjectTagObject(object.tag, object.id);
 			}
 		}
 	},
@@ -49,6 +47,8 @@ $.parkingMap = {
 		var objects = this.getObjectTagInformation(tag).objects;
 		for (var i=0; i<objects.length; i++) {
 			var info = this.objects[objects[i]];
+			delete this.objects[objects[i]];
+			this.removeFromArrayByValue(this.objectIds,[objects[i]]);
 			this[this.objectFunctions[info.assets.type].remove](info);
 		}
 		this.clearObjectTagInformation(tag);
@@ -140,6 +140,10 @@ $.parkingMap = {
 		return object.instance;
 	},
 
+	removeLine: function(object) {
+		this.map.deleteLine(object.instance.line);
+	},
+
 	update: function() {
 		for (var i=0; i<this.objectIds.length; i++) {
 			var objectInfo = this.objects[this.objectIds[i]];
@@ -150,6 +154,15 @@ $.parkingMap = {
 	addSearchBar: function() {
 		var input = (document.getElementById('pac-input'));
 		this.map.addSearch(input);
+	},
+
+	removeFromArrayByValue: function(arr, val) {
+    	for(var i=0; i<arr.length; i++) {
+        	if(arr[i] == val) {
+           		arr.splice(i, 1);
+            	break;
+        	}
+    	}
 	},
 
 	addButtonBottomRight: function(button) {

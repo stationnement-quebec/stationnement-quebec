@@ -41,11 +41,11 @@
 								<div id="panel1" class="content">
 									<h2>Afficher les stationnements gratuits disponibles...</h2>
 									<p>
-										<input id="radio-now" type="radio" name="radio-time" value="radio-now" checked="checked">
+										<input id="radio-now" type="radio" name="radio-time" value="radio-now" checked="checked" onclick="$.dateSelector.dateDeactivated();">
 										<label for="radio-now">Maintenant</label>
 									</p>
 									<p>
-										<input id="radio-date" type="radio" name="radio-time" value="radio-date">
+										<input id="radio-date" type="radio" name="radio-time" value="radio-date" onclick="$.dateSelector.dateActivated();">
 										<label for="radio-date">Pour une date et heure donnée</label>
 										<p><input type="text" id="datepicker" style="display:none"></p>
 									</p>
@@ -199,6 +199,7 @@
 		<script type="text/javascript" src="parkingmap.js"></script>
 		<script type="text/javascript" src="requesthandler.js"></script>
 		<script type="text/javascript" src="settings.js"></script>
+		<script type="text/javascript" src="dateSelector.js"></script>
 		<script type="text/javascript" src="main.js"></script>
 		<script type="text/javascript">
 			$(function() {
@@ -206,25 +207,8 @@
 			});
 
   			$(function() {
-    			$( "#datepicker" ).datetimepicker({
-					showButtonPanel: true,
-					stepMinute:10,
-    				onClose: function(dateText, inst){
-        				$.settings.date = $( "#datepicker" ).datetimepicker( "getDate" );
-        				console.log($.settings.date);
-    				},
-				});
+  				$.dateSelector.create();
   			});
-
-			$(document).ready(function(){ 
-    			$("input[id$='radio-date']").click(function() {
-        			$("#datepicker").show();
-    			}); 
-    			$("input[id$='radio-now']").click(function() {
-        			$("#datepicker").hide();
-        			$.settings.date=null;
-    			}); 
-			});
 		</script>
 	</body>
 </html>
