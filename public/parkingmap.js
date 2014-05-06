@@ -54,6 +54,10 @@ $.parkingMap = {
 		this.clearObjectTagInformation(tag);
 	},
 
+	deleteFreeParkings: function(){
+		this.deleteObjects("free_parking");
+	},
+
 	isObjectVisible: function(assets, object) {
 		var visible = true;
 		if (assets.minZoom != undefined) {
@@ -95,11 +99,6 @@ $.parkingMap = {
 	addObjectTagObject: function(tag, id) {
 		this.initObjectTagInformation(tag);
 		this.objectTags[tag].objects.push(id);
-	},
-
-	setObjectTagVisible: function(tag, visible) {
-		this.initObjectTagInformation(tag);
-		this.objectTags[tag].visible = visible;
 	},
 
 	objectExists: function(object) {
@@ -165,17 +164,22 @@ $.parkingMap = {
     	}
 	},
 
-	addButtonBottomRight: function(button) {
-		this.map.addBottomRightElement(button);
-	},
-
-	addButtonTopRight: function(button) {
-		this.map.addTopRightElement(button);
-	},
-
 	setVisibility: function(tag, visible) {
-		this.setObjectTagVisible(tag, visible);
+		this.initObjectTagInformation(tag);
+		this.objectTags[tag].visible = visible;
 		this.update();
+	},
+
+	getVisibility: function(tag){
+		return this.getObjectTagInformation(tag).visible;
+	},
+
+	getPaidVisibility: function(){
+		return this.getVisibility("paying_parking");
+	},
+
+	getFreeVisibility: function(){
+		return this.getVisibility("free_parking");
 	},
 
 	getBounds: function() {

@@ -1,11 +1,12 @@
 $.dateSelector = {
+    datePickerId: "#datepicker",
 
     create: function(){
-        $( "#datepicker" ).datetimepicker({
+        $(this.datePickerId).datetimepicker({
             showButtonPanel: true,
             stepMinute:10,
             onClose: function(dateText, inst){
-                $.settings.date = $( "#datepicker" ).datetimepicker( "getDate" );
+                $.settings.date = $(this.datePickerId).datetimepicker( "getDate" );
                 $.dateSelector.resetFreeParkings();
             },
         });
@@ -13,7 +14,7 @@ $.dateSelector = {
 
     dateActivated: function(){
         $("#datepicker").show();
-        $.settings.date=$( "#datepicker" ).datetimepicker( "getDate" );
+        $.settings.date=$(this.datePickerId).datetimepicker( "getDate" );
         if ($.settings.date!=null)
             {
                 this.resetFreeParkings();
@@ -21,17 +22,17 @@ $.dateSelector = {
     },
 
     dateDeactivated: function(){
-        $("#datepicker").hide();
+        $(this.datePickerId).hide();
         if ($.settings.date!=null){
             $.settings.date=null;
-            $( "#datepicker" ).val('');
+            $(this.datePickerId).val('');
             this.resetFreeParkings();
         }
     },
 
     resetFreeParkings: function(){
-        var visibility=$.parkingMap.getObjectTagInformation("free_parking").visible;
-        $.parkingMap.deleteObjects("free_parking");
+        var visibility=$.parkingMap.getFreeVisibility();
+        $.parkingMap.deleteFreeParkings();
         $.requestHandler.request({id: "free", source: $.freeParkingAPI}, $.main.addMapElement);
         $.parkingMap.toggleFreeParkings(visibility);
     }
