@@ -91,7 +91,7 @@ function validElementsFromCenter(pointsArray, request, extension) {
 function responseExtension(value, date) {
   var properties = value["properties"];
   var stationnementValue = properties["parsed_parking_value"];
-  console.log(date);
+
   try {
     properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(date, stationnementValue, 'none');
   }
