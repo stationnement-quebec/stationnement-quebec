@@ -2,6 +2,7 @@ $.freeParkingAPI = {
 	init: function(settings) {},
 
 	getInformation: function(coordinates, callback) {
+		coordinates=$.settings.cityBounds;
 		var request = "/elements?min_lat="+coordinates.min.latitude+"&min_lng="+coordinates.min.longitude;
 		request += "&max_lat="+coordinates.max.latitude+"&max_lng="+coordinates.max.longitude+"&date="+$.settings.date;
 		$.getJSON(request, function(data) {
