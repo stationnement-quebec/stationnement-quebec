@@ -59,7 +59,7 @@ function placeSignsOnStreets(parkingData, streetIdMap) {
 
 function validElementsFromCenter(pointsArray, request, extension) {
   var validData = [];
-
+  console.log(request.date);
   if(request.date =='null'){
     request.date = new Date();
   }
@@ -91,7 +91,7 @@ function validElementsFromCenter(pointsArray, request, extension) {
 function responseExtension(value, date) {
   var properties = value["properties"];
   var stationnementValue = properties["parsed_parking_value"];
-  console.log(date);
+
   try {
     properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(date, stationnementValue, 'none');
   }
