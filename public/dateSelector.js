@@ -6,7 +6,7 @@ $.dateSelector = {
             showButtonPanel: true,
             stepMinute:10,
             onClose: function(dateText, inst){
-                $.settings.date = $(this.datePickerId).datetimepicker( "getDate" );
+                $.settings.date = $($.dateSelector.datePickerId).datetimepicker( "getDate" );
                 $.dateSelector.resetFreeParkings();
             },
         });
