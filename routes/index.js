@@ -1,6 +1,7 @@
 /** GET a list of static signs within a certain area */
 
 var dataSource = require('../lib/datasource.js');
+var download = require('../lib/download.js');
 var sources = dataSource.sources();
 
 exports.elements = function(req, res) {
@@ -27,6 +28,6 @@ exports.elements = function(req, res) {
 };
 
 exports.update = function(req, res) {
-	require('../lib/download.js').updateData();
+	download.updateData();
 	res.json({status: "ok"});
 };

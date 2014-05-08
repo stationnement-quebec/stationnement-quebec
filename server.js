@@ -9,7 +9,7 @@ app.get('/*',function(req,res,next){
   next();
 });
 
-var routes = require('./routes');
+var routes = require('./routes/index.js');
 app.get('/elements', routes.elements);
 app.get('/update', routes.update);
 
