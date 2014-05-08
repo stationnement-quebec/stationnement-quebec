@@ -195,7 +195,7 @@ $.googleMapAdapter = {
 	},
 
 	isWithinBounds: function(object){
-		if(object.hasOwnProperty('path')){ //For lines check if at least one end point is within bounds
+		if(object.hasOwnProperty('path')){
 			return this.lineIsWithinBounds(object);
 		}
 		return this.map.getBounds().contains(this.createLatLng(object.position));
