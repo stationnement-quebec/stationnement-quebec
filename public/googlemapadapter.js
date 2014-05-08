@@ -196,13 +196,18 @@ $.googleMapAdapter = {
 
 	isWithinBounds: function(object){
 		if(object.hasOwnProperty('path')){ //For lines check if at least one end point is within bounds
-			var lineIsWithinBounds = this.map.getBounds().contains(this.createLatLng(object.path[0]));
-			lineIsWithinBounds = lineIsWithinBounds || this.map.getBounds().contains(this.createLatLng(object.path[1]));
-			return lineIsWithinBounds;
+			return this.lineIsWithinBounds(object);
 		}
 		return this.map.getBounds().contains(this.createLatLng(object.position));
 	},
 	
+	lineIsWithinBounds: function(line){
+		var bounds = new google.maps.LatLngBounds();
+   		bounds.extend(this.createLatLng(line.path[0]));
+   		bounds.extend(this.createLatLng(line.path[1]));
+ 		return this.map.getBounds().intersects(bounds); 
+	},
+
 	getDirectionsTo: function(location) {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
