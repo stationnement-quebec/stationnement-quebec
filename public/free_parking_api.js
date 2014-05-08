@@ -18,7 +18,7 @@ $.freeParkingAPI = {
 			var trafficSignMarker = $.freeParkingAPI.createTrafficSignMarker(current);
  			callback(trafficSignMarker);
 
- 			if(current.properties.hasOwnProperty('streetCoordinates')){ 								//In case the sign doesn't have a streetID
+ 			if(current.properties.hasOwnProperty('streetCoordinates')){
  				var currentStreetCoordinates = current.properties.streetCoordinates;
  				var trafficSignStreet = $.freeParkingAPI.createStreetLine(currentStreetCoordinates);
  				callback(trafficSignStreet);

@@ -24,14 +24,16 @@ $.paidParkingAPI = {
 			else
 				currentID = this.OSPID;
 
-			if(currentID != previousID)
-				uniqueParkings.push(this);
-			else {
-				var index = uniqueParkings.length - 1;
-				uniqueParkings[index].OCC += this.OCC;
-				uniqueParkings[index].OPER += this.OPER;					
+			if(this.OCC != this.OPER) {
+				if(currentID != previousID)
+					uniqueParkings.push(this);
+				else {
+					var index = uniqueParkings.length - 1;
+					uniqueParkings[index].OCC += this.OCC;
+					uniqueParkings[index].OPER += this.OPER;					
+				}
+				previousID = currentID;
 			}
-			previousID = currentID;	
 		});
 
 		return uniqueParkings;
