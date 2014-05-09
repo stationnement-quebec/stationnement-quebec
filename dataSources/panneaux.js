@@ -56,48 +56,33 @@ function placeSignsOnStreets(parkingData, streetIdMap) {
 	return parkingData;
 }
 
-function validElementsFromCenter(pointsArray, request, extension) {
+function getAvailableParkingByDate(pointsArray, date) {
 	var validData = [];
-	if(request.date =='null')
-		request.date = new Date();
-	else
-		request.date = new Date(request.date);
-
 	var len = pointsArray.length;
 	while (len--) {
 		var feature = pointsArray[len];
 		var point = feature['geometry'];
 		var coordinates = point.coordinates;
-
 		var lat = coordinates[1];
-		if (lat > request.min_lat && lat < request.max_lat) {
-			var lng = coordinates[0];	
-			if (lng > request.min_lng && lng < request.max_lng && extension(feature,request.date))
-				validData.push(feature);
-		}
+		if (isThisParkingAllowedAtThisTime(feature,date))
+			validData.push(feature);
 	}
 	return validData;
 }
 
-function responseExtension(value, date) {
+function isThisParkingAllowedAtThisTime(value, date) {
 	var properties = value["properties"];
-	var stationnementValue = properties["parsed_parking_value"];
-
+	var parkingValue = properties["parsed_parking_value"];
 	try {
-		properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(date, stationnementValue, 'none');
+		properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(date, parkingValue, 'none');
 	}
 	catch (err) {
-		console.log("Could not tell if parking is allowed : " + stationnementValue);
+		console.log("Could not tell if parking is allowed : " + parkingValue);
 	}
-
-	if (properties["parking_allowed"])
-		return true;
-
-	return undefined;
+	return properties["parking_allowed"];
 }
 
 module.exports.getURL = getURL;
 module.exports.cleanData = cleanData;
-module.exports.validElementsFromCenter = validElementsFromCenter;
 module.exports.placeSignsOnStreets = placeSignsOnStreets;
-module.exports.responseExtension = responseExtension;
+module.exports.getAvailableParkingByDate = getAvailableParkingByDate;
