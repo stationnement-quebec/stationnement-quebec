@@ -3,7 +3,7 @@ var dataCache = require('./lib/dataCache.js');
 var express = require('express');
 var app = express();
 
-dataCache.parseAllData();
+dataCache.parseAllData(freeParkingCacheUpdate);
 
 // Allow cross-domain request 
 app.get('/*',function(req,res,next) {
@@ -15,8 +15,14 @@ app.get('/elements', freeParking.getAvailableFreeParking);
 
 app.use(express.static(__dirname + '/public'));
 
-setInterval(function() {
-	freeParking.updateFreeParkingLocalCache();
-},freeParking.freeParkingCacheRefreshTime);
+
 
 app.listen(3000);
+
+
+function freeParkingCacheUpdate(){
+	freeParking.updateFreeParkingLocalCache();
+ 	setInterval(function() {
+		freeParking.updateFreeParkingLocalCache();
+	},freeParking.freeParkingCacheRefreshTime);
+}
