@@ -11,8 +11,12 @@ app.get('/*',function(req,res,next) {
   	next();
 });
 
-app.get('/elements', freeParking.getValidFreeParking);
+app.get('/elements', freeParking.getAvailableFreeParking);
 
 app.use(express.static(__dirname + '/public'));
+
+setInterval(function() {
+	freeParking.updateFreeParkingLocalCache();
+},freeParking.freeParkingCacheRefreshTime);
 
 app.listen(3000);
