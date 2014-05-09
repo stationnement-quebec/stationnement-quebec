@@ -10,6 +10,7 @@ $.paidParkingAPI = {
 	
 			var uniqueParkings = $.paidParkingAPI.mergeParkingsWithTheSameID($(data.AVL));
 			$.paidParkingAPI.fillPaidParkingData(uniqueParkings);
+			$.main.addMapInfo();
 		});
 	},
 
