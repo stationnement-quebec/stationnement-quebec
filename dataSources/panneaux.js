@@ -4,36 +4,31 @@ var extraction = require('../infoExtraction/parkingInfoExtractor.js');
 var verifier = require('../infoExtraction/parkingAllowedVerifier.js');
 var geometryCalculator = require('../signGeometry/geometryCalculator.js');
 var fs = require('fs');
-var kml_parser = require('../lib/kml_parser.js');
 
 function getURL() {
-	return "http://donnees.ville.quebec.qc.ca/Handler.ashx?id=7&f=KML";
+	return "http://donnees.ville.quebec.qc.ca/Handler.ashx?id=7&f=JSON";
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-	kml_parser.transformIntoGeoJSON(rawDataPath, finalDataPath, function () {
-		var result = JSON.parse(fs.readFileSync(finalDataPath));
+	var result = JSON.parse(fs.readFileSync(rawDataPath));
+	var pointsArray = result['features'];
+	var i = 0;
+	for (var data in pointsArray) {
+		var value = pointsArray[i];
+		var properties = value["properties"];
+		var description = properties["TYPE_DESC"];
 
-		var pointsArray = result['features'];
-		var i = 0;
-		for (var data in pointsArray) {
-			var value = pointsArray[i];
-			var properties = value["properties"];
-			var description = properties["TYPE_DESC"];
-
-			try {
-				properties["parsed_parking_value"] = extraction.getParkingInfo(description);
-			}
-			catch (err) {
-				console.log("Could not parse description : " + description);
-			}
-			pointsArray[i] = value;
-			i++
+		try {
+			properties["parsed_parking_value"] = extraction.getParkingInfo(description);
 		}
-
-		fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
-			callback();
-		});
+		catch (err) {
+			console.log("Could not parse description : " + description);
+		}
+		pointsArray[i] = value;
+		i++
+	}
+	fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
+		callback();
 	});
 }
 
