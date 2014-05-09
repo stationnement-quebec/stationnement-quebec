@@ -1,4 +1,4 @@
-/** GET a list of static signs within a certain area */
+/** GET a list of static signs within a certain area*/ 
 
 var dataSource = require('../lib/datasource.js');
 var download = require('../lib/download.js');

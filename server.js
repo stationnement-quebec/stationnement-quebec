@@ -1,17 +1,18 @@
 var dataSource = require('./lib/datasource.js');
-dataSource.parseAllData();
-
+var routes = require('./routes/index.js');
 var express = require('express');
 var app = express();
 
-app.get('/*',function(req,res,next){
-  res.header('Access-Control-Allow-Origin' , "*" );
-  next();
+dataSource.parseAllData();
+
+// Allow cross-domain request 
+app.get('/*',function(req,res,next) {
+  	res.header('Access-Control-Allow-Origin' , "*" );
+  	next();
 });
 
-var routes = require('./routes/index.js');
 app.get('/elements', routes.elements);
-app.get('/update', routes.update);
+app.get('/update', routes.update);	// may need to remove this
 
 app.use(express.static(__dirname + '/public'));
 
