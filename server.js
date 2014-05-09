@@ -1,5 +1,5 @@
+var freeParking = require('./lib/ValidFreeParking.js');
 var dataSource = require('./lib/datasource.js');
-var routes = require('./routes/index.js');
 var express = require('express');
 var app = express();
 
@@ -11,8 +11,7 @@ app.get('/*',function(req,res,next) {
   	next();
 });
 
-app.get('/elements', routes.elements);
-app.get('/update', routes.update);	// may need to remove this
+app.get('/elements', freeParking.getValidFreeParking);
 
 app.use(express.static(__dirname + '/public'));
 
