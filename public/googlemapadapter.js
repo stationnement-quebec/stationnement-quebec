@@ -82,7 +82,8 @@ $.googleMapAdapter = {
 	},
 	
 	updateMarkerLabel: function(marker, label) {
-		marker.set("label", label);
+		marker.labelContent = label;
+		marker.label.draw();
 	},
 	
 	deleteMarker: function(marker) {
