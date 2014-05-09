@@ -1,9 +1,9 @@
 var freeParking = require('./lib/ValidFreeParking.js');
-var dataSource = require('./lib/datasource.js');
+var dataCache = require('./lib/dataCache.js');
 var express = require('express');
 var app = express();
 
-dataSource.parseAllData();
+dataCache.parseAllData();
 
 // Allow cross-domain request 
 app.get('/*',function(req,res,next) {
