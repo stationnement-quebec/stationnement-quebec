@@ -35,7 +35,7 @@ $.freeParkingAPI = {
  			position: $.freeParkingAPI.decodeCoordinates(parkingCoordinates),
  		};
 
- 		if (currentSign.properties.description != undefined) {
+ 		if (currentSign.properties.parsed_parking_value.description != undefined) {
 			trafficSignMarker.description = currentSign.properties.parsed_parking_value.description;
 		}
 		return trafficSignMarker;
