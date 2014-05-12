@@ -22,7 +22,7 @@ $.settings = {
 		vehicule_park_full : {type: "marker", icon: {url: "icons/pin-red.png", size: {x: 38, y: 52}}}
 	},
 	dataSources: [
-		{id: "paid", source: $.paidParkingAPI, refreshTimer: 60, capacity: 4, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
+		{id: "paid", source: $.paidParkingAPI, refreshTimer: 60, capacity: 2, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
 		{id: "free", source: $.freeParkingAPI, refreshTimer: 300}, 
 		{id: "quad", source: $.paidParkingClusterer, zoomModifier: 10}
 	]
