@@ -1,6 +1,5 @@
 $.settings = {
 	center: {latitude: 46.804431, longitude: -71.239853},
-	cityBounds: {min: {latitude: 46.732266653891074, longitude: -71.6129590028076}, max: {latitude: 46.956525590012156, longitude: -70.9537793153076}},
 	zoom: 14,
 	minZoom: 10,
 	maxZoom: 21,
@@ -23,7 +22,7 @@ $.settings = {
 		vehicule_park_full : {type: "marker", icon: {url: "icons/pin-red.png", size: {x: 38, y: 52}}}
 	},
 	dataSources: [
-		{id: "paid", source: $.paidParkingAPI, refreshTimer: 60, capacity: 4, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
+		{id: "paid", source: $.paidParkingAPI, refreshTimer: 60, capacity: 2, bounds: {min: {latitude: 46.75329394726448, longitude: -71.30232614453123}, max: {latitude: 46.855519489356276, longitude: -71.15737985546873}}}, 
 		{id: "free", source: $.freeParkingAPI, refreshTimer: 300}, 
 		{id: "quad", source: $.paidParkingClusterer, zoomModifier: 10}
 	]
