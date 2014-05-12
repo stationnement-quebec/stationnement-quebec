@@ -13,11 +13,12 @@ function findDistanceToSegment(p, v, w){
   return dist2(p, { x: v.x + t * (w.x - v.x),y: v.y + t * (w.y - v.y) });
 }
 
-function findClosestSegment(point, segmentArray){
-  if (segmentArray.length == 2 && !(segmentArray[0][0] instanceof Array)){
-    return segmentArray;
+function findClosestSegment(point, pointsArray){
+  if (pointsArray.length == 2){
+    return pointsArray;
   }
   else{
+    var segmentArray = createSegmentArray(pointsArray);
     var closestSegment=segmentArray[0];
     var closestDist;
     for (var i=0; i< segmentArray.length;i++){
@@ -36,15 +37,12 @@ function findClosestSegment(point, segmentArray){
 }
 
 function projectPointOnLine(point, line){
-  var x=point[0]; y=point[1];
+  var x=point[0]; var y=point[1];
   var x0=line[0][0]; var y0=line[0][1];
   var x1=line[1][0]; var y1=line[1][1];
 
-  if (x0 == null)
-      x0 = line[0];
-
   if(!(x1 - x0))
-      point[0]=line[0];
+      point[0]=x0;
   else if(!(y1 - y0))
       point[1]=y0;
   else{
@@ -54,6 +52,14 @@ function projectPointOnLine(point, line){
     point[1]=result.y;
   }
   return point;
+}
+
+function createSegmentArray(pointsArray){
+  var segmentArray = [];
+  for (var i=0;i<pointsArray.length-1;i++){
+    segmentArray.push([pointsArray[i],pointsArray[i+1]]);
+  }
+  return segmentArray;
 }
 
 module.exports.findClosestSegment = findClosestSegment;
