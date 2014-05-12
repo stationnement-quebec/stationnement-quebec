@@ -37,11 +37,14 @@ function findClosestSegment(point, segmentArray){
 
 function projectPointOnLine(point, line){
   var x=point[0]; y=point[1];
-  var x0=line[0][0]; y0=line[0][1];
-  var x1=line[1][0]; y1=line[1][1];
+  var x0=line[0][0]; var y0=line[0][1];
+  var x1=line[1][0]; var y1=line[1][1];
+
+  if (x0 == null)
+      x0 = line[0];
 
   if(!(x1 - x0))
-      point[0]=x0;
+      point[0]=line[0];
   else if(!(y1 - y0))
       point[1]=y0;
   else{
