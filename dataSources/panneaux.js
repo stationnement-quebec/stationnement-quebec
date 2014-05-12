@@ -56,9 +56,6 @@ function getAvailableParkingByDate(pointsArray, date) {
 	var len = pointsArray.length;
 	while (len--) {
 		var feature = pointsArray[len];
-		var point = feature['geometry'];
-		var coordinates = point.coordinates;
-		var lat = coordinates[1];
 		if (isThisParkingAllowedAtThisTime(feature,date))
 			validData.push(feature);
 	}
@@ -72,7 +69,8 @@ function isThisParkingAllowedAtThisTime(value, date) {
 		properties["parking_allowed"] = verifier.isItPossibleToParkAtThisTime(date, parkingValue, 'none');
 	}
 	catch (err) {
-		console.log("Could not tell if parking is allowed : " + parkingValue);
+		console.log("Could not tell if parking is allowed:")
+		console.log(parkingValue);
 	}
 	return properties["parking_allowed"];
 }

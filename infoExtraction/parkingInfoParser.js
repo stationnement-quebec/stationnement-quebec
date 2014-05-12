@@ -15,7 +15,7 @@ var days = ['LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM', 'DIM'];
 var daysID = {'LUN': 1, 'LUIN': 1, 'MAR': 2, 'MER': 3, 'JEU': 4, 'VEN': 5, 'SAM': 6, 'DIM': 7};
 
 var monthsID = {
-	'JAN': '01', 'FÉV': '02', 'MARS': '03', 'AVRIL': '04', 'MAI': '05', 'JUIN': '06',
+	'JAN': '01', 'FÉV': '02', 'MARS': '03', 'AVRIL': '04', 'AVR': '04', 'MAI': '05', 'JUIN': '06',
 	'JUILL': '07', 'AOUT': '08', 'SEP': '09', 'SEPT': '09', 'OCT': '10', 'NOV': '11', 'DÉC': '12'
 };
 
@@ -130,7 +130,7 @@ function getParkingLabelAuthorization(descriptionString) {
 
 
 function getFormattedDate(day, month) {
-
+if(typeof(month) === 'undefined'){month = 'AVRIL';}
 	var formatedDay = day;
 	if (day < 10)
 		formatedDay = '0' + day;
