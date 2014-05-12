@@ -109,7 +109,7 @@ function doesTheTimeFitInThePanelInterval(panelData, timeInMinute) {
 		lowerLimit = parseTimeIntoMinute(timeIntervals[i].startTime);
 		upperLimit = parseTimeIntoMinute(timeIntervals[i].endTime);
 
-		if((timeInMinute >= lowerLimit) && (timeInMinute <= upperLimit))
+		if((timeInMinute >= lowerLimit) && (timeInMinute < upperLimit))
 			return true;
 	}
 	return false;
