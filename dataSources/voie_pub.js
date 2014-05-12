@@ -1,18 +1,15 @@
 /** Data source that download "voies publiques" data */
 
 var fs = require('fs');
-var kml_parser = require('../lib/kml_parser.js');
 
 function getURL() {
-	return "http://donnees.ville.quebec.qc.ca/Handler.ashx?id=18&f=KML";
+	return "http://donnees.ville.quebec.qc.ca/Handler.ashx?id=18&f=JSON";
 }
 
 function cleanData(rawDataPath, finalDataPath, callback) {
-	kml_parser.transformIntoGeoJSON(rawDataPath, finalDataPath, function () {
-		var result = JSON.parse(fs.readFileSync(finalDataPath));
-		fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
-			callback();
-		});
+	var result = JSON.parse(fs.readFileSync(rawDataPath));
+	fs.writeFile(finalDataPath, JSON.stringify(result), "utf8", function () {
+		callback();
 	});
 }
 
