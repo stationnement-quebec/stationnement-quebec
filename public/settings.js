@@ -1,6 +1,5 @@
 $.settings = {
 	center: {latitude: 46.804431, longitude: -71.239853},
-	cityBounds: {min: {latitude: 46.732266653891074, longitude: -71.6129590028076}, max: {latitude: 46.956525590012156, longitude: -70.9537793153076}},
 	zoom: 14,
 	minZoom: 10,
 	maxZoom: 21,
