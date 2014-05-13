@@ -3,7 +3,6 @@ $.googleMapAdapter = {
 	searchBox: undefined,
 	searchMarker: undefined,
 	searchMarkerOnCLickAction: undefined,	
-	infoWindow: undefined,
 
 	directions: false,
 
@@ -168,17 +167,11 @@ $.googleMapAdapter = {
 	},
 
 	createInfoWindow: function(description, object, infoWindowClass) {
-		if (this.infoWindow !== undefined)
-			this.infoWindow.close();
-
-		this.infoWindow = new InfoBox({pixelOffset: new google.maps.Size(-133, -121)});
-		this.infoWindow.noSupress=true; // Stop info window from being hidden by the fixInfoWindow function
-		this.infoWindow.setContent("<div class=\"infoWindow\">"+description+"</div>");
-		this.infoWindow.open(this.map, object);
-		this.setCenter(object.getPosition());
-		this.addEventListener(this.infoWindow, 'domready', function() {
-			$(".infoBox").addClass(infoWindowClass);
-		});
+		$(".infoBox").removeClass("available_parking vehicule_park_high_occupancy unavailable_parking vehicule_park_low_occupancy vehicule_park_full");
+		var closeButton = "<img class=\"close-reveal-modal\" src=\"http://www.google.com/intl/en_us/mapfiles/close.gif\" align=\"right\" style=\" position: relative; cursor: pointer; margin: 2px;\">";
+		$(".infoBox").addClass(infoWindowClass);
+		$('.infoBox').html("<div class=\"infoWindow\">"+closeButton+description+"</div>");
+		$('#modalInfoBox').foundation('reveal', 'open');
 	},
 
 	searchPlace: function() {
