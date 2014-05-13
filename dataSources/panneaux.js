@@ -2,7 +2,7 @@
 
 var extraction = require('../infoExtraction/parkingInfoExtractor.js');
 var verifier = require('../infoExtraction/parkingAllowedVerifier.js');
-var geometryCalculator = require('../signGeometry/geometryCalculator.js');
+var geometryCalculator = require('../lib/geometryCalculator.js');
 var fs = require('fs');
 
 function getURL() {
