@@ -16,8 +16,8 @@ $.freeParkingAPI = {
 			var trafficSignMarker = $.freeParkingAPI.createTrafficSignMarker(current);
  			callback(trafficSignMarker);
 
- 			if(current.properties.hasOwnProperty('streetCoordinates')){
- 				var currentStreetCoordinates = current.properties.streetCoordinates;
+ 			if(current.hasOwnProperty('streetCoordinates')){
+ 				var currentStreetCoordinates = current.streetCoordinates;
  				var trafficSignStreet = $.freeParkingAPI.createStreetLine(currentStreetCoordinates);
  				callback(trafficSignStreet);
  			}
@@ -25,7 +25,7 @@ $.freeParkingAPI = {
 	},
 	
 	createTrafficSignMarker: function(currentSign){			
-		var parkingCoordinates = currentSign.geometry.coordinates;
+		var parkingCoordinates = currentSign.coordinates;
 		var trafficSignMarker = {
  			id: "m_"+$.freeParkingAPI.generateTrafficSignId(parkingCoordinates),
  			type: "traffic_sign",
@@ -33,8 +33,8 @@ $.freeParkingAPI = {
  			position: $.freeParkingAPI.decodeCoordinates(parkingCoordinates),
  		};
 
- 		if (currentSign.properties.parsed_parking_value.description != undefined) {
-			trafficSignMarker.description = currentSign.properties.parsed_parking_value.description;
+ 		if (currentSign.description != undefined) {
+			trafficSignMarker.description = currentSign.description;
 		}
 		return trafficSignMarker;
 	},

@@ -56,8 +56,10 @@ function getAvailableParkingByDate(pointsArray, date) {
 	var len = pointsArray.length;
 	while (len--) {
 		var feature = pointsArray[len];
-		if (isThisParkingAllowedAtThisTime(feature,date))
-			validData.push(feature);
+		if (isThisParkingAllowedAtThisTime(feature,date)){
+			var formattedData=formatData(feature);
+			validData.push(formattedData);
+		}
 	}
 	return validData;
 }
@@ -73,6 +75,14 @@ function isThisParkingAllowedAtThisTime(value, date) {
 		console.log(parkingValue);
 	}
 	return properties["parking_allowed"];
+}
+
+function formatData(data) {
+	var formattedData ={};
+	formattedData.coordinates=data.geometry.coordinates;
+	formattedData.description=data.properties.parsed_parking_value.description;
+	formattedData.streetCoordinates=data.properties.streetCoordinates;
+	return formattedData;
 }
 
 module.exports.getURL = getURL;
