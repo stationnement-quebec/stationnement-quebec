@@ -2,6 +2,8 @@ var freeParking = require('./lib/ValidFreeParking.js');
 var dataCache = require('./lib/dataCache.js');
 var express = require('express');
 var app = express();
+var port = process.env.port || 3000;
+
 
 dataCache.parseAllData(freeParkingCacheUpdateLoop);
 
@@ -13,7 +15,7 @@ app.get('/*',function(req,res,next) {
 
 app.get('/elements', freeParking.getAvailableFreeParking);
 app.use(express.static(__dirname + '/public'));
-app.listen(3000);
+app.listen(port);
 
 
 function freeParkingCacheUpdateLoop(){
