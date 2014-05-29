@@ -10,6 +10,7 @@ $.paidParkingAPI = {
 	
 			var uniqueParkings = $.paidParkingAPI.mergeParkingsWithTheSameID($(data.AVL));
 			$.paidParkingAPI.fillPaidParkingData(uniqueParkings);
+			$.main.addMapInfo();
 		});
 	},
 
@@ -43,6 +44,7 @@ $.paidParkingAPI = {
 
 		$.QuadTree.clear("paid");
 		uniqueParkingArray.forEach(function(value) {
+		
 			$.QuadTree.insert("paid", value);
 		});
 		$.QuadTree.compute("paid");
